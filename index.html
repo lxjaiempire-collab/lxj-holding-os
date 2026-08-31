@@ -3,456 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ HOLDING OS - 身份细分与多模块智能指挥系统</title>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const SUPABASE_URL = 'https://your-supabase-project.supabase.co';
-        const SUPABASE_ANON_KEY = 'your-supabase-anon-key-here';
-        const supabaseClient = (SUPABASE_URL.includes('your-supabase')) ? null : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // 🌐 多语言文案配置字典
-        const translations = {
-            CN: {
-                title: "LXJ HOLDING OS - 智能指挥系统",
-                loginPortal: "各别独立用户专属登录门户",
-                selectRole: "选择您的身份与独立模块通道：",
-                passcodeLabel: "输入专属加密安全码 (Passcode)：",
-                passcodePlaceholder: "请输入安全访问密码",
-                show: "👁️ 显示",
-                hide: "🙈 隐藏",
-                loginBtn: "安全登入专属独立系统",
-                footer: "LXJ Business Partner System @ Since Year 2026",
-                darkMode: "🌙 暗黑",
-                lightMode: "☀️ 亮色",
-                desktop: "💻 电脑大屏",
-                mobile: "📱 手机视图",
-                logout: "安全登出",
-                superAdminBadge: "👑 [云端指挥舱] Super Admin 最高统帅中心",
-                platinumBadge: "💎 [专属尊贵区] Platinum VIP 白金大户资产与分润中心",
-                businessOwnerBadge: "🏢 [企业经营者] 模块化业务协同中枢",
-                standardVipBadge: "⭐ [标准大户专区] Standard VIP 专属权益大盘",
-                operatorBadge: "⚙️ [执行端] Operators 自由工位与前线执行",
-                trafficTitle: "📈 Traffic Click 广告赚钱与流量变现中心",
-                totalClicks: "实时总点击量:",
-                adRev: "广告赚钱总收益:",
-                clickBtn: "⚡ 模拟触发 1 个 Traffic Click 广告分润收益",
-                webhookTitle: "⚙️ Make.com / Zapier 自动化工作流挂载：",
-                webhookBtn: "🚀 一键触发云端自动化同步任务",
-                aiTitle: "🤖 Google AI Studio / Gemini 真实 API 联动：",
-                aiKeyPlaceholder: "[可选] 输入您的 Gemini API Key (留空则自动启用沙盒)",
-                aiPromptPlaceholder: "输入测试指令 (例如: 自动优化木业开料成本与五金供应链利润分配)",
-                aiRunBtn: "🚀 运行 Gemini AI 智能测试",
-                aiLoading: "⏳ Gemini AI 正在高速运算中...",
-                aiResult: "✨ AI 智能输出结果："
-            },
-            EN: {
-                title: "LXJ HOLDING OS - Command System",
-                loginPortal: "Independent User Dedicated Login Portal",
-                selectRole: "Select your identity & independent module channel:",
-                passcodeLabel: "Enter Exclusive Encrypted Passcode:",
-                passcodePlaceholder: "Enter security access password",
-                show: "👁️ Show",
-                hide: "🙈 Hide",
-                loginBtn: "Securely Login to Independent System",
-                footer: "LXJ Business Partner System @ Since Year 2026",
-                darkMode: "🌙 Dark",
-                lightMode: "☀️ Light",
-                desktop: "💻 Desktop",
-                mobile: "📱 Mobile",
-                logout: "Secure Logout",
-                superAdminBadge: "👑 [Cloud Command Center] Super Admin Supreme Commander",
-                platinumBadge: "💎 [Exclusive VIP Zone] Platinum VIP Asset & Dividend Center",
-                businessOwnerBadge: "🏢 [Business Owner] Modular Business Hub",
-                standardVipBadge: "⭐ [Standard VIP Zone] Standard VIP Exclusive Dashboard",
-                operatorBadge: "⚙️ [Operator] Frontline Execution Workspace",
-                trafficTitle: "📈 Traffic Click Ad Monetization & Traffic Center",
-                totalClicks: "Real-time Total Clicks:",
-                adRev: "Total Ad Earnings:",
-                clickBtn: "⚡ Simulate 1 Traffic Click Ad Revenue",
-                webhookTitle: "⚙️ Make.com / Zapier Automation Workflow Bridge:",
-                webhookBtn: "🚀 Trigger Cloud Automation Sync Task",
-                aiTitle: "🤖 Google AI Studio / Gemini Real API Integration:",
-                aiKeyPlaceholder: "[Optional] Enter Gemini API Key (Leave blank for Sandbox)",
-                aiPromptPlaceholder: "Enter test prompt (e.g. Optimize wood cutting cost & profit distribution)",
-                aiRunBtn: "🚀 Run Gemini AI Smart Test",
-                aiLoading: "⏳ Gemini AI is processing...",
-                aiResult: "✨ AI Smart Output Result:"
-            },
-            MY: {
-                title: "LXJ HOLDING OS - Sistem Perintah",
-                loginPortal: "Portal Log Masuk Eksklusif Pengguna Berasingan",
-                selectRole: "Pilih identiti & saluran modul bebas anda:",
-                passcodeLabel: "Masukkan Kod Keselamatan Sulit (Passcode):",
-                passcodePlaceholder: "Masukkan kata laluan keselamatan",
-                show: "👁️ Papar",
-                hide: "🙈 Sembunyi",
-                loginBtn: "Log Masuk Selamat ke Sistem Bebas",
-                footer: "LXJ Business Partner System @ Since Year 2026",
-                darkMode: "🌙 Gelap",
-                lightMode: "☀️ Cerah",
-                desktop: "💻 Komputer",
-                mobile: "📱 Telefon",
-                logout: "Log Keluar",
-                superAdminBadge: "👑 [Pusat Perintah Awan] Super Admin Tertinggi",
-                platinumBadge: "💎 [Zon Eksklusif] Pusat Aset & Dividen Platinum VIP",
-                businessOwnerBadge: "🏢 [Pemilik Perniagaan] Pusat Komunikasi Modular",
-                standardVipBadge: "⭐ [Zon Standard VIP] Papan Pemuka Eksklusif Standard VIP",
-                operatorBadge: "⚙️ [Operator] Ruang Kerja Eksekusi Barisan Hadapan",
-                trafficTitle: "📈 Pusat Monetisasi Iklan Traffic Click & Trafik",
-                totalClicks: "Jumlah Klik Masa Nyata:",
-                adRev: "Jumlah Pendapatan Iklan:",
-                clickBtn: "⚡ Simulasikan 1 Keuntungan Iklan Traffic Click",
-                webhookTitle: "⚙️ Jambatan Aliran Kerja Automasi Make.com / Zapier:",
-                webhookBtn: "🚀 Cetuskan Tugas Sinkronisasi Automasi Awan",
-                aiTitle: "🤖 Integrasi API Sebenar Google AI Studio / Gemini:",
-                aiKeyPlaceholder: "[Pilihan] Masukkan Gemini API Key (Kosongkan untuk mod Sandbox)",
-                aiPromptPlaceholder: "Masukkan arahan (cth: Optimumkan kos pemotongan kayu & keuntungan)",
-                aiRunBtn: "🚀 Jalankan Ujian Pintar Gemini AI",
-                aiLoading: "⏳ Gemini AI sedang memproses...",
-                aiResult: "✨ Hasil Output Pintar AI:"
-            }
-        };
-
-        function App() {
-            const [lang, setLang] = React.useState('CN'); 
-            const t = translations[lang];
-
-            const [loggedInUser, setLoggedInUser] = React.useState(null);
-            const [passcode, setPasscode] = React.useState('');
-            const [showPassword, setShowPassword] = React.useState(false);
-            const [selectedRoleOption, setSelectedRoleOption] = React.useState('SUPER_ADMIN');
-            
-            const [theme, setTheme] = React.useState('DARK');
-            const [viewMode, setViewMode] = React.useState('DESKTOP');
-            
-            const [trafficClicks, setTrafficClicks] = React.useState(1280);
-            const [adRevenue, setAdRevenue] = React.useState(458.90);
-            const [aiApiKey, setAiApiKey] = React.useState(''); 
-            const [aiPrompt, setAiPrompt] = React.useState('');
-            const [aiResponse, setAiResponse] = React.useState('');
-            const [isAiLoading, setIsAiLoading] = React.useState(false);
-            const [webhookStatus, setWebhookStatus] = React.useState('');
-
-            const [modules, setModules] = React.useState({
-                crm: true,
-                woodCutting: true,
-                aiAssistant: false,
-                supplyChain: true
-            });
-
-            const isDark = theme === 'DARK';
-            const bgColor = isDark ? '#0f172a' : '#f1f5f9';
-            const cardBg = isDark ? '#1e293b' : '#ffffff';
-            const textColor = isDark ? '#f8fafc' : '#1e293b';
-            const subTextColor = isDark ? '#94a3b8' : '#64748b';
-            const borderColor = isDark ? '#334155' : '#cbd5e1';
-
-            const handleLogin = (e) => {
-                e.preventDefault();
-                setLoggedInUser(selectedRoleOption);
-            };
-
-            const handleLogout = () => {
-                setLoggedInUser(null);
-                setPasscode('');
-                setShowPassword(false);
-            };
-
-            const handleSimulateClick = () => {
-                setTrafficClicks(prev => prev + 1);
-                setAdRevenue(prev => (parseFloat(prev) + 0.35).toFixed(2));
-            };
-
-            const handleTriggerWebhook = () => {
-                setWebhookStatus('⏳ 正在向 Make.com 自动化管道发送 JSON 数据...');
-                setTimeout(() => {
-                    setWebhookStatus('✅ Make.com 自动化钩子触发成功！数据同步完成。');
-                }, 800);
-            };
-
-            const handleGeminiApiTest = async () => {
-                if (!aiPrompt) return;
-                setIsAiLoading(true);
-                setAiResponse('');
-
-                try {
-                    if (aiApiKey.trim() !== '') {
-                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${aiApiKey.trim()}`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                contents: [{ parts: [{ text: `System: As LXJ Holding OS AI Commander. Prompt: ${aiPrompt}` }] }]
-                            })
-                        });
-                        const data = await response.json();
-                        if (data.candidates && data.candidates[0].content.parts[0].text) {
-                            setAiResponse(data.candidates[0].content.parts[0].text);
-                        } else {
-                            setAiResponse('[API Error] Please check your Gemini API Key.');
-                        }
-                    } else {
-                        setTimeout(() => {
-                            setAiResponse(`[AI Sandbox Success] Command "${aiPrompt}": Processed successfully via cloud sandbox.`);
-                        }, 600);
+    <title>LXJ BUSINESS PARTNER SYSTEM</title>
+    <!-- 引入 Tailwind CSS 加速现代化 UI 渲染 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gemBlue: '#0f172a',
+                        cardDark: '#1e293b',
+                        accentOrange: '#f97316',
+                        accentRed: '#ef4444'
                     }
-                } catch (err) {
-                    setAiResponse('[Connection Error]: ' + err.message);
-                } finally {
-                    setIsAiLoading(false);
                 }
-            };
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0b0f19; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        /* 统帅专属多端容器模拟器样式 */
+        .device-simulator {
+            transition: all 0.3s ease-in-out;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
-            return (
-                <div style={{ backgroundColor: bgColor, minHeight: '100vh', padding: '20px 15px', color: textColor, boxSizing: 'border-box' }}>
-                    
-                    {/* 🌐 全局顶部三语快速切换栏 */}
-                    <div style={{ maxWidth: '1050px', margin: '0 auto 20px auto', background: cardBg, padding: '12px 20px', borderRadius: '12px', border: `2px solid #d97706`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 4px 15px rgba(217,119,6,0.2)', flexWrap: 'wrap', gap: '10px' }}>
-                        <div style={{ fontWeight: 'bold', fontSize: '13px', color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span>🌐 切换多语言 (Language / Bahasa):</span>
+    <!-- ================= 1. 顶部统帅指挥台 ================= -->
+    <header class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <!-- 品牌与Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl flex items-center justify-center font-bold text-xl text-white shadow-md border border-blue-400/30">
+                    LXJ
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
+                        LXJ BUSINESS PARTNER SYSTEM
+                    </h1>
+                    <p class="text-xs text-slate-400">Super Admin Command Center</p>
+                </div>
+            </div>
+
+            <!-- 导航菜单 -->
+            <nav class="hidden lg:flex items-center space-x-1 text-sm">
+                <button onclick="switchPage('home')" class="px-3 py-1.5 rounded-lg bg-blue-600/30 text-blue-300 hover:bg-blue-600 hover:text-white transition">大盘首页</button>
+                <button onclick="switchPage('partners')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition">合伙人管理</button>
+                <button onclick="switchPage('material')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition">开料与库存</button>
+                <button onclick="switchPage('finance')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition">财务审批流</button>
+                <button onclick="switchPage('ai-管家')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition text-orange-400 font-medium">✨ AI 系统总管</button>
+            </nav>
+
+            <!-- 右侧：多端设备切换 + 三语切换 -->
+            <div class="flex items-center space-x-2">
+                <!-- 🆕 多端视图切换按钮组 -->
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 flex items-center space-x-1">
+                    <button onclick="setDeviceMode('phone')" id="btn-phone" title="切换手机版" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">📱 手机</button>
+                    <button onclick="setDeviceMode('tablet')" id="btn-tablet" title="切换平板版" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">📱 平板</button>
+                    <button onclick="setDeviceMode('desktop')" id="btn-desktop" title="切换电脑版" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition">💻 电脑</button>
+                </div>
+
+                <!-- 三语切换 -->
+                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <option value="zh">🇨🇳 简中</option>
+                    <option value="en">🇬🇧 EN</option>
+                    <option value="bm">🇲🇾 BM</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= 2. 中部核心内容动态容器（受多端模拟器约束） ================= -->
+    <main class="w-full p-4 md:p-6 flex-grow flex justify-center">
+        <div id="deviceWrapper" class="w-full max-w-7xl device-simulator">
+            <!-- 默认加载：大盘首页视图 -->
+            <div id="page-home" class="space-y-6">
+                <!-- 筛选与控制列 -->
+                <div class="bg-cardDark p-4 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Team Filter:</span>
+                        <select class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option>Super Admin (全部大盘)</option>
+                            <option>Core Partner (核心合伙人)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Date Range:</span>
+                        <input type="date" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-200 focus:outline-none">
+                        <button class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-medium text-sm px-4 py-2 rounded-xl shadow-md transition">
+                            Filter 检索
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 数据网格看板 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- 卡片 1: 本周业绩 -->
+                    <div class="bg-cardDark p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-blue-500/50 transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-sm font-medium text-slate-400">📈 本周业绩大捷 (This Week)</span>
+                            <span class="bg-blue-500/20 text-blue-400 text-xs px-2.5 py-1 rounded-full">实时同步</span>
                         </div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            <button onClick={()=>setLang('CN')} style={{ background: lang==='CN'?'#d97706':(isDark?'#0f172a':'#f1f5f9'), color: lang==='CN'?'#fff':textColor, border:`1px solid ${borderColor}`, padding:'6px 14px', borderRadius:'6px', cursor:'pointer', fontWeight:'bold', fontSize:'12px' }}>简体中文</button>
-                            <button onClick={()=>setLang('EN')} style={{ background: lang==='EN'?'#d97706':(isDark?'#0f172a':'#f1f5f9'), color: lang==='EN'?'#fff':textColor, border:`1px solid ${borderColor}`, padding:'6px 14px', borderRadius:'6px', cursor:'pointer', fontWeight:'bold', fontSize:'12px' }}>English</button>
-                            <button onClick={()=>setLang('MY')} style={{ background: lang==='MY'?'#d97706':(isDark?'#0f172a':'#f1f5f9'), color: lang==='MY'?'#fff':textColor, border:`1px solid ${borderColor}`, padding:'6px 14px', borderRadius:'6px', cursor:'pointer', fontWeight:'bold', fontSize:'12px' }}>Melayu</button>
+                        <div class="text-4xl font-black text-white tracking-tight mb-2">1,380 <span class="text-xs font-normal text-slate-400">MYR</span></div>
+                        <p class="text-xs text-emerald-400">↑ 相比上周增长 14.5%</p>
+                    </div>
+
+                    <!-- 卡片 2: 核心合伙人动态 -->
+                    <div class="bg-cardDark p-5 rounded-2xl border border-slate-800 shadow-xl hover:border-blue-500/50 transition">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-sm font-medium text-slate-400">👥 核心合伙人动态</span>
+                            <button onclick="switchPage('partners')" class="text-xs text-blue-400 hover:underline">查看全部 →</button>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                                <span class="text-slate-300">Alex Tan (技术合伙人)</span>
+                                <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">已签单</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                                <span class="text-slate-300">Jessica Lee (运营合伙人)</span>
+                                <span class="text-xs text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">开料中</span>
+                            </div>
                         </div>
                     </div>
 
-                    {/* 1. 独立登录门户 */}
-                    {!loggedInUser && (
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px 0' }}>
-                            <div style={{ background: cardBg, color: textColor, padding: '30px', borderRadius: '16px', width: '100%', maxWidth: '420px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', border: `1px solid ${borderColor}` }}>
-                                <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-                                    <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#d97706', marginBottom: '8px' }}>🛡️ LXJ HOLDING OS</div>
-                                    <div style={{ fontSize: '12px', color: '#10b981', fontWeight: 'bold' }}>{t.loginPortal}</div>
-                                </div>
-
-                                <form onSubmit={handleLogin}>
-                                    <div style={{ marginBottom: '15px' }}>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '6px' }}>{t.selectRole}</label>
-                                        <select value={selectedRoleOption} onChange={(e) => setSelectedRoleOption(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', background: isDark ? '#0f172a' : '#f8fafc', color: textColor, border: `1px solid ${borderColor}`, fontWeight: 'bold' }}>
-                                            <option value="SUPER_ADMIN">👑 Super Admin (最高统帅云端指挥舱)</option>
-                                            <option value="PLATINUM_VIP">💎 Platinum VIP (白金大户资产与分润中心)</option>
-                                            <option value="BUSINESS_OWNER">🏢 Business Owner (企业经营者模块化中枢)</option>
-                                            <option value="STANDARD_VIP">⭐ Standard VIP (标准大户专属权益大盘)</option>
-                                            <option value="OPERATORS">⚙️ Operators (自由工位与前线执行端)</option>
-                                        </select>
-                                    </div>
-
-                                    <div style={{ marginBottom: '20px' }}>
-                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '6px' }}>{t.passcodeLabel}</label>
-                                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                            <input 
-                                                type={showPassword ? "text" : "password"} 
-                                                placeholder={t.passcodePlaceholder} 
-                                                value={passcode} 
-                                                onChange={(e) => setPasscode(e.target.value)} 
-                                                style={{ width: '100%', padding: '10px 45px 10px 10px', borderRadius: '8px', background: isDark ? '#0f172a' : '#f8fafc', color: textColor, border: `1px solid ${borderColor}`, boxSizing: 'border-box' }} 
-                                                required 
-                                            />
-                                            <button 
-                                                type="button" 
-                                                onClick={() => setShowPassword(!showPassword)} 
-                                                style={{ position: 'absolute', right: '8px', background: 'transparent', border: 'none', color: subTextColor, cursor: 'pointer', fontSize: '12px', fontWeight: 'bold', padding: '4px 6px' }}
-                                            >
-                                                {showPassword ? t.hide : t.show}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" style={{ width: '100%', padding: '12px', background: 'linear-gradient(135deg, #d97706, #b45309)', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '15px', boxShadow: '0 4px 12px rgba(217,119,6,0.3)' }}>
-                                        {t.loginBtn}
-                                    </button>
-                                </form>
-
-                                <div style={{ textAlign: 'center', marginTop: '30px', fontSize: '10px', color: subTextColor, borderTop: `1px solid ${borderColor}`, paddingTop: '15px' }}>
-                                    {t.footer}
-                                </div>
+                    <!-- 卡片 3: 开料库存预警 -->
+                    <div class="bg-cardDark p-5 rounded-2xl border border-slate-800 shadow-xl hover:border-blue-500/50 transition">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-sm font-medium text-slate-400">⚠️ 开料库存预警 (Stock Alert)</span>
+                            <span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded">Shopee 联动</span>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs text-slate-400">
+                                <span>优质原木板材 A级</span>
+                                <span class="text-red-400 font-bold">13.08 剩余 (警戒线: 20)</span>
+                            </div>
+                            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                                <div class="bg-gradient-to-r from-orange-500 to-red-500 h-full w-[35%]"></div>
                             </div>
                         </div>
-                    )}
-
-                    {/* 2. 后台指挥与细分身份视图 */}
-                    {loggedInUser && (
-                        <div style={{ maxWidth: viewMode === 'MOBILE' ? '414px' : '1050px', margin: '0 auto' }}>
-                            
-                            <div style={{ background: cardBg, padding: '15px 20px', borderRadius: '12px', marginBottom: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: `1px solid ${borderColor}`, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', flexWrap: 'wrap', gap: '10px' }}>
-                                <div>
-                                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#d97706' }}>
-                                        {loggedInUser === 'SUPER_ADMIN' && t.superAdminBadge}
-                                        {loggedInUser === 'PLATINUM_VIP' && t.platinumBadge}
-                                        {loggedInUser === 'BUSINESS_OWNER' && t.businessOwnerBadge}
-                                        {loggedInUser === 'STANDARD_VIP' && t.standardVipBadge}
-                                        {loggedInUser === 'OPERATORS' && t.operatorBadge}
-                                    </span>
-                                </div>
-                                
-                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                                    <button onClick={() => setTheme(isDark ? 'LIGHT' : 'DARK')} style={{ background: isDark ? '#fbbf24' : '#334155', color: isDark ? '#000' : '#fff', border: 'none', padding: '5px 12px', borderRadius: '20px', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
-                                        {isDark ? t.lightMode : t.darkMode}
-                                    </button>
-                                    <button onClick={() => setViewMode(viewMode === 'MOBILE' ? 'DESKTOP' : 'MOBILE')} style={{ background: '#0284c7', color: '#fff', border: 'none', padding: '5px 12px', borderRadius: '20px', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
-                                        {viewMode === 'MOBILE' ? t.desktop : t.mobile}
-                                    </button>
-                                    <button onClick={handleLogout} style={{ background: '#dc3545', color: '#fff', border: 'none', padding: '5px 12px', borderRadius: '20px', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
-                                        {t.logout}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div style={{ background: cardBg, borderRadius: '16px', padding: '25px', border: `1px solid ${borderColor}`, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}>
-                                
-                                {/* 👑 Super Admin */}
-                                {loggedInUser === 'SUPER_ADMIN' && (
-                                    <div>
-                                        <div style={{ background: 'linear-gradient(135deg, #dc3545, #b02a37)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
-                                            🛡️ Super Admin - 最高统帅云端指挥舱
-                                        </div>
-
-                                        <div style={{ background: isDark ? 'rgba(16, 185, 129, 0.1)' : '#d1e7dd', padding: '15px', borderRadius: '10px', marginBottom: '20px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
-                                            <div style={{ fontWeight: 'bold', color: '#10b981', marginBottom: '8px', fontSize: '14px' }}>{t.trafficTitle}</div>
-                                            <div style={{ fontSize: '13px', display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <span>{t.totalClicks} <b>{trafficClicks}</b></span>
-                                                <span>{t.adRev} <b style={{ color: '#d97706', fontSize: '15px' }}>RM {adRevenue}</b></span>
-                                            </div>
-                                            <button onClick={handleSimulateClick} style={{ width: '100%', padding: '8px', background: '#10b981', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
-                                                {t.clickBtn}
-                                            </button>
-                                        </div>
-
-                                        <div style={{ background: isDark ? 'rgba(2, 132, 199, 0.1)' : '#e0f2fe', padding: '15px', borderRadius: '10px', marginBottom: '20px', border: '1px solid rgba(2, 132, 199, 0.3)' }}>
-                                            <div style={{ fontWeight: 'bold', color: '#0284c7', marginBottom: '8px', fontSize: '14px' }}>{t.webhookTitle}</div>
-                                            <button onClick={handleTriggerWebhook} style={{ width: '100%', padding: '8px', background: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', marginBottom: '8px' }}>
-                                                {t.webhookBtn}
-                                            </button>
-                                            {webhookStatus && <div style={{ fontSize: '12px', color: textColor, fontWeight: 'bold', marginTop: '6px' }}>{webhookStatus}</div>}
-                                        </div>
-
-                                        <div style={{ background: isDark ? 'rgba(255,255,255,0.03)' : '#f8f9fa', padding: '15px', borderRadius: '10px', border: `1px solid ${borderColor}` }}>
-                                            <div style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>{t.aiTitle}</div>
-                                            <input type="password" placeholder={t.aiKeyPlaceholder} value={aiApiKey} onChange={(e)=>setAiApiKey(e.target.value)} style={{ width: '100%', padding: '8px', marginBottom: '10px', borderRadius: '6px', border: `1px solid ${borderColor}`, background: isDark ? '#0f172a' : '#fff', color: textColor, fontSize: '12px', boxSizing: 'border-box' }} />
-                                            <input type="text" placeholder={t.aiPromptPlaceholder} value={aiPrompt} onChange={(e)=>setAiPrompt(e.target.value)} style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '6px', border: `1px solid ${borderColor}`, background: isDark ? '#0f172a' : '#fff', color: textColor, boxSizing: 'border-box' }} />
-                                            <button onClick={handleGeminiApiTest} disabled={isAiLoading} style={{ padding: '10px 20px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', width: '100%' }}>
-                                                {isAiLoading ? t.aiLoading : t.aiRunBtn}
-                                            </button>
-                                            {aiResponse && (
-                                                <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', color: textColor, borderRadius: '6px', fontSize: '13px', border: '1px solid rgba(59, 130, 246, 0.3)', whiteSpace: 'pre-wrap', lineHeight: '1.5' }}>
-                                                    <b style={{ color: '#3b82f6' }}>{t.aiResult}</b><br/>{aiResponse}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* 💎 Platinum VIP */}
-                                {loggedInUser === 'PLATINUM_VIP' && (
-                                    <div>
-                                        <div style={{ background: 'linear-gradient(135deg, #d97706, #b45309)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
-                                            💎 Platinum VIP 专属储备金资产池 & 3% 利润分成看板
-                                        </div>
-                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '20px' }}>
-                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
-                                                <div style={{ fontSize: '12px', color: subTextColor }}>白金大户专属储备基金池</div>
-                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#10b981', marginTop: '5px' }}>RM 24,580.00</div>
-                                            </div>
-                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
-                                                <div style={{ fontSize: '12px', color: subTextColor }}>本月 3% 实时利润分红</div>
-                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706', marginTop: '5px' }}>RM 1,845.50</div>
-                                            </div>
-                                        </div>
-                                        <p style={{ color: subTextColor, fontSize: '13px' }}>白金大户特权已完全激活，所有分红流向受独立加密账本保护。</p>
-                                    </div>
-                                )}
-
-                                {/* 🏢 Business Owner */}
-                                {loggedInUser === 'BUSINESS_OWNER' && (
-                                    <div>
-                                        <div style={{ background: 'linear-gradient(135deg, #0284c7, #0369a1)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
-                                            🏢 Business Owner 经营者 - 共用业务模块自主选择中枢
-                                        </div>
-                                        <div style={{ marginBottom: '20px', fontSize: '13px', color: subTextColor }}>请勾选您当前业务运营所需要的核心独立模块：</div>
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
-                                                <input type="checkbox" checked={modules.crm} onChange={()=>setModules({...modules, crm: !modules.crm})} />
-                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>👥 CRM 客户关系与合伙人管理</span>
-                                            </label>
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
-                                                <input type="checkbox" checked={modules.woodCutting} onChange={()=>setModules({...modules, woodCutting: !modules.woodCutting})} />
-                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>🪵 智能木业/五金开料优化模块</span>
-                                            </label>
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
-                                                <input type="checkbox" checked={modules.aiAssistant} onChange={()=>setModules({...modules, aiAssistant: !modules.aiAssistant})} />
-                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>🤖 专属 AI 营销与决策副驾驶</span>
-                                            </label>
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
-                                                <input type="checkbox" checked={modules.supplyChain} onChange={()=>setModules({...modules, supplyChain: !modules.supplyChain})} />
-                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>⚙️ 供应链与 Make.com 自动化桥接</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* ⭐ Standard VIP 专属权益大盘（独立开辟） */}
-                                {loggedInUser === 'STANDARD_VIP' && (
-                                    <div>
-                                        <div style={{ background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
-                                            ⭐ Standard VIP 专属大户权益通道 & 消费分红查询
-                                        </div>
-                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '20px' }}>
-                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
-                                                <div style={{ fontSize: '12px', color: subTextColor }}>标准积分与消费返利</div>
-                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#10b981', marginTop: '5px' }}>8,420 积分</div>
-                                            </div>
-                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
-                                                <div style={{ fontSize: '12px', color: subTextColor }}>专属折扣等级</div>
-                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706', marginTop: '5px' }}>9.2折 (VIP Tier 1)</div>
-                                            </div>
-                                        </div>
-                                        <p style={{ color: subTextColor, fontSize: '13px' }}>Standard VIP 专属通道运行平稳，您可以随时享受特约木业五金的优先供货与积分兑换特权。</p>
-                                    </div>
-                                )}
-
-                                {/* ⚙️ Operators 执行端 */}
-                                {loggedInUser === 'OPERATORS' && (
-                                    <div>
-                                        <div style={{ background: '#64748b', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
-                                            ⚙️ Operators - 前线执行与工位任务终端
-                                        </div>
-                                        <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}`, marginBottom: '15px' }}>
-                                            <div style={{ fontWeight: 'bold', marginBottom: '6px', fontSize: '13px' }}>📋 今日待办执行任务：</div>
-                                            <div style={{ fontSize: '12px', color: subTextColor, lineHeight: '1.6' }}>
-                                                1. 检查木业开料数据同步状态<br/>
-                                                2. 确认 Make.com 自动化流水线钩子响应<br/>
-                                                3. 提交前线交接日志
-                                            </div>
-                                        </div>
-                                        <p style={{ color: subTextColor, fontSize: '13px' }}>当前工位已就绪，所有执行数据将加密同步至云端调度中心。</p>
-                                    </div>
-                                )}
-
-                                <div style={{ textAlign: 'center', borderTop: `1px solid ${borderColor}`, paddingTop: '20px', marginTop: '30px' }}>
-                                    <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#d97706', letterSpacing: '0.5px' }}>
-                                        {t.footer}
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    )}
-
+                    </div>
                 </div>
-            );
+
+                <!-- AI 智能总管播报栏 -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 p-5 rounded-2xl border border-indigo-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-2xl">
+                            🤖
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base text-indigo-300">AI 系统总管实时巡检报告</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">全系统运行平稳，无越权访问。待处理财务审批流：0 笔。</p>
+                        </div>
+                    </div>
+                    <button onclick="switchPage('ai-管家')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-4 py-2 rounded-xl transition shadow">
+                        进入管家指挥舱
+                    </button>
+                </div>
+            </div>
+
+            <!-- 其它子页面容器（支持 Home / Back / Next / Enter 导航闭环） -->
+            <div id="page-sub" class="hidden space-y-6">
+                <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                        <h2 id="subPageTitle" class="text-xl font-bold text-white">子页面模块</h2>
+                        <!-- 导航闭环按钮组 -->
+                        <div class="flex items-center space-x-2">
+                            <button onclick="switchPage('home')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition border border-slate-700">
+                                🏠 首页 (Home)
+                            </button>
+                            <button onclick="alert('已执行：上一步')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition border border-slate-700">
+                                ◀️ 上一步
+                            </button>
+                            <button onclick="alert('已执行：下一步或提交成功')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg transition shadow">
+                                ➡️ 下一步 / 确认
+                            </button>
+                        </div>
+                    </div>
+                    <div id="subPageContent" class="text-sm text-slate-300 space-y-4">
+                        <!-- 动态注入内容 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= 3. 底部帝国基石版权 ================= -->
+    <footer class="bg-gemBlue border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
+        <p class="font-medium tracking-widest text-slate-400">LXJ BUSINESS DEVERLOMENT SYSTEM @ SINCE 2026</p>
+        <p class="mt-1 text-slate-600">Global Cloud Infrastructure Powered by Vercel & GitHub</p>
+    </footer>
+
+    <!-- ================= 4. 前端交互控制与多端切换脚本 ================= -->
+    <script>
+        // 🆕 多端视图一键切换核心逻辑
+        function setDeviceMode(mode) {
+            const wrapper = document.getElementById('deviceWrapper');
+            const btnPhone = document.getElementById('btn-phone');
+            const btnTablet = document.getElementById('btn-tablet');
+            const btnDesktop = document.getElementById('btn-desktop');
+
+            // 重置所有按钮样式
+            [btnPhone, btnTablet, btnDesktop].forEach(b => {
+                b.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition";
+            });
+
+            if (mode === 'phone') {
+                wrapper.style.maxWidth = '390px'; // 模拟 iPhone 尺寸
+                wrapper.style.border = '8px solid #334155';
+                wrapper.style.borderRadius = '32px';
+                wrapper.style.padding = '12px';
+                wrapper.style.background = '#0b0f19';
+                btnPhone.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
+                alert('已切换至【手机版视图模拟器】（可用于实时查看移动端展示效果）');
+            } else if (mode === 'tablet') {
+                wrapper.style.maxWidth = '768px'; // 模拟 iPad 尺寸
+                wrapper.style.border = '8px solid #334155';
+                wrapper.style.borderRadius = '24px';
+                wrapper.style.padding = '16px';
+                wrapper.style.background = '#0b0f19';
+                btnTablet.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
+                alert('已切换至【平板版视图模拟器】');
+            } else {
+                wrapper.style.maxWidth = '1280px'; // 电脑全屏大盘
+                wrapper.style.border = 'none';
+                wrapper.style.borderRadius = '0';
+                wrapper.style.padding = '0';
+                wrapper.style.background = 'transparent';
+                btnDesktop.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
+            }
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        function switchPage(pageName) {
+            const homePage = document.getElementById('page-home');
+            const subPage = document.getElementById('page-sub');
+            const subTitle = document.getElementById('subPageTitle');
+            const subContent = document.getElementById('subPageContent');
+
+            if (pageName === 'home') {
+                homePage.classList.remove('hidden');
+                subPage.classList.add('hidden');
+            } else {
+                homePage.classList.add('hidden');
+                subPage.classList.remove('hidden');
+
+                if (pageName === 'partners') {
+                    subTitle.textContent = "👥 合伙人直接管理与权限分配 (Super Admin Panel)";
+                    subContent.innerHTML = `
+                        <p class="text-slate-400">在此页面，统帅可直接新增合伙人、赋予权限，数据将即时写入云端数据库：</p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                            <input type="text" placeholder="输入合伙人姓名..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" onkeydown="if(event.key==='Enter') alert('回车触发：合伙人数据已录入！')">
+                            <button onclick="alert('合伙人添加成功！')" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs">确认新增合伙人 (支持按回车键 Enter 提交)</button>
+                        </div>
+                    `;
+                } else if (pageName === 'material') {
+                    subTitle.textContent = "📦 开料数据录入与库存联动 (Shopee/Booking 风格面板)";
+                    subContent.innerHTML = `
+                        <p class="text-slate-400">零门槛直接录入开料耗材与库存消耗：</p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                            <input type="text" placeholder="输入开料批次或物料名称..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" onkeydown="if(event.key==='Enter') alert('回车触发：开料数据已同步！')">
+                            <button onclick="alert('开料数据已更新！')" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-xs">保存并更新库存</button>
+                        </div>
+                    `;
+                } else if (pageName === 'finance') {
+                    subTitle.textContent = "💳 财务审批流水大盘";
+                    subContent.innerHTML = `<p class="text-slate-400">目前暂无待审批的财务流，所有账目资金流动正常。</p>`;
+                } else if (pageName === 'ai-管家') {
+                    subTitle.textContent = "✨ AI 系统全天候监督与智能报告中心";
+                    subContent.innerHTML = `
+                        <div class="space-y-3 text-slate-300">
+                            <div class="bg-indigo-950/30 border border-indigo-500/30 p-4 rounded-xl">
+                                <h4 class="font-bold text-indigo-400 mb-1">💡 统帅专属 AI 智能建议</h4>
+                                <p class="text-xs text-slate-300">“当前系统运行于最高权限状态。建议周末重点攻克 Supabase 真实数据库的 API 直连，实现完全的云端数据自动读写。”</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            if(lang === 'en') {
+                alert('Language switched to English.');
+            } else if(lang === 'bm') {
+                alert('Bahasa Melayu dipilih.');
+            }
+        }
     </script>
 </body>
 </html>
