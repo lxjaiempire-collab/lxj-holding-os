@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,58 +41,36 @@
             </div>
 
             <div class="flex items-center space-x-2">
-                <select id="roleSelect" onchange="switchRole()" class="bg-slate-900 border border-blue-500/50 text-xs rounded-xl px-3 py-2 text-blue-300 font-medium focus:outline-none">
-                    <option value="super-admin">[ Super Admin ] - Supreme Command</option>
-                    <option value="platinum-vip">[ Platinum VIP ] - 35% Top Commission</option>
-                    <option value="standard-vip">[ Standard VIP ] - Partner Zone</option>
-                    <option value="business-owner">[ Business Owner ] - Operations Manager</option>
-                    <option value="operator-team">[ Operator Team ] - Execution Unit</option>
+                <select id="roleSelect" onchange="renderUI()" class="bg-slate-900 border border-blue-500/50 text-xs rounded-xl px-3 py-2 text-blue-300 font-medium focus:outline-none">
+                    <option value="super-admin">👑 Super Admin (最高统帅大盘)</option>
+                    <option value="platinum-vip">💎 白金 VIP 专属大盘 (模块金池3%利润率/同源工作台)</option>
+                    <option value="standard-vip">⭐ 标准 VIP 专属大盘 (同源工作台)</option>
+                    <option value="business-owner">💼 Business Owner 业务主理人总控 (同源工作台)</option>
+                    <option value="operator-team">⚙️ Operator 团队 (执行端)</option>
                 </select>
             </div>
 
             <div class="flex items-center space-x-2">
                 <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 hidden sm:flex items-center space-x-1">
-                    <button onclick="setDeviceMode('phone')" id="btn-phone" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">Phone</button>
-                    <button onclick="setDeviceMode('tablet')" id="btn-tablet" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">Tablet</button>
-                    <button onclick="setDeviceMode('desktop')" id="btn-desktop" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition">Desktop</button>
+                    <button onclick="setDeviceMode('phone')" id="btn-phone" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">手机</button>
+                    <button onclick="setDeviceMode('tablet')" id="btn-tablet" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">平板</button>
+                    <button onclick="setDeviceMode('desktop')" id="btn-desktop" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition">电脑</button>
                 </div>
+
+                <select id="langSelect" onchange="renderUI()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none">
+                    <option value="zh">简中</option>
+                    <option value="en">EN</option>
+                    <option value="bm">BM</option>
+                </select>
             </div>
         </div>
     </header>
 
     <main class="w-full p-4 md:p-6 flex-grow flex justify-center">
         <div id="deviceWrapper" class="w-full max-w-7xl device-simulator space-y-6">
-            
             <div id="dynamicMainContent" class="space-y-6">
-                <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                        <div>
-                            <h2 class="text-xl font-bold text-white">Super Admin - Supreme Command Center</h2>
-                            <p class="text-xs text-slate-400 mt-1">Controlling Empire Net Profit, Platinum VIP Tier, and Management Pipelines</p>
-                        </div>
-                        <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Profit Protection Active</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 font-medium">Net Profit Dashboard</span>
-                            <div class="text-3xl font-black text-emerald-400 mt-2">12,450 <span class="text-xs text-slate-400">MYR</span></div>
-                            <span class="text-xs text-slate-400 mt-1 block">Baseline Margin Locked</span>
-                        </div>
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 font-medium">Platinum VIP Commission</span>
-                            <div class="text-3xl font-black text-amber-400 mt-2">35% <span class="text-xs text-slate-400">Top Rate</span></div>
-                            <span class="text-xs text-amber-400/80 mt-1 block">Exclusive High-Tier Privilege</span>
-                        </div>
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 font-medium">Business Owner Control</span>
-                            <div class="text-3xl font-black text-purple-400 mt-2">Active <span class="text-xs text-slate-400">Sub-Manager</span></div>
-                            <span class="text-xs text-slate-400 mt-1 block">Subordinate to VIP & Command</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- 动态渲染区域 -->
             </div>
-
         </div>
     </main>
 
@@ -101,6 +79,82 @@
     </footer>
 
     <script>
+        // 三语词库字典（严格对齐统帅指令：白金VIP为模块金池3%利润率）
+        const langData = {
+            zh: {
+                superAdminTitle: "👑 Super Admin 最高统帅指挥舱",
+                superAdminDesc: "全局掌控核心利润、模块金池收益、VIP 与 Business Owner 同源工作台流水线",
+                netProfit: "💰 统帅实际净利润大盘",
+                vipCommission: "💎 白金 VIP 模块金池收益",
+                teamEffort: "⚙️ 团队协助管理效能",
+                
+                platTitle: "💎 白金 VIP 专属尊贵大盘 (同源工作台)",
+                platDesc: "欢迎尊贵的白金 VIP。您享有与主理人同源的工作图架构，专属享有模块金池的 3% 利润率分配。",
+                
+                stdTitle: "⭐ 标准 VIP 专属特权区 (同源工作台)",
+                stdDesc: "欢迎标准 VIP。您享有同源的工作台面板与日常业务支持，模块应用权限按标准协议执行。",
+                
+                boTitle: "💼 Business Owner 业务主理人工作台",
+                boDesc: "主理人与 VIP 共享同源的工作台界面与任务面板，专职负责统筹底层 Operator 团队（1至5）。",
+                
+                opTitle: "⚙️ Operator 团队执行端",
+                opDesc: "全体 Operator 严格执行底层业务任务，保障各项流水平稳运行。",
+                
+                taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
+                taskBtn: "下发团队任务",
+                alertMsg: "任务已成功下发给 Operator 团队！",
+                moduleLimit: "模块应用限制：当前角色享有独立的权限边界与分配率"
+            },
+            en: {
+                superAdminTitle: "👑 Super Admin Supreme Command",
+                superAdminDesc: "Global control over net profit, module pool margin, and isomorphic VIP/Owner workbenches",
+                netProfit: "💰 Net Profit Dashboard",
+                vipCommission: "💎 Platinum VIP Module Pool",
+                teamEffort: "⚙️ Team Management Efficiency",
+                
+                platTitle: "💎 Platinum VIP Exclusive Dashboard (Isomorphic Workbench)",
+                platDesc: "Welcome honored Platinum VIP. You share the isomorphic workbench layout, exclusively entitled to a 3% profit margin from the module pool.",
+                
+                stdTitle: "⭐ Standard VIP Partner Zone (Isomorphic Workbench)",
+                stdDesc: "Welcome Standard VIP. You share the isomorphic workbench layout with standard module restrictions.",
+                
+                boTitle: "💼 Business Owner Operations Workbench",
+                boDesc: "Business Owners share the identical workbench layout with VIPs, focusing on managing the Operator Team (1 to 5).",
+                
+                opTitle: "⚙️ Operator Team Execution Unit",
+                opDesc: "Operators strictly execute daily business tasks to ensure smooth operations.",
+                
+                taskPlaceholder: "Assign task to Operator Team...",
+                taskBtn: "Assign Team Task",
+                alertMsg: "Task successfully assigned to Operator Team!",
+                moduleLimit: "Module Restriction: Role-based permission boundaries and allocation applied"
+            },
+            bm: {
+                superAdminTitle: "👑 Super Admin Kawalan Tertinggi",
+                superAdminDesc: "Kawalan penuh ke atas keuntungan bersih, margin kolam modul, dan papan kerja isomorfik VIP/Owner",
+                netProfit: "💰 Papan Pemuka Keuntungan Bersih",
+                vipCommission: "💎 Kolam Modul Platinum VIP",
+                teamEffort: "⚙️ Kecekapan Pengurusan Pasukan",
+                
+                platTitle: "💎 Papan Pemuka Eksklusif Platinum VIP (Workbenched Isomorfik)",
+                platDesc: "Selamat datang Platinum VIP. Anda berkongsi reka bentuk papan kerja isomorfik yang sama, menikmati 3% margin keuntungan daripada kolam modul.",
+                
+                stdTitle: "⭐ Zon VIP Standard (Workbenched Isomorfik)",
+                stdDesc: "Selamat datang Standard VIP. Anda berkongsi antara muka papan kerja yang sama dengan had modul standard.",
+                
+                boTitle: "💼 Papan Pemuka Business Owner",
+                boDesc: "Business Owner berkongsi reka bentuk papan kerja yang sama seperti VIP, fokus menguruskan Pasukan Operator (1 hingga 5).",
+                
+                opTitle: "⚙️ Unit Pelaksanaan Pasukan Operator",
+                opDesc: "Semua Operator melaksanakan tugasan perniagaan harian dengan ketat.",
+                
+                taskPlaceholder: "Masukkan tugasan untuk Pasukan Operator...",
+                taskBtn: "Hantar Tugasan Pasukan",
+                alertMsg: "Tugasan berjaya dihantar kepada Pasukan Operator!",
+                moduleLimit: "Had Modul: Batasan kebenaran dan nisbah peruntukan berasaskan peranan"
+            }
+        };
+
         function setDeviceMode(mode) {
             const wrapper = document.getElementById('deviceWrapper');
             const btnPhone = document.getElementById('btn-phone');
@@ -132,8 +186,10 @@
             }
         }
 
-        function switchRole() {
+        function renderUI() {
             const role = document.getElementById('roleSelect').value;
+            const lang = document.getElementById('langSelect').value;
+            const t = langData[lang];
             const container = document.getElementById('dynamicMainContent');
 
             if (role === 'super-admin') {
@@ -141,63 +197,79 @@
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                             <div>
-                                <h2 class="text-xl font-bold text-white">Super Admin - Supreme Command Center</h2>
-                                <p class="text-xs text-slate-400 mt-1">Controlling Empire Net Profit, Platinum VIP Tier, and Management Pipelines</p>
+                                <h2 class="text-xl font-bold text-white">${t.superAdminTitle}</h2>
+                                <p class="text-xs text-slate-400 mt-1">${t.superAdminDesc}</p>
                             </div>
-                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Profit Protection Active</span>
+                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Active</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">Net Profit Dashboard</span>
+                                <span class="text-xs text-slate-400 font-medium">${t.netProfit}</span>
                                 <div class="text-3xl font-black text-emerald-400 mt-2">12,450 <span class="text-xs text-slate-400">MYR</span></div>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">Platinum VIP Commission</span>
-                                <div class="text-3xl font-black text-amber-400 mt-2">35% <span class="text-xs text-slate-400">Top Rate</span></div>
+                                <span class="text-xs text-slate-400 font-medium">${t.vipCommission}</span>
+                                <div class="text-3xl font-black text-amber-400 mt-2">3% Pool Margin</div>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">Business Owner Control</span>
-                                <div class="text-3xl font-black text-purple-400 mt-2">Active <span class="text-xs text-slate-400">Sub-Manager</span></div>
+                                <span class="text-xs text-slate-400 font-medium">${t.teamEffort}</span>
+                                <div class="text-3xl font-black text-purple-400 mt-2">Optimized</div>
                             </div>
                         </div>
                     </div>
                 `;
-            } else if (role === 'platinum-vip') {
+            } else if (role === 'platinum-vip' || role === 'standard-vip' || role === 'business-owner') {
+                // VIP 与 Business Owner 严格采用同源工作图（Isomorphic Workbench）布局
+                let title = t.boTitle, desc = t.boDesc, badge = "Business Owner 级控制", badgeColor = "bg-purple-500/20 text-purple-300", marginInfo = "Standard Protocol";
+                
+                if (role === 'platinum-vip') {
+                    title = t.platTitle; desc = t.platDesc; badge = "💎 白金 VIP 专属"; badgeColor = "bg-amber-500/20 text-amber-300"; marginInfo = "3% Module Pool Margin";
+                } else if (role === 'standard-vip') {
+                    title = t.stdTitle; desc = t.stdDesc; badge = "⭐ 标准 VIP 合作"; badgeColor = "bg-blue-500/20 text-blue-300"; marginInfo = "Standard Pool Share";
+                }
+
                 container.innerHTML = `
-                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-amber-400">Platinum VIP Exclusive Dashboard</h2>
-                        <p class="text-xs text-slate-400">Welcome honored Platinum VIP. You enjoy top-tier sawing discounts, express financial approval, and up to 35% Affiliate commission privileges.</p>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm">
-                            <p class="text-slate-300">Current Platinum Commission Rate: <span class="text-amber-400 font-bold">35% Maximum Privilege</span></p>
+                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-white">${title}</h2>
+                                <p class="text-xs text-slate-400 mt-1">${desc}</p>
+                            </div>
+                            <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-medium">${badge}</span>
                         </div>
-                    </div>
-                `;
-            } else if (role === 'standard-vip') {
-                container.innerHTML = `
-                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-blue-400">Standard VIP Partner Zone</h2>
-                        <p class="text-xs text-slate-400">Welcome Standard VIP. Enjoy stable collaboration rewards and efficient daily business support.</p>
-                    </div>
-                `;
-            } else if (role === 'business-owner') {
-                container.innerHTML = `
-                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                            <h2 class="text-xl font-bold text-purple-400">Business Owner Control Panel</h2>
-                            <span class="bg-slate-800 text-slate-300 text-xs px-2 py-1 rounded">Subordinate Management Role</span>
+
+                        <!-- 同源工作图模块：数据看板 -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                                <span class="text-xs text-slate-400 font-medium">Profit Margin / 利润率分配</span>
+                                <div class="text-2xl font-black text-amber-400 mt-2">${marginInfo}</div>
+                                <span class="text-xs text-slate-500 mt-1 block">${t.moduleLimit}</span>
+                            </div>
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                                <span class="text-xs text-slate-400 font-medium">Workbench Status / 工作台状态</span>
+                                <div class="text-2xl font-black text-emerald-400 mt-2">Isomorphic Sync</div>
+                                <span class="text-xs text-slate-500 mt-1 block">Shared Layout Architecture</span>
+                            </div>
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                                <span class="text-xs text-slate-400 font-medium">Operator Team Link / 团队管理</span>
+                                <div class="text-2xl font-black text-purple-400 mt-2">Active (1-5)</div>
+                                <span class="text-xs text-slate-500 mt-1 block">Subordinate Control</span>
+                            </div>
                         </div>
-                        <p class="text-xs text-slate-400">Business Owner coordinates the Operator Team (1 to 5) for daily execution. Authority is subordinate to VIPs and Super Admin:</p>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
-                            <input type="text" placeholder="Assign task to Operator Team..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500" onkeydown="if(event.key==='Enter') alert('Task successfully assigned to Operator Team!')">
-                            <button onclick="alert('Task assigned successfully!')" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-xs">Assign Team Task</button>
+
+                        <!-- 同源工作图模块：任务协同面板 -->
+                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                            <h3 class="text-sm font-bold text-slate-200">Task Management Workbench / 团队任务协同中枢</h3>
+                            <input type="text" placeholder="${t.taskPlaceholder}" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" onkeydown="if(event.key==='Enter') alert('${t.alertMsg}')">
+                            <button onclick="alert('${t.alertMsg}')" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium">${t.taskBtn}</button>
                         </div>
                     </div>
                 `;
             } else if (role === 'operator-team') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-emerald-400">Operator Team Execution Unit</h2>
-                        <p class="text-xs text-slate-400">All Operators strictly execute tasks assigned by Business Owner to ensure smooth operations.</p>
+                        <h2 class="text-xl font-bold text-emerald-400">${t.opTitle}</h2>
+                        <p class="text-xs text-slate-400">${t.opDesc}</p>
                         <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300">
                             <p>Status: Execution pipeline operating normally.</p>
                         </div>
@@ -205,6 +277,9 @@
                 `;
             }
         }
+
+        // 初始化渲染
+        renderUI();
     </script>
 </body>
 </html>
