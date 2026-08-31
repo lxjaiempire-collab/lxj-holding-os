@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ BUSINESS PARTNER SYSTEM</title>
+    <title>LXJ BUSINESS PARTNER</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,196 +34,79 @@
                 </div>
                 <div>
                     <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                        LXJ BUSINESS PARTNER SYSTEM
+                        LXJ BUSINESS PARTNER
                     </h1>
                     <p class="text-xs text-slate-400">Empire Command Center</p>
                 </div>
             </div>
 
-            <nav class="hidden lg:flex items-center space-x-1 text-sm">
-                <button onclick="switchPage('home')" class="px-3 py-1.5 rounded-lg bg-blue-600/30 text-blue-300 hover:bg-blue-600 hover:text-white transition">大盘首页</button>
-                <button onclick="switchPage('partners')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition">合伙人管理</button>
-                <button onclick="switchPage('material')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition">开料与库存</button>
-                <button onclick="switchPage('finance')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition">财务审批流</button>
-                <button onclick="switchPage('ai-管家')" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 transition text-orange-400 font-medium">✨ AI 系统总管</button>
-            </nav>
+            <div class="flex items-center space-x-2">
+                <select id="roleSelect" onchange="switchRole()" class="bg-slate-900 border border-blue-500/50 text-xs rounded-xl px-3 py-2 text-blue-300 font-medium focus:outline-none">
+                    <option value="super-admin">👑 Super Admin (最高统帅大盘)</option>
+                    <option value="platinum-vip">💎 白金 VIP (Platinum VIP 专属通道)</option>
+                    <option value="standard-vip">⭐ 标准 VIP (Standard VIP)</option>
+                    <option value="business-owner">💼 Business Owner (业务主理人总控)</option>
+                    <option value="operator-team">⚙️ Operator 团队 (由主理人自主指派管理)</option>
+                </select>
+            </div>
 
             <div class="flex items-center space-x-2">
-                <select id="roleSelect" onchange="changeRole()" class="bg-indigo-950 border border-indigo-700/60 text-xs rounded-xl px-2.5 py-1.5 text-indigo-200 font-medium focus:outline-none">
-                    <option value="super">👑 Super Admin / VIP</option>
-                    <option value="owner">🏢 Business Owner (业务主理人)</option>
-                    <option value="op1">⚙️ Operator 1 (财务与库存总监)</option>
-                    <option value="op2">⚙️ Operator 2 (开料生产专员)</option>
-                    <option value="op3">⚙️ Operator 3 (Affiliate 流量专员)</option>
-                    <option value="op4">⚙️ Operator 4 (多语种客服专员)</option>
-                    <option value="op5">⚙️ Operator 5 (AI 巡检专员)</option>
-                </select>
-
-                <div class="hidden md:flex bg-slate-900 border border-slate-700 rounded-xl p-1 items-center space-x-1">
-                    <button onclick="setDeviceMode('phone')" id="btn-phone" class="px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white transition">📱 手机</button>
-                    <button onclick="setDeviceMode('tablet')" id="btn-tablet" class="px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white transition">📱 平板</button>
-                    <button onclick="setDeviceMode('desktop')" id="btn-desktop" class="px-2 py-1 rounded-lg text-xs bg-blue-600 text-white shadow transition">💻 电脑</button>
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 hidden sm:flex items-center space-x-1">
+                    <button onclick="setDeviceMode('phone')" id="btn-phone" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">📱 手机</button>
+                    <button onclick="setDeviceMode('tablet')" id="btn-tablet" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">📱 平板</button>
+                    <button onclick="setDeviceMode('desktop')" id="btn-desktop" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition">💻 电脑</button>
                 </div>
 
-                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2 py-1.5 text-slate-200 focus:outline-none">
-                    <option value="zh">简中</option>
-                    <option value="en">EN</option>
-                    <option value="bm">BM</option>
+                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none">
+                    <option value="zh"> 简中</option>
+                    <option value="en"> EN</option>
+                    <option value="bm"> BM</option>
                 </select>
             </div>
         </div>
     </header>
 
     <main class="w-full p-4 md:p-6 flex-grow flex justify-center">
-        <div id="deviceWrapper" class="w-full max-w-7xl device-simulator">
-            <div id="page-home" class="space-y-6">
-                <div id="roleAlertBanner" class="bg-gradient-to-r from-blue-900/40 via-cardDark to-indigo-950/40 p-4 rounded-2xl border border-blue-500/30 flex items-center justify-between shadow-lg">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-2xl">👑</span>
+        <div id="deviceWrapper" class="w-full max-w-7xl device-simulator space-y-6">
+            
+            <div id="dynamicMainContent" class="space-y-6">
+                <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                         <div>
-                            <h4 id="currentRoleTitle" class="font-bold text-sm text-white">当前登录身份：Super Admin / VIP (拥有最高全系统上帝视角)</h4>
-                            <p class="text-xs text-slate-400">所有板块读写权限全开，支持 Supabase 数据实时同步与自动化管家调度。</p>
+                            <h2 class="text-xl font-bold text-white">👑 Super Admin 统帅最高指挥舱</h2>
+                            <p class="text-xs text-slate-400 mt-1">全局掌控合伙人、各级 VIP、Business Owner 绩效与自动化流水线</p>
                         </div>
-                    </div>
-                    <span class="text-xs bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full border border-blue-500/30">权限安全等级：Level 10</span>
-                </div>
-
-                <div class="bg-cardDark p-4 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 shadow-xl">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Hierarchy Filter:</span>
-                        <select class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
-                            <option>全部等级 (All Levels: VIP / Owner / Op 1-5)</option>
-                            <option>仅看 Business Owner 团队</option>
-                            <option>仅看 Operator 1-5 执行流</option>
-                        </select>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Date Range:</span>
-                        <input type="date" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-200 focus:outline-none">
-                        <button class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-medium text-sm px-4 py-2 rounded-xl shadow-md transition">
-                            Filter 检索
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-cardDark p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-blue-500/50 transition">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-sm font-medium text-slate-400">📈 本周业绩大捷 (VIP Performance)</span>
-                            <span class="bg-blue-500/20 text-blue-400 text-xs px-2.5 py-1 rounded-full">实时同步</span>
-                        </div>
-                        <div class="text-4xl font-black text-white tracking-tight mb-2">1,380 <span class="text-xs font-normal text-slate-400">MYR</span></div>
-                        <p class="text-xs text-emerald-400">↑ 相比上周增长 14.5% (Owner 团队贡献率 78%)</p>
+                        <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">最高权限在线</span>
                     </div>
 
-                    <div class="bg-cardDark p-5 rounded-2xl border border-slate-800 shadow-xl hover:border-blue-500/50 transition">
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="text-sm font-medium text-slate-400">👥 Owner & Operator 动态</span>
-                            <button onclick="switchPage('partners')" class="text-xs text-blue-400 hover:underline">管理合伙人 →</button>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-medium">📈 本周帝国总业绩</span>
+                            <div class="text-3xl font-black text-white mt-2">13,800 <span class="text-xs text-slate-400">MYR</span></div>
+                            <span class="text-xs text-emerald-400 mt-1 block">↑ 相比上周增长 18.2%</span>
                         </div>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                                <span class="text-slate-300">Alex Tan (Business Owner)</span>
-                                <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">在线运营</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
-                                <span class="text-slate-300">Operator 1 (财务总监)</span>
-                                <span class="text-xs text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">审批就绪</span>
-                            </div>
+                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-medium">💎 活跃 VIP 矩阵</span>
+                            <div class="text-3xl font-black text-amber-400 mt-2">42 <span class="text-xs text-slate-400">人 (白金:12 / 标准:30)</span></div>
+                            <span class="text-xs text-blue-400 mt-1 block">转化率极佳</span>
                         </div>
-                    </div>
-
-                    <div class="bg-cardDark p-5 rounded-2xl border border-slate-800 shadow-xl hover:border-blue-500/50 transition">
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="text-sm font-medium text-slate-400">⚠️ 开料库存与 Operator 联动</span>
-                            <span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded">Shopee 联动</span>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-xs text-slate-400">
-                                <span>优质原木板材 A级 (Op 2 监管)</span>
-                                <span class="text-red-400 font-bold">13.08 剩余 (警戒线: 20)</span>
-                            </div>
-                            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
-                                <div class="bg-gradient-to-r from-orange-500 to-red-500 h-full w-[35%]"></div>
-                            </div>
+                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-medium">💼 Business Owner 独立主理</span>
+                            <div class="text-3xl font-black text-purple-400 mt-2">5 <span class="text-xs text-slate-400">个独立业务矩阵</span></div>
+                            <span class="text-xs text-emerald-400 mt-1 block">Operator 团队运转正常</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 p-5 rounded-2xl border border-indigo-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-2xl">
-                            🤖
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-base text-indigo-300">AI 系统总管实时巡检报告</h3>
-                            <p class="text-xs text-slate-400 mt-0.5">所有 Operator 1-5 权限隔离正常，Affiliate 自动化广告点击链接运行顺畅。</p>
-                        </div>
-                    </div>
-                    <button onclick="switchPage('ai-管家')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-4 py-2 rounded-xl transition shadow">
-                        进入管家指挥舱
-                    </button>
                 </div>
             </div>
 
-            <div id="page-sub" class="hidden space-y-6">
-                <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl">
-                    <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
-                        <h2 id="subPageTitle" class="text-xl font-bold text-white">子页面模块</h2>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="switchPage('home')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition border border-slate-700">
-                                🏠 首页 (Home)
-                            </button>
-                            <button onclick="alert('已执行：上一步')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition border border-slate-700">
-                                ◀️ 上一步
-                            </button>
-                            <button onclick="alert('已执行：下一步或提交成功')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg transition shadow">
-                                ➡️ 下一步 / 确认
-                            </button>
-                        </div>
-                    </div>
-                    <div id="subPageContent" class="text-sm text-slate-300 space-y-4">
-                        </div>
-                </div>
-            </div>
         </div>
     </main>
 
     <footer class="bg-gemBlue border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
         <p class="font-medium tracking-widest text-slate-400">LXJ BUSINESS DEVERLOMENT SYSTEM @ SINCE 2026</p>
-        <p class="mt-1 text-slate-600">Global Cloud Infrastructure Powered by Vercel & GitHub</p>
     </footer>
 
     <script>
-        // 🆕 身份权限切换联动逻辑
-        function changeRole() {
-            const role = document.getElementById('roleSelect').value;
-            const bannerTitle = document.getElementById('currentRoleTitle');
-            
-            if (role === 'super') {
-                bannerTitle.textContent = "当前登录身份：Super Admin / VIP (拥有最高全系统上帝视角)";
-                alert('已切换至【Super Admin / VIP 视角】：全系统读写、财务审批、合伙人任免权限全开。');
-            } else if (role === 'owner') {
-                bannerTitle.textContent = "当前登录身份：Business Owner 业务主理人 (独立团队经营大盘)";
-                alert('已切换至【Business Owner 视角】：可管理所属团队业绩、查看 Affiliate 分销返佣。');
-            } else if (role === 'op1') {
-                bannerTitle.textContent = "当前登录身份：Operator 1 财务与库存总监";
-                alert('已切换至【Operator 1 视角】：专注财务审批流水与库存对账。');
-            } else if (role === 'op2') {
-                bannerTitle.textContent = "当前登录身份：Operator 2 开料生产专员";
-                alert('已切换至【Operator 2 视角】：专注开料耗材录入与 Shopee 联动。');
-            } else if (role === 'op3') {
-                bannerTitle.textContent = "当前登录身份：Operator 3 Affiliate 流量与联盟推广专员";
-                alert('已切换至【Operator 3 视角】：专注广告点击率变现与推广链接管理。');
-            } else if (role === 'op4') {
-                bannerTitle.textContent = "当前登录身份：Operator 4 多语种客服与社媒专员";
-                alert('已切换至【Operator 4 视角】：专注三语切换环境与合伙人日常对接。');
-            } else if (role === 'op5') {
-                bannerTitle.textContent = "当前登录身份：Operator 5 AI 监督与日常巡检专员";
-                alert('已切换至【Operator 5 视角】：专注 AI 系统总管报告与安全巡检。');
-            }
-        }
-
         function setDeviceMode(mode) {
             const wrapper = document.getElementById('deviceWrapper');
             const btnPhone = document.getElementById('btn-phone');
@@ -231,7 +114,7 @@
             const btnDesktop = document.getElementById('btn-desktop');
 
             [btnPhone, btnTablet, btnDesktop].forEach(b => {
-                b.className = "px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white transition";
+                b.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition";
             });
 
             if (mode === 'phone') {
@@ -239,60 +122,100 @@
                 wrapper.style.border = '8px solid #334155';
                 wrapper.style.borderRadius = '32px';
                 wrapper.style.padding = '12px';
-                btnPhone.className = "px-2 py-1 rounded-lg text-xs bg-blue-600 text-white shadow transition";
+                btnPhone.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
             } else if (mode === 'tablet') {
                 wrapper.style.maxWidth = '768px';
                 wrapper.style.border = '8px solid #334155';
                 wrapper.style.borderRadius = '24px';
                 wrapper.style.padding = '16px';
-                btnTablet.className = "px-2 py-1 rounded-lg text-xs bg-blue-600 text-white shadow transition";
+                btnTablet.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
             } else {
                 wrapper.style.maxWidth = '1280px';
                 wrapper.style.border = 'none';
                 wrapper.style.borderRadius = '0';
                 wrapper.style.padding = '0';
-                btnDesktop.className = "px-2 py-1 rounded-lg text-xs bg-blue-600 text-white shadow transition";
+                btnDesktop.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
             }
         }
 
-        function switchPage(pageName) {
-            const homePage = document.getElementById('page-home');
-            const subPage = document.getElementById('page-sub');
-            const subTitle = document.getElementById('subPageTitle');
-            const subContent = document.getElementById('subPageContent');
+        function switchRole() {
+            const role = document.getElementById('roleSelect').value;
+            const container = document.getElementById('dynamicMainContent');
 
-            if (pageName === 'home') {
-                homePage.classList.remove('hidden');
-                subPage.classList.add('hidden');
-            } else {
-                homePage.classList.add('hidden');
-                subPage.classList.remove('hidden');
-
-                if (pageName === 'partners') {
-                    subTitle.textContent = "👥 VIP / Business Owner / Operator 1-5 权限矩阵管理";
-                    subContent.innerHTML = `
-                        <p class="text-slate-400">统帅可在此精准调整各个 Business Owner 及 Operator 1-5 的专属操作权限：</p>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
-                            <input type="text" placeholder="输入成员姓名或分配角色..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" onkeydown="if(event.key==='Enter') alert('回车触发：权限已即时更新！')">
-                            <button onclick="alert('角色权限配置成功！')" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs">保存权限配置 (支持 Enter 键提交)</button>
+            if (role === 'super-admin') {
+                container.innerHTML = `
+                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-white">👑 Super Admin 统帅最高指挥舱</h2>
+                                <p class="text-xs text-slate-400 mt-1">全局掌控合伙人、各级 VIP、Business Owner 绩效与自动化流水线</p>
+                            </div>
+                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">最高权限在线</span>
                         </div>
-                    `;
-                } else if (pageName === 'material') {
-                    subTitle.textContent = "📦 开料数据录入与库存联动面板";
-                    subContent.innerHTML = `<p class="text-slate-400">由 Operator 2 专职录入，实时同步至 Supabase 真实数据库。</p>`;
-                } else if (pageName === 'finance') {
-                    subTitle.textContent = "💳 财务审批流水大盘 (Operator 1 监管)";
-                    subContent.innerHTML = `<p class="text-slate-400">所有资金流动明细正常，待审批流：0 笔。</p>`;
-                } else if (pageName === 'ai-管家') {
-                    subTitle.textContent = "✨ AI 系统全天候监督与智能报告中心";
-                    subContent.innerHTML = `<p class="text-slate-400">AI Agent 正在 24 小时监控所有角色登录及越权行为，系统安全平稳。</p>`;
-                }
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                                <span class="text-xs text-slate-400 font-medium">📈 本周帝国总业绩</span>
+                                <div class="text-3xl font-black text-white mt-2">13,800 <span class="text-xs text-slate-400">MYR</span></div>
+                            </div>
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                                <span class="text-xs text-slate-400 font-medium">💎 活跃 VIP 矩阵</span>
+                                <div class="text-3xl font-black text-amber-400 mt-2">42 <span class="text-xs text-slate-400">人</span></div>
+                            </div>
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+                                <span class="text-xs text-slate-400 font-medium">💼 Business Owner 总控</span>
+                                <div class="text-3xl font-black text-purple-400 mt-2">5 <span class="text-xs text-slate-400">个独立业务</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'platinum-vip') {
+                container.innerHTML = `
+                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
+                        <h2 class="text-xl font-bold text-amber-400">💎 白金 VIP 专属尊贵特权大盘</h2>
+                        <p class="text-xs text-slate-400">欢迎尊贵的白金 VIP。您可在此享受专属顶级开料折扣、极速财务审批通道及高级 Affiliate 返佣特权。</p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm">
+                            <p class="text-slate-300">⭐ 当前白金专属返佣比例：<span class="text-amber-400 font-bold">最高 35%</span></p>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'standard-vip') {
+                container.innerHTML = `
+                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
+                        <h2 class="text-xl font-bold text-blue-400">⭐ 标准 VIP 专区</h2>
+                        <p class="text-xs text-slate-400">查看您的标准合作数据、日常订单与 Affiliate 推广链接。</p>
+                    </div>
+                `;
+            } else if (role === 'business-owner') {
+                container.innerHTML = `
+                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                            <h2 class="text-xl font-bold text-purple-400">💼 Business Owner (业务主理人总控后台)</h2>
+                            <span class="bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded">可自主指派 Operator 团队</span>
+                        </div>
+                        <p class="text-xs text-slate-400">在此页面，您可以自主为您的业务部门创建工作、指派下方 Operator 1~5 成员处理具体任务：</p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                            <input type="text" placeholder="输入要指派给 Operator 团队的新工作任务..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500" onkeydown="if(event.key==='Enter') alert('任务已成功下发给 Operator 团队！')">
+                            <button onclick="alert('任务下发成功！')" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-xs">发布任务给 Operator 团队</button>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'operator-team') {
+                container.innerHTML = `
+                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
+                        <h2 class="text-xl font-bold text-emerald-400">⚙️ Operator 工作执行矩阵 (由主理人指派)</h2>
+                        <p class="text-xs text-slate-400">包含 Operator 1 (财务与库存总监)、Operator 2 (开料生产专员)、Operator 3 (Affiliate 流量专员)、Operator 4 (多语客服专员)、Operator 5 (AI 巡检专员)。</p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300">
+                            <p>📌 状态：等待 Business Owner 指派当前批次任务。</p>
+                        </div>
+                    </div>
+                `;
             }
         }
 
         function changeLanguage() {
             const lang = document.getElementById('langSelect').value;
-            alert('语言已切换: ' + lang.toUpperCase());
+            if(lang === 'en') alert('Language switched to English.');
+            else if(lang === 'bm') alert('Bahasa Melayu dipilih.');
         }
     </script>
 </body>
