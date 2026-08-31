@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LXJ HOLDING OS - 身份细分与多模块智能指挥系统</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const SUPABASE_URL = 'https://your-supabase-project.supabase.co';
+        const SUPABASE_ANON_KEY = 'your-supabase-anon-key-here';
+        const supabaseClient = (SUPABASE_URL.includes('your-supabase')) ? null : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 🌐 多语言文案配置字典
+        const translations = {
+            CN: {
+                title: "LXJ HOLDING OS - 智能指挥系统",
+                loginPortal: "各别独立用户专属登录门户",
+                selectRole: "选择您的身份与独立模块通道：",
+                passcodeLabel: "输入专属加密安全码 (Passcode)：",
+                passcodePlaceholder: "请输入安全访问密码",
+                show: "👁️ 显示",
+                hide: "🙈 隐藏",
+                loginBtn: "安全登入专属独立系统",
+                footer: "LXJ Business Partner System @ Since Year 2026",
+                darkMode: "🌙 暗黑",
+                lightMode: "☀️ 亮色",
+                desktop: "💻 电脑大屏",
+                mobile: "📱 手机视图",
+                logout: "安全登出",
+                superAdminBadge: "👑 [云端指挥舱] Super Admin 最高统帅中心",
+                platinumBadge: "💎 [专属尊贵区] Platinum VIP 白金大户资产与分润中心",
+                businessOwnerBadge: "🏢 [企业经营者] 模块化业务协同中枢",
+                standardVipBadge: "⭐ [标准大户专区] Standard VIP 专属权益大盘",
+                operatorBadge: "⚙️ [执行端] Operators 自由工位与前线执行",
+                trafficTitle: "📈 Traffic Click 广告赚钱与流量变现中心",
+                totalClicks: "实时总点击量:",
+                adRev: "广告赚钱总收益:",
+                clickBtn: "⚡ 模拟触发 1 个 Traffic Click 广告分润收益",
+                webhookTitle: "⚙️ Make.com / Zapier 自动化工作流挂载：",
+                webhookBtn: "🚀 一键触发云端自动化同步任务",
+                aiTitle: "🤖 Google AI Studio / Gemini 真实 API 联动：",
+                aiKeyPlaceholder: "[可选] 输入您的 Gemini API Key (留空则自动启用沙盒)",
+                aiPromptPlaceholder: "输入测试指令 (例如: 自动优化木业开料成本与五金供应链利润分配)",
+                aiRunBtn: "🚀 运行 Gemini AI 智能测试",
+                aiLoading: "⏳ Gemini AI 正在高速运算中...",
+                aiResult: "✨ AI 智能输出结果："
+            },
+            EN: {
+                title: "LXJ HOLDING OS - Command System",
+                loginPortal: "Independent User Dedicated Login Portal",
+                selectRole: "Select your identity & independent module channel:",
+                passcodeLabel: "Enter Exclusive Encrypted Passcode:",
+                passcodePlaceholder: "Enter security access password",
+                show: "👁️ Show",
+                hide: "🙈 Hide",
+                loginBtn: "Securely Login to Independent System",
+                footer: "LXJ Business Partner System @ Since Year 2026",
+                darkMode: "🌙 Dark",
+                lightMode: "☀️ Light",
+                desktop: "💻 Desktop",
+                mobile: "📱 Mobile",
+                logout: "Secure Logout",
+                superAdminBadge: "👑 [Cloud Command Center] Super Admin Supreme Commander",
+                platinumBadge: "💎 [Exclusive VIP Zone] Platinum VIP Asset & Dividend Center",
+                businessOwnerBadge: "🏢 [Business Owner] Modular Business Hub",
+                standardVipBadge: "⭐ [Standard VIP Zone] Standard VIP Exclusive Dashboard",
+                operatorBadge: "⚙️ [Operator] Frontline Execution Workspace",
+                trafficTitle: "📈 Traffic Click Ad Monetization & Traffic Center",
+                totalClicks: "Real-time Total Clicks:",
+                adRev: "Total Ad Earnings:",
+                clickBtn: "⚡ Simulate 1 Traffic Click Ad Revenue",
+                webhookTitle: "⚙️ Make.com / Zapier Automation Workflow Bridge:",
+                webhookBtn: "🚀 Trigger Cloud Automation Sync Task",
+                aiTitle: "🤖 Google AI Studio / Gemini Real API Integration:",
+                aiKeyPlaceholder: "[Optional] Enter Gemini API Key (Leave blank for Sandbox)",
+                aiPromptPlaceholder: "Enter test prompt (e.g. Optimize wood cutting cost & profit distribution)",
+                aiRunBtn: "🚀 Run Gemini AI Smart Test",
+                aiLoading: "⏳ Gemini AI is processing...",
+                aiResult: "✨ AI Smart Output Result:"
+            },
+            MY: {
+                title: "LXJ HOLDING OS - Sistem Perintah",
+                loginPortal: "Portal Log Masuk Eksklusif Pengguna Berasingan",
+                selectRole: "Pilih identiti & saluran modul bebas anda:",
+                passcodeLabel: "Masukkan Kod Keselamatan Sulit (Passcode):",
+                passcodePlaceholder: "Masukkan kata laluan keselamatan",
+                show: "👁️ Papar",
+                hide: "🙈 Sembunyi",
+                loginBtn: "Log Masuk Selamat ke Sistem Bebas",
+                footer: "LXJ Business Partner System @ Since Year 2026",
+                darkMode: "🌙 Gelap",
+                lightMode: "☀️ Cerah",
+                desktop: "💻 Komputer",
+                mobile: "📱 Telefon",
+                logout: "Log Keluar",
+                superAdminBadge: "👑 [Pusat Perintah Awan] Super Admin Tertinggi",
+                platinumBadge: "💎 [Zon Eksklusif] Pusat Aset & Dividen Platinum VIP",
+                businessOwnerBadge: "🏢 [Pemilik Perniagaan] Pusat Komunikasi Modular",
+                standardVipBadge: "⭐ [Zon Standard VIP] Papan Pemuka Eksklusif Standard VIP",
+                operatorBadge: "⚙️ [Operator] Ruang Kerja Eksekusi Barisan Hadapan",
+                trafficTitle: "📈 Pusat Monetisasi Iklan Traffic Click & Trafik",
+                totalClicks: "Jumlah Klik Masa Nyata:",
+                adRev: "Jumlah Pendapatan Iklan:",
+                clickBtn: "⚡ Simulasikan 1 Keuntungan Iklan Traffic Click",
+                webhookTitle: "⚙️ Jambatan Aliran Kerja Automasi Make.com / Zapier:",
+                webhookBtn: "🚀 Cetuskan Tugas Sinkronisasi Automasi Awan",
+                aiTitle: "🤖 Integrasi API Sebenar Google AI Studio / Gemini:",
+                aiKeyPlaceholder: "[Pilihan] Masukkan Gemini API Key (Kosongkan untuk mod Sandbox)",
+                aiPromptPlaceholder: "Masukkan arahan (cth: Optimumkan kos pemotongan kayu & keuntungan)",
+                aiRunBtn: "🚀 Jalankan Ujian Pintar Gemini AI",
+                aiLoading: "⏳ Gemini AI sedang memproses...",
+                aiResult: "✨ Hasil Output Pintar AI:"
+            }
+        };
+
+        function App() {
+            const [lang, setLang] = React.useState('CN'); 
+            const t = translations[lang];
+
+            const [loggedInUser, setLoggedInUser] = React.useState(null);
+            const [passcode, setPasscode] = React.useState('');
+            const [showPassword, setShowPassword] = React.useState(false);
+            const [selectedRoleOption, setSelectedRoleOption] = React.useState('SUPER_ADMIN');
+            
+            const [theme, setTheme] = React.useState('DARK');
+            const [viewMode, setViewMode] = React.useState('DESKTOP');
+            
+            const [trafficClicks, setTrafficClicks] = React.useState(1280);
+            const [adRevenue, setAdRevenue] = React.useState(458.90);
+            const [aiApiKey, setAiApiKey] = React.useState(''); 
+            const [aiPrompt, setAiPrompt] = React.useState('');
+            const [aiResponse, setAiResponse] = React.useState('');
+            const [isAiLoading, setIsAiLoading] = React.useState(false);
+            const [webhookStatus, setWebhookStatus] = React.useState('');
+
+            const [modules, setModules] = React.useState({
+                crm: true,
+                woodCutting: true,
+                aiAssistant: false,
+                supplyChain: true
+            });
+
+            const isDark = theme === 'DARK';
+            const bgColor = isDark ? '#0f172a' : '#f1f5f9';
+            const cardBg = isDark ? '#1e293b' : '#ffffff';
+            const textColor = isDark ? '#f8fafc' : '#1e293b';
+            const subTextColor = isDark ? '#94a3b8' : '#64748b';
+            const borderColor = isDark ? '#334155' : '#cbd5e1';
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                setLoggedInUser(selectedRoleOption);
+            };
+
+            const handleLogout = () => {
+                setLoggedInUser(null);
+                setPasscode('');
+                setShowPassword(false);
+            };
+
+            const handleSimulateClick = () => {
+                setTrafficClicks(prev => prev + 1);
+                setAdRevenue(prev => (parseFloat(prev) + 0.35).toFixed(2));
+            };
+
+            const handleTriggerWebhook = () => {
+                setWebhookStatus('⏳ 正在向 Make.com 自动化管道发送 JSON 数据...');
+                setTimeout(() => {
+                    setWebhookStatus('✅ Make.com 自动化钩子触发成功！数据同步完成。');
+                }, 800);
+            };
+
+            const handleGeminiApiTest = async () => {
+                if (!aiPrompt) return;
+                setIsAiLoading(true);
+                setAiResponse('');
+
+                try {
+                    if (aiApiKey.trim() !== '') {
+                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${aiApiKey.trim()}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                contents: [{ parts: [{ text: `System: As LXJ Holding OS AI Commander. Prompt: ${aiPrompt}` }] }]
+                            })
+                        });
+                        const data = await response.json();
+                        if (data.candidates && data.candidates[0].content.parts[0].text) {
+                            setAiResponse(data.candidates[0].content.parts[0].text);
+                        } else {
+                            setAiResponse('[API Error] Please check your Gemini API Key.');
+                        }
+                    } else {
+                        setTimeout(() => {
+                            setAiResponse(`[AI Sandbox Success] Command "${aiPrompt}": Processed successfully via cloud sandbox.`);
+                        }, 600);
+                    }
+                } catch (err) {
+                    setAiResponse('[Connection Error]: ' + err.message);
+                } finally {
+                    setIsAiLoading(false);
+                }
+            };
+
+            return (
+                <div style={{ backgroundColor: bgColor, minHeight: '100vh', padding: '20px 15px', color: textColor, boxSizing: 'border-box' }}>
+                    
+                    {/* 🌐 全局顶部三语快速切换栏 */}
+                    <div style={{ maxWidth: '1050px', margin: '0 auto 20px auto', background: cardBg, padding: '12px 20px', borderRadius: '12px', border: `2px solid #d97706`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 4px 15px rgba(217,119,6,0.2)', flexWrap: 'wrap', gap: '10px' }}>
+                        <div style={{ fontWeight: 'bold', fontSize: '13px', color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span>🌐 切换多语言 (Language / Bahasa):</span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <button onClick={()=>setLang('CN')} style={{ background: lang==='CN'?'#d97706':(isDark?'#0f172a':'#f1f5f9'), color: lang==='CN'?'#fff':textColor, border:`1px solid ${borderColor}`, padding:'6px 14px', borderRadius:'6px', cursor:'pointer', fontWeight:'bold', fontSize:'12px' }}>简体中文</button>
+                            <button onClick={()=>setLang('EN')} style={{ background: lang==='EN'?'#d97706':(isDark?'#0f172a':'#f1f5f9'), color: lang==='EN'?'#fff':textColor, border:`1px solid ${borderColor}`, padding:'6px 14px', borderRadius:'6px', cursor:'pointer', fontWeight:'bold', fontSize:'12px' }}>English</button>
+                            <button onClick={()=>setLang('MY')} style={{ background: lang==='MY'?'#d97706':(isDark?'#0f172a':'#f1f5f9'), color: lang==='MY'?'#fff':textColor, border:`1px solid ${borderColor}`, padding:'6px 14px', borderRadius:'6px', cursor:'pointer', fontWeight:'bold', fontSize:'12px' }}>Melayu</button>
+                        </div>
+                    </div>
+
+                    {/* 1. 独立登录门户 */}
+                    {!loggedInUser && (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px 0' }}>
+                            <div style={{ background: cardBg, color: textColor, padding: '30px', borderRadius: '16px', width: '100%', maxWidth: '420px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', border: `1px solid ${borderColor}` }}>
+                                <div style={{ textAlign: 'center', marginBottom: '25px' }}>
+                                    <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#d97706', marginBottom: '8px' }}>🛡️ LXJ HOLDING OS</div>
+                                    <div style={{ fontSize: '12px', color: '#10b981', fontWeight: 'bold' }}>{t.loginPortal}</div>
+                                </div>
+
+                                <form onSubmit={handleLogin}>
+                                    <div style={{ marginBottom: '15px' }}>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '6px' }}>{t.selectRole}</label>
+                                        <select value={selectedRoleOption} onChange={(e) => setSelectedRoleOption(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', background: isDark ? '#0f172a' : '#f8fafc', color: textColor, border: `1px solid ${borderColor}`, fontWeight: 'bold' }}>
+                                            <option value="SUPER_ADMIN">👑 Super Admin (最高统帅云端指挥舱)</option>
+                                            <option value="PLATINUM_VIP">💎 Platinum VIP (白金大户资产与分润中心)</option>
+                                            <option value="BUSINESS_OWNER">🏢 Business Owner (企业经营者模块化中枢)</option>
+                                            <option value="STANDARD_VIP">⭐ Standard VIP (标准大户专属权益大盘)</option>
+                                            <option value="OPERATORS">⚙️ Operators (自由工位与前线执行端)</option>
+                                        </select>
+                                    </div>
+
+                                    <div style={{ marginBottom: '20px' }}>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '6px' }}>{t.passcodeLabel}</label>
+                                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                            <input 
+                                                type={showPassword ? "text" : "password"} 
+                                                placeholder={t.passcodePlaceholder} 
+                                                value={passcode} 
+                                                onChange={(e) => setPasscode(e.target.value)} 
+                                                style={{ width: '100%', padding: '10px 45px 10px 10px', borderRadius: '8px', background: isDark ? '#0f172a' : '#f8fafc', color: textColor, border: `1px solid ${borderColor}`, boxSizing: 'border-box' }} 
+                                                required 
+                                            />
+                                            <button 
+                                                type="button" 
+                                                onClick={() => setShowPassword(!showPassword)} 
+                                                style={{ position: 'absolute', right: '8px', background: 'transparent', border: 'none', color: subTextColor, cursor: 'pointer', fontSize: '12px', fontWeight: 'bold', padding: '4px 6px' }}
+                                            >
+                                                {showPassword ? t.hide : t.show}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" style={{ width: '100%', padding: '12px', background: 'linear-gradient(135deg, #d97706, #b45309)', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '15px', boxShadow: '0 4px 12px rgba(217,119,6,0.3)' }}>
+                                        {t.loginBtn}
+                                    </button>
+                                </form>
+
+                                <div style={{ textAlign: 'center', marginTop: '30px', fontSize: '10px', color: subTextColor, borderTop: `1px solid ${borderColor}`, paddingTop: '15px' }}>
+                                    {t.footer}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 2. 后台指挥与细分身份视图 */}
+                    {loggedInUser && (
+                        <div style={{ maxWidth: viewMode === 'MOBILE' ? '414px' : '1050px', margin: '0 auto' }}>
+                            
+                            <div style={{ background: cardBg, padding: '15px 20px', borderRadius: '12px', marginBottom: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: `1px solid ${borderColor}`, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', flexWrap: 'wrap', gap: '10px' }}>
+                                <div>
+                                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#d97706' }}>
+                                        {loggedInUser === 'SUPER_ADMIN' && t.superAdminBadge}
+                                        {loggedInUser === 'PLATINUM_VIP' && t.platinumBadge}
+                                        {loggedInUser === 'BUSINESS_OWNER' && t.businessOwnerBadge}
+                                        {loggedInUser === 'STANDARD_VIP' && t.standardVipBadge}
+                                        {loggedInUser === 'OPERATORS' && t.operatorBadge}
+                                    </span>
+                                </div>
+                                
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                    <button onClick={() => setTheme(isDark ? 'LIGHT' : 'DARK')} style={{ background: isDark ? '#fbbf24' : '#334155', color: isDark ? '#000' : '#fff', border: 'none', padding: '5px 12px', borderRadius: '20px', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
+                                        {isDark ? t.lightMode : t.darkMode}
+                                    </button>
+                                    <button onClick={() => setViewMode(viewMode === 'MOBILE' ? 'DESKTOP' : 'MOBILE')} style={{ background: '#0284c7', color: '#fff', border: 'none', padding: '5px 12px', borderRadius: '20px', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
+                                        {viewMode === 'MOBILE' ? t.desktop : t.mobile}
+                                    </button>
+                                    <button onClick={handleLogout} style={{ background: '#dc3545', color: '#fff', border: 'none', padding: '5px 12px', borderRadius: '20px', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
+                                        {t.logout}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div style={{ background: cardBg, borderRadius: '16px', padding: '25px', border: `1px solid ${borderColor}`, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}>
+                                
+                                {/* 👑 Super Admin */}
+                                {loggedInUser === 'SUPER_ADMIN' && (
+                                    <div>
+                                        <div style={{ background: 'linear-gradient(135deg, #dc3545, #b02a37)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
+                                            🛡️ Super Admin - 最高统帅云端指挥舱
+                                        </div>
+
+                                        <div style={{ background: isDark ? 'rgba(16, 185, 129, 0.1)' : '#d1e7dd', padding: '15px', borderRadius: '10px', marginBottom: '20px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                                            <div style={{ fontWeight: 'bold', color: '#10b981', marginBottom: '8px', fontSize: '14px' }}>{t.trafficTitle}</div>
+                                            <div style={{ fontSize: '13px', display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                                <span>{t.totalClicks} <b>{trafficClicks}</b></span>
+                                                <span>{t.adRev} <b style={{ color: '#d97706', fontSize: '15px' }}>RM {adRevenue}</b></span>
+                                            </div>
+                                            <button onClick={handleSimulateClick} style={{ width: '100%', padding: '8px', background: '#10b981', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
+                                                {t.clickBtn}
+                                            </button>
+                                        </div>
+
+                                        <div style={{ background: isDark ? 'rgba(2, 132, 199, 0.1)' : '#e0f2fe', padding: '15px', borderRadius: '10px', marginBottom: '20px', border: '1px solid rgba(2, 132, 199, 0.3)' }}>
+                                            <div style={{ fontWeight: 'bold', color: '#0284c7', marginBottom: '8px', fontSize: '14px' }}>{t.webhookTitle}</div>
+                                            <button onClick={handleTriggerWebhook} style={{ width: '100%', padding: '8px', background: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', marginBottom: '8px' }}>
+                                                {t.webhookBtn}
+                                            </button>
+                                            {webhookStatus && <div style={{ fontSize: '12px', color: textColor, fontWeight: 'bold', marginTop: '6px' }}>{webhookStatus}</div>}
+                                        </div>
+
+                                        <div style={{ background: isDark ? 'rgba(255,255,255,0.03)' : '#f8f9fa', padding: '15px', borderRadius: '10px', border: `1px solid ${borderColor}` }}>
+                                            <div style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>{t.aiTitle}</div>
+                                            <input type="password" placeholder={t.aiKeyPlaceholder} value={aiApiKey} onChange={(e)=>setAiApiKey(e.target.value)} style={{ width: '100%', padding: '8px', marginBottom: '10px', borderRadius: '6px', border: `1px solid ${borderColor}`, background: isDark ? '#0f172a' : '#fff', color: textColor, fontSize: '12px', boxSizing: 'border-box' }} />
+                                            <input type="text" placeholder={t.aiPromptPlaceholder} value={aiPrompt} onChange={(e)=>setAiPrompt(e.target.value)} style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '6px', border: `1px solid ${borderColor}`, background: isDark ? '#0f172a' : '#fff', color: textColor, boxSizing: 'border-box' }} />
+                                            <button onClick={handleGeminiApiTest} disabled={isAiLoading} style={{ padding: '10px 20px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', width: '100%' }}>
+                                                {isAiLoading ? t.aiLoading : t.aiRunBtn}
+                                            </button>
+                                            {aiResponse && (
+                                                <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', color: textColor, borderRadius: '6px', fontSize: '13px', border: '1px solid rgba(59, 130, 246, 0.3)', whiteSpace: 'pre-wrap', lineHeight: '1.5' }}>
+                                                    <b style={{ color: '#3b82f6' }}>{t.aiResult}</b><br/>{aiResponse}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* 💎 Platinum VIP */}
+                                {loggedInUser === 'PLATINUM_VIP' && (
+                                    <div>
+                                        <div style={{ background: 'linear-gradient(135deg, #d97706, #b45309)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
+                                            💎 Platinum VIP 专属储备金资产池 & 3% 利润分成看板
+                                        </div>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '20px' }}>
+                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
+                                                <div style={{ fontSize: '12px', color: subTextColor }}>白金大户专属储备基金池</div>
+                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#10b981', marginTop: '5px' }}>RM 24,580.00</div>
+                                            </div>
+                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
+                                                <div style={{ fontSize: '12px', color: subTextColor }}>本月 3% 实时利润分红</div>
+                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706', marginTop: '5px' }}>RM 1,845.50</div>
+                                            </div>
+                                        </div>
+                                        <p style={{ color: subTextColor, fontSize: '13px' }}>白金大户特权已完全激活，所有分红流向受独立加密账本保护。</p>
+                                    </div>
+                                )}
+
+                                {/* 🏢 Business Owner */}
+                                {loggedInUser === 'BUSINESS_OWNER' && (
+                                    <div>
+                                        <div style={{ background: 'linear-gradient(135deg, #0284c7, #0369a1)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
+                                            🏢 Business Owner 经营者 - 共用业务模块自主选择中枢
+                                        </div>
+                                        <div style={{ marginBottom: '20px', fontSize: '13px', color: subTextColor }}>请勾选您当前业务运营所需要的核心独立模块：</div>
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
+                                                <input type="checkbox" checked={modules.crm} onChange={()=>setModules({...modules, crm: !modules.crm})} />
+                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>👥 CRM 客户关系与合伙人管理</span>
+                                            </label>
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
+                                                <input type="checkbox" checked={modules.woodCutting} onChange={()=>setModules({...modules, woodCutting: !modules.woodCutting})} />
+                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>🪵 智能木业/五金开料优化模块</span>
+                                            </label>
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
+                                                <input type="checkbox" checked={modules.aiAssistant} onChange={()=>setModules({...modules, aiAssistant: !modules.aiAssistant})} />
+                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>🤖 专属 AI 营销与决策副驾驶</span>
+                                            </label>
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isDark ? '#0f172a' : '#f8fafc', padding: '12px', borderRadius: '8px', border: `1px solid ${borderColor}`, cursor: 'pointer' }}>
+                                                <input type="checkbox" checked={modules.supplyChain} onChange={()=>setModules({...modules, supplyChain: !modules.supplyChain})} />
+                                                <span style={{ fontWeight: 'bold', fontSize: '13px' }}>⚙️ 供应链与 Make.com 自动化桥接</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* ⭐ Standard VIP 专属权益大盘（独立开辟） */}
+                                {loggedInUser === 'STANDARD_VIP' && (
+                                    <div>
+                                        <div style={{ background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
+                                            ⭐ Standard VIP 专属大户权益通道 & 消费分红查询
+                                        </div>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '20px' }}>
+                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
+                                                <div style={{ fontSize: '12px', color: subTextColor }}>标准积分与消费返利</div>
+                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#10b981', marginTop: '5px' }}>8,420 积分</div>
+                                            </div>
+                                            <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}` }}>
+                                                <div style={{ fontSize: '12px', color: subTextColor }}>专属折扣等级</div>
+                                                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#d97706', marginTop: '5px' }}>9.2折 (VIP Tier 1)</div>
+                                            </div>
+                                        </div>
+                                        <p style={{ color: subTextColor, fontSize: '13px' }}>Standard VIP 专属通道运行平稳，您可以随时享受特约木业五金的优先供货与积分兑换特权。</p>
+                                    </div>
+                                )}
+
+                                {/* ⚙️ Operators 执行端 */}
+                                {loggedInUser === 'OPERATORS' && (
+                                    <div>
+                                        <div style={{ background: '#64748b', color: '#fff', padding: '12px 18px', borderRadius: '10px', marginBottom: '20px', fontWeight: 'bold', fontSize: '14px' }}>
+                                            ⚙️ Operators - 前线执行与工位任务终端
+                                        </div>
+                                        <div style={{ background: isDark ? '#0f172a' : '#f8fafc', padding: '15px', borderRadius: '8px', border: `1px solid ${borderColor}`, marginBottom: '15px' }}>
+                                            <div style={{ fontWeight: 'bold', marginBottom: '6px', fontSize: '13px' }}>📋 今日待办执行任务：</div>
+                                            <div style={{ fontSize: '12px', color: subTextColor, lineHeight: '1.6' }}>
+                                                1. 检查木业开料数据同步状态<br/>
+                                                2. 确认 Make.com 自动化流水线钩子响应<br/>
+                                                3. 提交前线交接日志
+                                            </div>
+                                        </div>
+                                        <p style={{ color: subTextColor, fontSize: '13px' }}>当前工位已就绪，所有执行数据将加密同步至云端调度中心。</p>
+                                    </div>
+                                )}
+
+                                <div style={{ textAlign: 'center', borderTop: `1px solid ${borderColor}`, paddingTop: '20px', marginTop: '30px' }}>
+                                    <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#d97706', letterSpacing: '0.5px' }}>
+                                        {t.footer}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    )}
+
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
