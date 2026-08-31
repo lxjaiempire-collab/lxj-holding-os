@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LXJ BUSINESS PARTNER SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,7 +27,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
-    <!-- 顶栏：仅在登入后显示，或在登入页显示语言切换 -->
+    <!-- 顶栏 -->
     <header id="appHeader" class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg hidden">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3 cursor-pointer">
@@ -37,7 +38,7 @@
                     <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
                         LXJ BUSINESS PARTNER OS
                     </h1>
-                    <p id="txt-brand-sub" class="text-xs text-slate-400">Empire Command Center</p>
+                    <p class="text-xs text-slate-400">Empire Command Center</p>
                 </div>
             </div>
 
@@ -66,7 +67,7 @@
     <!-- 主体容器 -->
     <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
         
-        <!-- 1. 前置登入网关界面 (Login View) -->
+        <!-- 1. 前置登入网关界面 -->
         <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
@@ -76,7 +77,7 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
-            <!-- 语言切换（在登入页也能调） -->
+            <!-- 语言切换按钮 -->
             <div class="flex justify-center space-x-2 pb-2">
                 <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
                 <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
@@ -87,11 +88,11 @@
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
                     <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">👑 Super Admin (最高统帅)</option>
-                        <option value="platinum-vip">💎 白金 VIP (模块金池 3% 利润率)</option>
-                        <option value="standard-vip">⭐ 标准 VIP 合作商</option>
-                        <option value="business-owner">💼 Business Owner 主理人</option>
-                        <option value="operator-team">⚙️ Operator 团队执行端</option>
+                        <option value="super-admin">Super Admin (最高统帅)</option>
+                        <option value="platinum-vip">Platinum VIP (白金VIP / 3%金池)</option>
+                        <option value="standard-vip">Standard VIP (标准VIP)</option>
+                        <option value="business-owner">Business Owner (业务主理人)</option>
+                        <option value="operator-team">Operator Team (执行团队)</option>
                     </select>
                 </div>
 
@@ -106,7 +107,7 @@
             </div>
         </div>
 
-        <!-- 2. 主指挥工作台界面 (Dashboard View - 登入后展示) -->
+        <!-- 2. 主指挥工作台界面 -->
         <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
             <div id="dynamicMainContent" class="space-y-6">
                 <!-- 动态渲染区域 -->
@@ -123,10 +124,8 @@
         let currentLang = 'zh';
         let loggedInRole = '';
 
-        // 三语词库字典
         const langData = {
             zh: {
-                brandSub: "帝国统帅指挥中心",
                 loginTitle: "LXJ EMPIRE GATEWAY",
                 loginSubtitle: "请选择身份或输入授权凭证登入系统",
                 lblRoleSelect: "选择登入角色身份",
@@ -134,22 +133,22 @@
                 btnLoginText: "安全登入指挥系统",
                 logoutBtn: "退出登入",
                 
-                superAdminTitle: "👑 Super Admin 最高统帅指挥舱",
+                superAdminTitle: "Super Admin 最高统帅指挥舱",
                 superAdminDesc: "全局掌控核心利润、模块金池收益、VIP 与 Business Owner 同源工作台流水线",
-                netProfit: "💰 统帅实际净利润大盘",
-                vipCommission: "💎 白金 VIP 模块金池收益",
-                teamEffort: "⚙️ 团队协助管理效能",
+                netProfit: "统帅实际净利润大盘",
+                vipCommission: "白金 VIP 模块金池收益",
+                teamEffort: "团队协助管理效能",
                 
-                platTitle: "💎 白金 VIP 专属尊贵大盘 (同源工作台)",
+                platTitle: "白金 VIP 专属尊贵大盘 (同源工作台)",
                 platDesc: "欢迎尊贵的白金 VIP。您享有与主理人同源的工作图架构，专属享有模块金池的 3% 利润率分配。",
                 
-                stdTitle: "⭐ 标准 VIP 专属特权区 (同源工作台)",
+                stdTitle: "标准 VIP 专属特权区 (同源工作台)",
                 stdDesc: "欢迎标准 VIP。您享有同源的工作台面板与日常业务支持，模块应用权限按标准协议执行。",
                 
-                boTitle: "💼 Business Owner 业务主理人工作台",
+                boTitle: "Business Owner 业务主理人工作台",
                 boDesc: "主理人与 VIP 共享同源的工作台界面与任务面板，专职负责统筹底层 Operator 团队（1至5）。",
                 
-                opTitle: "⚙️ Operator 团队执行端",
+                opTitle: "Operator 团队执行端",
                 opDesc: "全体 Operator 严格执行底层业务任务，保障各项流水平稳运行。",
                 
                 taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
@@ -157,15 +156,14 @@
                 alertMsg: "任务已成功下发给 Operator 团队！",
                 moduleLimit: "模块应用限制：当前角色享有独立的权限边界与分配率",
                 roleNames: {
-                    'super-admin': '👑 Super Admin 最高统帅',
-                    'platinum-vip': '💎 白金 VIP (3%金池)',
-                    'standard-vip': '⭐ 标准 VIP',
-                    'business-owner': '💼 Business Owner',
-                    'operator-team': '⚙️ Operator 团队'
+                    'super-admin': 'Super Admin 最高统帅',
+                    'platinum-vip': 'Platinum VIP (3%金池)',
+                    'standard-vip': 'Standard VIP',
+                    'business-owner': 'Business Owner',
+                    'operator-team': 'Operator 团队'
                 }
             },
             en: {
-                brandSub: "Empire Command Center",
                 loginTitle: "LXJ EMPIRE GATEWAY",
                 loginSubtitle: "Select role and enter authorization token to login",
                 lblRoleSelect: "Select Role Identity",
@@ -173,22 +171,22 @@
                 btnLoginText: "Secure Login to Command System",
                 logoutBtn: "Logout",
                 
-                superAdminTitle: "👑 Super Admin Supreme Command",
+                superAdminTitle: "Super Admin Supreme Command",
                 superAdminDesc: "Global control over net profit, module pool margin, and isomorphic VIP/Owner workbenches",
-                netProfit: "💰 Net Profit Dashboard",
-                vipCommission: "💎 Platinum VIP Module Pool",
-                teamEffort: "⚙️ Team Management Efficiency",
+                netProfit: "Net Profit Dashboard",
+                vipCommission: "Platinum VIP Module Pool",
+                teamEffort: "Team Management Efficiency",
                 
-                platTitle: "💎 Platinum VIP Exclusive Dashboard (Isomorphic Workbench)",
+                platTitle: "Platinum VIP Exclusive Dashboard (Isomorphic Workbench)",
                 platDesc: "Welcome honored Platinum VIP. You share the isomorphic workbench layout, exclusively entitled to a 3% profit margin from the module pool.",
                 
-                stdTitle: "⭐ Standard VIP Partner Zone (Isomorphic Workbench)",
+                stdTitle: "Standard VIP Partner Zone (Isomorphic Workbench)",
                 stdDesc: "Welcome Standard VIP. You share the isomorphic workbench layout with standard module restrictions.",
                 
-                boTitle: "💼 Business Owner Operations Workbench",
+                boTitle: "Business Owner Operations Workbench",
                 boDesc: "Business Owners share the identical workbench layout with VIPs, focusing on managing the Operator Team (1 to 5).",
                 
-                opTitle: "⚙️ Operator Team Execution Unit",
+                opTitle: "Operator Team Execution Unit",
                 opDesc: "Operators strictly execute daily business tasks to ensure smooth operations.",
                 
                 taskPlaceholder: "Assign task to Operator Team...",
@@ -196,15 +194,14 @@
                 alertMsg: "Task successfully assigned to Operator Team!",
                 moduleLimit: "Module Restriction: Role-based permission boundaries and allocation applied",
                 roleNames: {
-                    'super-admin': '👑 Super Admin',
-                    'platinum-vip': '💎 Platinum VIP (3% Pool)',
-                    'standard-vip': '⭐ Standard VIP',
-                    'business-owner': '💼 Business Owner',
-                    'operator-team': '⚙️ Operator Team'
+                    'super-admin': 'Super Admin',
+                    'platinum-vip': 'Platinum VIP (3% Pool)',
+                    'standard-vip': 'Standard VIP',
+                    'business-owner': 'Business Owner',
+                    'operator-team': 'Operator Team'
                 }
             },
             bm: {
-                brandSub: "Pusat Pemerintahan Empayar",
                 loginTitle: "LXJ EMPIRE GATEWAY",
                 loginSubtitle: "Pilih peranan dan masukkan token keselamatan untuk log masuk",
                 lblRoleSelect: "Pilih Peranan Identiti",
@@ -212,22 +209,22 @@
                 btnLoginText: "Log Masuk Selamat ke Sistem",
                 logoutBtn: "Log Keluar",
                 
-                superAdminTitle: "👑 Super Admin Kawalan Tertinggi",
+                superAdminTitle: "Super Admin Kawalan Tertinggi",
                 superAdminDesc: "Kawalan penuh ke atas keuntungan bersih, margin kolam modul, dan papan kerja isomorfik VIP/Owner",
-                netProfit: "💰 Papan Pemuka Keuntungan Bersih",
-                vipCommission: "💎 Kolam Modul Platinum VIP",
-                teamEffort: "⚙️ Kecekapan Pengurusan Pasukan",
+                netProfit: "Papan Pemuka Keuntungan Bersih",
+                vipCommission: "Kolam Modul Platinum VIP",
+                teamEffort: "Kecekapan Pengurusan Pasukan",
                 
-                platTitle: "💎 Papan Pemuka Eksklusif Platinum VIP (Workbenched Isomorfik)",
+                platTitle: "Papan Pemuka Eksklusif Platinum VIP (Workbenched Isomorfik)",
                 platDesc: "Selamat datang Platinum VIP. Anda berkongsi reka bentuk papan kerja isomorfik yang sama, menikmati 3% margin keuntungan daripada kolam modul.",
                 
-                stdTitle: "⭐ Zon VIP Standard (Workbenched Isomorfik)",
+                stdTitle: "Zon VIP Standard (Workbenched Isomorfik)",
                 stdDesc: "Selamat datang Standard VIP. Anda berkongsi antara muka papan kerja yang sama dengan had modul standard.",
                 
-                boTitle: "💼 Papan Pemuka Business Owner",
+                boTitle: "Papan Pemuka Business Owner",
                 boDesc: "Business Owner berkongsi reka bentuk papan kerja yang sama seperti VIP, fokus menguruskan Pasukan Operator (1 hingga 5).",
                 
-                opTitle: "⚙️ Unit Pelaksanaan Pasukan Operator",
+                opTitle: "Unit Pelaksanaan Pasukan Operator",
                 opDesc: "Semua Operator melaksanakan tugasan perniagaan harian dengan ketat.",
                 
                 taskPlaceholder: "Masukkan tugasan untuk Pasukan Operator...",
@@ -235,11 +232,11 @@
                 alertMsg: "Tugasan berjaya dihantar kepada Pasukan Operator!",
                 moduleLimit: "Had Modul: Batasan kebenaran dan nisbah peruntukan berasaskan peranan",
                 roleNames: {
-                    'super-admin': '👑 Super Admin',
-                    'platinum-vip': '💎 Platinum VIP (Kolam 3%)',
-                    'standard-vip': '⭐ Standard VIP',
-                    'business-owner': '💼 Business Owner',
-                    'operator-team': '⚙️ Pasukan Operator'
+                    'super-admin': 'Super Admin',
+                    'platinum-vip': 'Platinum VIP (Kolam 3%)',
+                    'standard-vip': 'Standard VIP',
+                    'business-owner': 'Business Owner',
+                    'operator-team': 'Pasukan Operator'
                 }
             }
         };
@@ -248,7 +245,6 @@
             currentLang = lang;
             document.getElementById('langSelect').value = lang;
             
-            // 切换登入页语言按钮样式
             ['zh', 'en', 'bm'].forEach(l => {
                 const btn = document.getElementById(`l-${l}`);
                 if (l === lang) {
@@ -284,8 +280,6 @@
             }
 
             loggedInRole = role;
-            
-            // 隐藏登录页，显示顶栏与工作台
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('appHeader').classList.remove('hidden');
             document.getElementById('dashboardView').classList.remove('hidden');
@@ -335,7 +329,6 @@
             const t = langData[currentLang];
             const container = document.getElementById('dynamicMainContent');
             
-            // 更新顶部角色徽章与登出按钮文本
             document.getElementById('currentRoleBadge').innerText = t.roleNames[loggedInRole];
             document.getElementById('btnLogout').innerText = t.logoutBtn;
 
@@ -366,13 +359,12 @@
                     </div>
                 `;
             } else if (loggedInRole === 'platinum-vip' || loggedInRole === 'standard-vip' || loggedInRole === 'business-owner') {
-                // VIP 与 Business Owner 同源工作图布局
-                let title = t.boTitle, desc = t.boDesc, badge = "Business Owner 级控制", badgeColor = "bg-purple-500/20 text-purple-300", marginInfo = "Standard Protocol";
+                let title = t.boTitle, desc = t.boDesc, badge = "Business Owner", badgeColor = "bg-purple-500/20 text-purple-300", marginInfo = "Standard Protocol";
                 
                 if (loggedInRole === 'platinum-vip') {
-                    title = t.platTitle; desc = t.platDesc; badge = "💎 白金 VIP 专属"; badgeColor = "bg-amber-500/20 text-amber-300"; marginInfo = "3% Module Pool Margin";
+                    title = t.platTitle; desc = t.platDesc; badge = "Platinum VIP (3% Pool)"; badgeColor = "bg-amber-500/20 text-amber-300"; marginInfo = "3% Module Pool Margin";
                 } else if (loggedInRole === 'standard-vip') {
-                    title = t.stdTitle; desc = t.stdDesc; badge = "⭐ 标准 VIP 合作"; badgeColor = "bg-blue-500/20 text-blue-300"; marginInfo = "Standard Pool Share";
+                    title = t.stdTitle; desc = t.stdDesc; badge = "Standard VIP"; badgeColor = "bg-blue-500/20 text-blue-300"; marginInfo = "Standard Pool Share";
                 }
 
                 container.innerHTML = `
@@ -385,7 +377,6 @@
                             <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-medium">${badge}</span>
                         </div>
 
-                        <!-- 同源工作图模块：数据看板 -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
                                 <span class="text-xs text-slate-400 font-medium">Profit Margin / 利润率分配</span>
@@ -404,7 +395,6 @@
                             </div>
                         </div>
 
-                        <!-- 同源工作图模块：任务协同面板 -->
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                             <h3 class="text-sm font-bold text-slate-200">Task Management Workbench / 团队任务协同中枢</h3>
                             <input type="text" placeholder="${t.taskPlaceholder}" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" onkeydown="if(event.key==='Enter') alert('${t.alertMsg}')">
