@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ BUSINESS PARTNER</title>
+    <title>LXJ BUSINESS PARTNER - 利润至上版</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,25 +28,25 @@
 
     <header class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
+            <div class="flex items-center space-x-3 cursor-pointer">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl flex items-center justify-center font-bold text-xl text-white shadow-md border border-blue-400/30">
                     LXJ
                 </div>
                 <div>
                     <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                        LXJ BUSINESS PARTNER
+                        LXJ BUSINESS PARTNER (PROFIT FIRST)
                     </h1>
-                    <p class="text-xs text-slate-400">Empire Command Center</p>
+                    <p class="text-xs text-slate-400">Empire Profit Command Center</p>
                 </div>
             </div>
 
             <div class="flex items-center space-x-2">
                 <select id="roleSelect" onchange="switchRole()" class="bg-slate-900 border border-blue-500/50 text-xs rounded-xl px-3 py-2 text-blue-300 font-medium focus:outline-none">
-                    <option value="super-admin">👑 Super Admin (最高统帅大盘)</option>
-                    <option value="platinum-vip">💎 白金 VIP (Platinum VIP 专属通道)</option>
-                    <option value="standard-vip">⭐ 标准 VIP (Standard VIP)</option>
+                    <option value="super-admin">👑 Super Admin (统帅核心利润大盘)</option>
+                    <option value="platinum-vip">💎 白金 VIP (对赌/动态返佣区)</option>
+                    <option value="standard-vip">⭐ 标准 VIP (基础合作区)</option>
                     <option value="business-owner">💼 Business Owner (业务主理人总控)</option>
-                    <option value="operator-team">⚙️ Operator 团队 (由主理人自主指派管理)</option>
+                    <option value="operator-team">⚙️ Operator 团队 (降本增效执行端)</option>
                 </select>
             </div>
 
@@ -57,10 +57,10 @@
                     <button onclick="setDeviceMode('desktop')" id="btn-desktop" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition">💻 电脑</button>
                 </div>
 
-                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none">
-                    <option value="zh"> 简中</option>
-                    <option value="en"> EN</option>
-                    <option value="bm"> BM</option>
+                <select id="langSelect" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none">
+                    <option value="zh">简中</option>
+                    <option value="en">EN</option>
+                    <option value="bm">BM</option>
                 </select>
             </div>
         </div>
@@ -73,27 +73,27 @@
                 <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                         <div>
-                            <h2 class="text-xl font-bold text-white">👑 Super Admin 统帅最高指挥舱</h2>
-                            <p class="text-xs text-slate-400 mt-1">全局掌控合伙人、各级 VIP、Business Owner 绩效与自动化流水线</p>
+                            <h2 class="text-xl font-bold text-white">👑 Super Admin 统帅核心利润大盘</h2>
+                            <p class="text-xs text-slate-400 mt-1">严控系统现金流，所有分润必须以统帅净利润为绝对优先前提</p>
                         </div>
-                        <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">最高权限在线</span>
+                        <span class="bg-emerald-500/20 text-emerald-400 text-xs px-3 py-1 rounded-full font-medium">统帅净利优先保护中</span>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 font-medium">📈 本周帝国总业绩</span>
-                            <div class="text-3xl font-black text-white mt-2">13,800 <span class="text-xs text-slate-400">MYR</span></div>
-                            <span class="text-xs text-emerald-400 mt-1 block">↑ 相比上周增长 18.2%</span>
+                            <span class="text-xs text-slate-400 font-medium">💰 统帅实际净利润 (Net Profit)</span>
+                            <div class="text-3xl font-black text-emerald-400 mt-2">8,920 <span class="text-xs text-slate-400">MYR (占比64.6%)</span></div>
+                            <span class="text-xs text-slate-400 mt-1 block">平台底线毛利锁定 40%</span>
                         </div>
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 font-medium">💎 活跃 VIP 矩阵</span>
-                            <div class="text-3xl font-black text-amber-400 mt-2">42 <span class="text-xs text-slate-400">人 (白金:12 / 标准:30)</span></div>
-                            <span class="text-xs text-blue-400 mt-1 block">转化率极佳</span>
+                            <span class="text-xs text-slate-400 font-medium">💎 白金 VIP 动态返佣支出</span>
+                            <div class="text-3xl font-black text-amber-400 mt-2">2,400 <span class="text-xs text-slate-400">MYR (严格对赌考核)</span></div>
+                            <span class="text-xs text-blue-400 mt-1 block">未达标者仅按 15% 结算</span>
                         </div>
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 font-medium">💼 Business Owner 独立主理</span>
-                            <div class="text-3xl font-black text-purple-400 mt-2">5 <span class="text-xs text-slate-400">个独立业务矩阵</span></div>
-                            <span class="text-xs text-emerald-400 mt-1 block">Operator 团队运转正常</span>
+                            <span class="text-xs text-slate-400 font-medium">⚙️ Operator 团队成本产出比</span>
+                            <div class="text-3xl font-black text-purple-400 mt-2">1 : 3.5 <span class="text-xs text-slate-400">高效产出</span></div>
+                            <span class="text-xs text-emerald-400 mt-1 block">杜绝慈善式养闲人</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
     </main>
 
     <footer class="bg-gemBlue border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
-        <p class="font-medium tracking-widest text-slate-400">LXJ BUSINESS DEVERLOMENT SYSTEM @ SINCE 2026</p>
+        <p class="font-medium tracking-widest text-slate-400">LXJ BUSINESS DEVERLOMENT SYSTEM @ SINCE 2026 - PROFIT ABSOLUTE FIRST</p>
     </footer>
 
     <script>
@@ -147,23 +147,23 @@
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                             <div>
-                                <h2 class="text-xl font-bold text-white">👑 Super Admin 统帅最高指挥舱</h2>
-                                <p class="text-xs text-slate-400 mt-1">全局掌控合伙人、各级 VIP、Business Owner 绩效与自动化流水线</p>
+                                <h2 class="text-xl font-bold text-white">👑 Super Admin 统帅核心利润大盘</h2>
+                                <p class="text-xs text-slate-400 mt-1">严控系统现金流，所有分润必须以统帅净利润为绝对优先前提</p>
                             </div>
-                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">最高权限在线</span>
+                            <span class="bg-emerald-500/20 text-emerald-400 text-xs px-3 py-1 rounded-full font-medium">统帅净利优先保护中</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">📈 本周帝国总业绩</span>
-                                <div class="text-3xl font-black text-white mt-2">13,800 <span class="text-xs text-slate-400">MYR</span></div>
+                                <span class="text-xs text-slate-400 font-medium">💰 统帅实际净利润 (Net Profit)</span>
+                                <div class="text-3xl font-black text-emerald-400 mt-2">8,920 <span class="text-xs text-slate-400">MYR (占比64.6%)</span></div>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">💎 活跃 VIP 矩阵</span>
-                                <div class="text-3xl font-black text-amber-400 mt-2">42 <span class="text-xs text-slate-400">人</span></div>
+                                <span class="text-xs text-slate-400 font-medium">💎 白金 VIP 动态返佣支出</span>
+                                <div class="text-3xl font-black text-amber-400 mt-2">2,400 <span class="text-xs text-slate-400">MYR (严格对赌)</span></div>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">💼 Business Owner 总控</span>
-                                <div class="text-3xl font-black text-purple-400 mt-2">5 <span class="text-xs text-slate-400">个独立业务</span></div>
+                                <span class="text-xs text-slate-400 font-medium">⚙️ Operator 团队成本产出比</span>
+                                <div class="text-3xl font-black text-purple-400 mt-2">1 : 3.5 <span class="text-xs text-slate-400">高效产出</span></div>
                             </div>
                         </div>
                     </div>
@@ -171,51 +171,45 @@
             } else if (role === 'platinum-vip') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-amber-400">💎 白金 VIP 专属尊贵特权大盘</h2>
-                        <p class="text-xs text-slate-400">欢迎尊贵的白金 VIP。您可在此享受专属顶级开料折扣、极速财务审批通道及高级 Affiliate 返佣特权。</p>
+                        <h2 class="text-xl font-bold text-amber-400">💎 白金 VIP 动态返佣特权区 (对赌考核模式)</h2>
+                        <p class="text-xs text-slate-400">基础返佣比例 15%。若当月销售额未达统帅制定的业绩红线，最高 35% 自动锁定无法提取！</p>
                         <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm">
-                            <p class="text-slate-300">⭐ 当前白金专属返佣比例：<span class="text-amber-400 font-bold">最高 35%</span></p>
+                            <p class="text-slate-300">📊 当前月份您的业绩达成度：<span class="text-amber-400 font-bold">待达标 (当前返佣锁定在 15%)</span></p>
                         </div>
                     </div>
                 `;
             } else if (role === 'standard-vip') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-blue-400">⭐ 标准 VIP 专区</h2>
-                        <p class="text-xs text-slate-400">查看您的标准合作数据、日常订单与 Affiliate 推广链接。</p>
+                        <h2 class="text-xl font-bold text-blue-400">⭐ 标准 VIP 合作专区</h2>
+                        <p class="text-xs text-slate-400">标准合作返佣与日常订单管理通道。</p>
                     </div>
                 `;
             } else if (role === 'business-owner') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                            <h2 class="text-xl font-bold text-purple-400">💼 Business Owner (业务主理人总控后台)</h2>
-                            <span class="bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded">可自主指派 Operator 团队</span>
+                            <h2 class="text-xl font-bold text-purple-400">💼 Business Owner (业务主理人 - 利润考核后台)</h2>
+                            <span class="bg-red-500/20 text-red-300 text-xs px-2 py-1 rounded">部门成本与KPI自负</span>
                         </div>
-                        <p class="text-xs text-slate-400">在此页面，您可以自主为您的业务部门创建工作、指派下方 Operator 1~5 成员处理具体任务：</p>
+                        <p class="text-xs text-slate-400">在此自主指派 Operator 团队工作任务，系统将自动核算该部门为您及统帅带来的净收益贡献：</p>
                         <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
-                            <input type="text" placeholder="输入要指派给 Operator 团队的新工作任务..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500" onkeydown="if(event.key==='Enter') alert('任务已成功下发给 Operator 团队！')">
-                            <button onclick="alert('任务下发成功！')" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-xs">发布任务给 Operator 团队</button>
+                            <input type="text" placeholder="输入要下发给 Operator 团队的新增创收任务..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500" onkeydown="if(event.key==='Enter') alert('创收任务已下发，系统已开启 KPI 监控！')">
+                            <button onclick="alert('任务下发成功，已锁定部门产出指标！')" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-xs">发布创收任务</button>
                         </div>
                     </div>
                 `;
             } else if (role === 'operator-team') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-emerald-400">⚙️ Operator 工作执行矩阵 (由主理人指派)</h2>
-                        <p class="text-xs text-slate-400">包含 Operator 1 (财务与库存总监)、Operator 2 (开料生产专员)、Operator 3 (Affiliate 流量专员)、Operator 4 (多语客服专员)、Operator 5 (AI 巡检专员)。</p>
+                        <h2 class="text-xl font-bold text-emerald-400">⚙️ Operator 团队执行端 (降本增效考核中)</h2>
+                        <p class="text-xs text-slate-400">全体 Operator 必须严格执行 Business Owner 指派的创收任务，不养闲人，按效分红。</p>
                         <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300">
-                            <p>📌 状态：等待 Business Owner 指派当前批次任务。</p>
+                            <p>📌 状态：当前部门净利润产出正常，实时数据已同步至统帅大盘。</p>
                         </div>
                     </div>
                 `;
             }
-        }
-
-        function changeLanguage() {
-            const lang = document.getElementById('langSelect').value;
-            if(lang === 'en') alert('Language switched to English.');
-            else if(lang === 'bm') alert('Bahasa Melayu dipilih.');
         }
     </script>
 </body>
