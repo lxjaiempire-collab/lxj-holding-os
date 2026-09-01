@@ -27,6 +27,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
+    <!-- 顶栏 -->
     <header id="appHeader" class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg hidden">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3 cursor-pointer">
@@ -63,8 +64,10 @@
         </div>
     </header>
 
+    <!-- 主体容器 -->
     <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
         
+        <!-- 1. 前置登入网关界面 -->
         <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
@@ -74,12 +77,14 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
+            <!-- 语言切换按钮 -->
             <div class="flex justify-center space-x-2 pb-2">
                 <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
                 <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
                 <button onclick="setLoginLang('bm')" id="l-bm" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">BM</button>
             </div>
 
+            <!-- 登入表单 -->
             <div id="loginFormSection" class="space-y-4">
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
@@ -87,7 +92,7 @@
                         <option value="super-admin">Super Admin (最高统帅 - 绝对所有权)</option>
                         <option value="business-owner">Business Owner (知识改进者 / 5%)</option>
                         <option value="platinum-vip">Platinum VIP (白金分佣 / 3%)</option>
-                        <option value="standard-vip">Standard VIP (标准合伙人 / 1%)</option>
+                        <option value="standard-vip">Standard VIP (普通合伙人 / 1%)</option>
                         <option value="operator-team">Operator Team (执行团队 / 0%)</option>
                     </select>
                 </div>
@@ -109,6 +114,7 @@
                 </div>
             </div>
 
+            <!-- 新用户注册表单 -->
             <div id="registerFormSection" class="space-y-4 hidden">
                 <div>
                     <label id="lblRegUser" class="block text-xs font-medium text-slate-300 mb-1">新用户全名 / Full Name</label>
@@ -119,7 +125,7 @@
                     <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
                         <option value="business-owner">Business Owner (申请模块知识改进者 / 5%)</option>
                         <option value="platinum-vip">Platinum VIP (申请白金分佣 / 3%)</option>
-                        <option value="standard-vip">Standard VIP (申请标准合伙人 / 1%)</option>
+                        <option value="standard-vip">Standard VIP (申请普通合伙人 / 1%)</option>
                         <option value="operator-team">Operator Team (申请执行团队 / 0%)</option>
                     </select>
                 </div>
@@ -139,9 +145,11 @@
 
         </div>
 
+        <!-- 2. 主指挥工作台界面 -->
         <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
             <div id="dynamicMainContent" class="space-y-6">
-                </div>
+                <!-- 动态渲染区域 -->
+            </div>
         </div>
 
     </main>
@@ -188,7 +196,7 @@
                     'super-admin': 'Super Admin 最高统帅 (绝对所有权)',
                     'business-owner': 'Business Owner (知识改进者 5%)',
                     'platinum-vip': 'Platinum VIP (白金分佣 3%)',
-                    'standard-vip': 'Standard VIP (标准合伙人 1%)',
+                    'standard-vip': 'Standard VIP (普通合伙人 1%)',
                     'operator-team': 'Operator 执行团队 (0%)'
                 }
             },
@@ -397,7 +405,7 @@
                 </div>
             `;
 
-            // 100% 模块金池分配可视化组件
+            // 100% 模块金池分配可视化组件 (Standard VIP 固化为 1%)
             const poolVisualization = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-center">
@@ -423,7 +431,7 @@
                         <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
                             <span class="text-[10px] text-slate-400 block">Standard VIP</span>
                             <span class="text-lg font-black text-slate-300">1%</span>
-                            <span class="text-[9px] text-slate-500 block">标准合伙人</span>
+                            <span class="text-[9px] text-slate-500 block">标准合伙人 (固定)</span>
                         </div>
                         <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
                             <span class="text-[10px] text-slate-400 block">荣誉贡献者</span>
@@ -474,12 +482,14 @@
                     </div>
                 `;
             } else if (['business-owner', 'platinum-vip', 'standard-vip'].includes(loggedInRole)) {
-                let title = t.poolTitle, roleDesc = "同源工作台架构与永续分润通道", badge = "Partner", badgeColor = "bg-blue-500/20 text-blue-300", myShare = "1% ~ 5%";
+                let title = t.poolTitle, roleDesc = "同源工作台架构与永续分润通道", badge = "Partner", badgeColor = "bg-blue-500/20 text-blue-300", myShare = "1%";
                 
                 if (loggedInRole === 'business-owner') {
                     badge = "Business Owner (模块知识改进者)"; badgeColor = "bg-purple-500/20 text-purple-300"; myShare = "5% 永续收益权";
                 } else if (loggedInRole === 'platinum-vip') {
                     badge = "Platinum VIP (白金分佣)"; badgeColor = "bg-amber-500/20 text-amber-300"; myShare = "3% 永续分佣";
+                } else if (loggedInRole === 'standard-vip') {
+                    badge = "Standard VIP (普通合伙人)"; badgeColor = "bg-slate-700 text-slate-200"; myShare = "1% 永续分佣";
                 }
 
                 container.innerHTML = `
@@ -518,8 +528,8 @@
             } else if (loggedInRole === 'operator-team') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-emerald-400">${t.opTitle}</h2>
-                        <p class="text-xs text-slate-400">${t.opDesc}</p>
+                        <h2 class="text-xl font-bold text-emerald-400">Operator Command Center</h2>
+                        <p class="text-xs text-slate-400">日常执行与流水线维护工作台</p>
                         <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300 space-y-2">
                             <p>Status: Execution pipeline operating under Super Admin IP protection.</p>
                             <p class="text-xs text-slate-500">Note: Operator role executes daily duties (0% module pool direct share, compensated via performance).</p>
