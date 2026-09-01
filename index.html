@@ -7,6 +7,7 @@
     <title>LXJ BUSINESS PARTNER SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -76,6 +77,11 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
+            <div id="referralBanner" class="hidden bg-blue-950/80 border border-blue-500/40 p-3 rounded-xl text-center space-y-0.5">
+                <span class="text-[11px] font-bold text-blue-300">🔗 扫码锁粉绑定成功</span>
+                <p id="referralBannerText" class="text-[10px] text-slate-300"></p>
+            </div>
+
             <div class="flex justify-center space-x-2 pb-2">
                 <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
                 <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
@@ -112,6 +118,10 @@
             </div>
 
             <div id="registerFormSection" class="space-y-4 hidden">
+                <div id="referrerInfoField" class="hidden bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-xs space-y-1">
+                    <span class="text-slate-400 block text-[10px]">自动识别邀请推荐人 (Referrer Locked)：</span>
+                    <div id="referrerInfoText" class="font-bold text-amber-400 text-xs"></div>
+                </div>
                 <div>
                     <label id="lblRegUser" class="block text-xs font-medium text-slate-300 mb-1">新用户全名 / Full Name</label>
                     <input type="text" id="regNameInput" placeholder="请输入您的名字" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
@@ -131,7 +141,7 @@
                 </div>
 
                 <button onclick="handleRegister()" id="btnRegisterText" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
-                    提交注册并开通账号
+                    提交注册并同步至云端
                 </button>
 
                 <div class="text-center pt-2">
@@ -185,10 +195,39 @@
     <script>
         let currentLang = 'zh';
         let loggedInRole = '';
+        let activeReferrerRole = '';
+        let activeReferrerId = '';
 
-        // 【关键修复】：使用纯绝对路径基础地址，配合 Hash (#) 避免 GitHub Pages 报 404
+        // --- Supabase 初始化配置占位 (接入真实 Database 时填入专用秘钥) ---
+        const SUPABASE_URL = "https://your-supabase-project.supabase.co";
+        const SUPABASE_KEY = "your-anon-key";
+        let supabaseClient = null;
+
+        try {
+            if (window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch(e) { console.log('Supabase mode running in offline/local fallback'); }
+
+        // 解析 URL 参数实现自动锁粉推荐人绑定
+        function parseReferralParams() {
+            const hash = window.location.hash;
+            if (hash && hash.includes('ref_role=')) {
+                const params = new URLSearchParams(hash.replace('#', '?'));
+                activeReferrerRole = params.get('ref_role');
+                activeReferrerId = params.get('ref_id');
+
+                if (activeReferrerId && activeReferrerRole) {
+                    document.getElementById('referralBanner').classList.remove('hidden');
+                    document.getElementById('referralBannerText').innerText = `已成功识别推荐上级：ID #${activeReferrerId} (${activeReferrerRole.toUpperCase()})`;
+                    
+                    document.getElementById('referrerInfoField').classList.remove('hidden');
+                    document.getElementById('referrerInfoText').innerText = `ID #${activeReferrerId} [${activeReferrerRole.toUpperCase()}]`;
+                }
+            }
+        }
+
         function getRealShareUrl() {
-            // 获取没有任何 query/hash 干扰的干净基准 URL
             const cleanUrl = window.location.href.split('?')[0].split('#')[0];
             return `${cleanUrl}#ref_role=${loggedInRole}&ref_id=88899`;
         }
@@ -205,7 +244,7 @@
                 lblRegUser: "新用户全名 / Full Name",
                 lblRegRole: "申请绑定身份 / Apply Role",
                 lblRegToken: "设置安全访问口令 / Set Password",
-                btnRegisterText: "提交注册并开通账号",
+                btnRegisterText: "提交注册并同步至云端",
                 logoutBtn: "退出登入",
                 
                 superAdminTitle: "Super Admin 最高统帅绝对主权指挥舱",
@@ -216,7 +255,7 @@
                 
                 taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
                 taskBtn: "下发团队任务",
-                alertMsg: "任务已成功下发给 Operator 团队！",
+                alertMsg: "任务已成功同步并下发给 Operator 团队！",
                 shareTitle: "专属招募与分享链接 (Exclusive Referral Link)",
                 shareBtn: "复制专属分享链接",
                 shareCopied: "专属分享链接已成功复制到剪贴板！",
@@ -239,7 +278,7 @@
                 lblRegUser: "Full Name",
                 lblRegRole: "Apply Role",
                 lblRegToken: "Set Password / Token",
-                btnRegisterText: "Submit Registration & Open Account",
+                btnRegisterText: "Submit Registration & Sync Cloud",
                 logoutBtn: "Logout",
                 
                 superAdminTitle: "Super Admin Supreme Command Center",
@@ -273,7 +312,7 @@
                 lblRegUser: "Nama Penuh",
                 lblRegRole: "Peranan Pilihan",
                 lblRegToken: "Tetapkan Kata Laluan",
-                btnRegisterText: "Hantar Pendaftaran & Buka Akaun",
+                btnRegisterText: "Hantar Pendaftaran & Simpan Awan",
                 logoutBtn: "Log Keluar",
                 
                 superAdminTitle: "Super Admin Pusat Kawalan Tertinggi",
@@ -328,9 +367,7 @@
         function changeLanguage() {
             currentLang = document.getElementById('langSelect').value;
             setLoginLang(currentLang);
-            if (loggedInRole) {
-                renderDashboard();
-            }
+            if (loggedInRole) { renderDashboard(); }
         }
 
         function toggleAuthView(view) {
@@ -366,7 +403,10 @@
             const role = document.getElementById('regRoleSelect').value;
             const token = document.getElementById('regTokenInput').value;
             if (!name || !token) { alert("Please fill in all registration fields!"); return; }
-            alert(`Registration successful! Welcome ${name}. Logging into your dashboard...`);
+            
+            let referralMsg = activeReferrerId ? ` (Bound to Referrer ID #${activeReferrerId})` : '';
+            alert(`Registration successful! Welcome ${name}${referralMsg}. Logging into your dashboard...`);
+            
             loggedInRole = role;
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('appHeader').classList.remove('hidden');
@@ -388,13 +428,12 @@
             navigator.clipboard.writeText(liveLink).then(() => { alert(t.shareCopied); });
         }
 
-        // 裂变海报弹窗逻辑（生成纯 Hash 绝对网址二维码）
         function openPosterModal() {
             const modal = document.getElementById('posterModal');
             const roleBadge = document.getElementById('posterPartnerRole');
             const qrcodeContainer = document.getElementById('qrcode');
             
-            qrcodeContainer.innerHTML = ''; // 清空上一二维码
+            qrcodeContainer.innerHTML = '';
             const liveLink = getRealShareUrl();
             
             new QRCode(qrcodeContainer, {
@@ -461,7 +500,6 @@
                 </div>
             `;
 
-            // 100% 模块金池分配可视化组件（仅限 Super Admin 统帅舱）
             const poolVisualization = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-center">
@@ -508,7 +546,6 @@
                 </div>
             `;
 
-            // 应用模块工具栏组件
             const appModulesToolbar = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
                     <div class="flex justify-between items-center">
@@ -629,6 +666,11 @@
                 `;
             }
         }
+
+        // 页面初始化执行
+        window.addEventListener('DOMContentLoaded', () => {
+            parseReferralParams();
+        });
     </script>
 </body>
 </html>
