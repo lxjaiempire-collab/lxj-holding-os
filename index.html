@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LXJ HOLDING OS - 商业操作系统</title>
+    <title>LXJ HOLDING OS - 商业操作系统 (全功能全端融合版)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,22 +18,21 @@
         }
     </script>
 </head>
-<body class="h-full text-slate-100 font-sans flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+<body class="h-full text-slate-100 font-sans flex flex-col justify-between selection:bg-blue-500 selection:text-white pb-16 sm:pb-0">
 
     <!-- ==================== 1. 统一身份登录与新用户注册初始化弹窗 ==================== -->
     <div id="authModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-6 shadow-2xl relative my-auto">
             
-            <!-- 头部标志 -->
             <div class="text-center space-y-2">
                 <div class="w-12 h-12 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-2xl flex items-center justify-center font-black text-white text-xl mx-auto shadow-xl shadow-blue-500/20">
                     LXJ
                 </div>
                 <h2 class="text-lg font-bold text-white tracking-wide">LXJ HOLDING OS 商业系统入口</h2>
-                <p class="text-xs text-slate-400">请选择合伙人登录身份，或注册新账号以初始化您的生态权限：</p>
+                <p class="text-xs text-slate-400">全功能融合版：请选择您的角色或注册新账号体验实时闭环：</p>
             </div>
 
-            <!-- Tab 切换：身份登录 vs 新用户注册 -->
+            <!-- Tab 切换 -->
             <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
                 <button id="tabBtnLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 font-bold rounded-lg text-blue-400 bg-slate-900 shadow-md transition">选择身份登录</button>
                 <button id="tabBtnRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 font-bold rounded-lg text-slate-400 hover:text-slate-200 transition">新用户注册资料</button>
@@ -56,7 +55,7 @@
                         <input type="radio" name="authRole" value="Platinum VIP" class="text-blue-600 focus:ring-0">
                         <div>
                             <p class="text-xs font-bold text-cyan-300">Platinum VIP (白金高阶合伙人 Owner)</p>
-                            <p class="text-[11px] text-slate-400">高阶金池权益、多 Operator 调度与生态分红</p>
+                            <p class="text-[11px] text-slate-400">尊享加速通道、多 Operator 矩阵树状图与高阶金池特权</p>
                         </div>
                     </div>
                 </label>
@@ -66,7 +65,7 @@
                         <input type="radio" name="authRole" value="Operator" class="text-blue-600 focus:ring-0">
                         <div>
                             <p class="text-xs font-bold text-emerald-400">Operator (前端运营操作员)</p>
-                            <p class="text-[11px] text-slate-400">接收 Owner 每日指令、移动端 Input 媒介实时打卡</p>
+                            <p class="text-[11px] text-slate-400">移动端优化界面、接收 Owner 指令、实时业绩上报</p>
                         </div>
                     </div>
                 </label>
@@ -76,7 +75,7 @@
                         <input type="radio" name="authRole" value="Business Owner" class="text-blue-600 focus:ring-0">
                         <div>
                             <p class="text-xs font-bold text-amber-400">Business Owner (核心节点 Owner)</p>
-                            <p class="text-[11px] text-slate-400">全功能商业决策中心、下线运作与业绩总控</p>
+                            <p class="text-[11px] text-slate-400">全功能商业决策中心、全网数据流实时汇总</p>
                         </div>
                     </div>
                 </label>
@@ -118,7 +117,7 @@
                     <label class="block text-[11px] text-slate-400 mb-1">申请开通身份</label>
                     <select id="regRole" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
                         <option value="Business Owner">Business Owner (商业合伙人)</option>
-                        <option value="Standard VIP">Standard VIP (标准 VIP)</option>
+                        <option value="Platinum VIP">Platinum VIP (白金高阶合伙人)</option>
                         <option value="Operator">Operator (运营操作员)</option>
                     </select>
                 </div>
@@ -132,7 +131,7 @@
 
 
     <!-- ==================== 2. 顶部主导航栏 ==================== -->
-    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-blue-500/20">
@@ -147,12 +146,12 @@
             </div>
 
             <div class="flex items-center space-x-3">
-                <select class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-300">
+                <select class="hidden sm:block bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-300">
                     <option>🇨🇳 中文</option>
                     <option>🇺🇸 English</option>
                 </select>
                 <button onclick="resetSystemSession()" class="text-[11px] text-slate-400 hover:text-white border border-slate-800 px-3 py-1.5 rounded-lg transition">
-                    切换身份 / 重新登入
+                    切换身份
                 </button>
             </div>
         </div>
@@ -162,104 +161,76 @@
     <!-- ==================== 3. 主后台界面容器 (精准角色分流) ==================== -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-        <!-- ==================== 视图 A: Operator 专属终端 ==================== -->
+        <!-- ==================== 视图 A: Operator 专属终端 (极致移动端响应式) ==================== -->
         <div id="viewOperator" class="space-y-6 hidden">
             <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 flex justify-between items-center">
                 <div>
                     <h2 class="text-base font-bold text-emerald-400 flex items-center gap-2">
                         👷‍♂️ Operator 前端运营终端
                     </h2>
-                    <p class="text-xs text-slate-400">已接入 Business Owner 指令系统 | 移动端数据录入媒介已激活</p>
+                    <p class="text-xs text-slate-400">已接入实时指令流 | 移动端数据录入媒介已激活</p>
                 </div>
                 <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-2.5 py-1 rounded-full font-mono border border-emerald-500/30">ONLINE</span>
             </div>
 
-            <!-- A1. 接收来自 Business Owner 的 Daily 工作指令 -->
+            <!-- A1. 实时指令下达展示区 -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
                     <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
-                        📩 来自 Business Owner 的 Daily 工作指令
+                        📩来自 Owner 的实时 Daily 工作指令
                     </h3>
-                    <span class="text-[10px] text-amber-400 bg-amber-950 px-2 py-0.5 rounded font-mono">今日待办</span>
+                    <span class="text-[10px] text-amber-400 bg-amber-950 px-2 py-0.5 rounded font-mono">实时同步</span>
                 </div>
-                <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-300 space-y-2 font-mono">
-                    <p class="text-blue-400 font-bold">📌 [Owner 派发指令]：</p>
-                    <p>1. 开启零售行业模块前端，核对今日 50 位新锁粉客户；</p>
-                    <p>2. 使用下方【Input Data 移动端媒介】录入今日现场成交业绩；</p>
-                    <p>3. 收集下线反馈并同步回传至决策后台。</p>
+                <div id="operatorInstructionDisplay" class="bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-300 space-y-2 font-mono">
+                    <p class="text-blue-400 font-bold">📌 [最新派发指令]：</p>
+                    <p>1. 开启零售行业模块前端，核对今日新锁粉客户；</p>
+                    <p>2. 使用下方【Input Data 移动端媒介】录入现场成交业绩，提交后将实时同步至 Owner 后台。</p>
                 </div>
             </div>
 
-            <!-- A2. 手机端 Input Data 数据录入媒介 -->
+            <!-- A2. 手机端 Input Data 数据录入媒介 (实时打卡联通) -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
                     <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
                         📱 Input Data - 移动端数据录入媒介
                     </h3>
-                    <span class="text-[10px] text-slate-400">移动端优化打卡上报</span>
+                    <span class="text-[10px] text-emerald-400">实时上报引擎已启用</span>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">选择执行业务模块</label>
-                        <select class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                            <option>🛍️ 零售模块 - 锁粉业绩打卡</option>
-                            <option>🍜 餐饮模块 - 营业额上报</option>
-                            <option>🏢 中介模块 - 渠道客户登记</option>
+                        <select id="opModuleSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white">
+                            <option value="全渠道零售">🛍️ 零售模块 - 锁粉业绩打卡</option>
+                            <option value="餐饮智慧服务">🍜 餐饮模块 - 营业额上报</option>
+                            <option value="机构裂变代理">🏢 中介模块 - 渠道客户登记</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">核心上报金额 (MYR)</label>
-                        <input type="number" placeholder="例如：3500" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono">
+                        <input type="number" id="opAmountInput" placeholder="例如：3500" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white font-mono">
                     </div>
                 </div>
                 <div>
                     <label class="block text-[11px] text-slate-400 mb-1">工作执行备注</label>
-                    <textarea rows="2" placeholder="输入相关业绩或现场反馈..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white font-mono"></textarea>
+                    <input type="text" id="opNoteInput" placeholder="输入相关业绩或现场反馈..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono">
                 </div>
-                <button onclick="alert('数据已通过移动端 Input 媒介成功上报至 Business Owner 后台！')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-600/30">
-                    📤 立即提交数据并同步至 Owner
+                <button onclick="submitOperatorData()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs transition shadow-lg shadow-emerald-600/30">
+                    📤 立即提交数据并实时同步至 Owner 后台
                 </button>
-            </div>
-
-            <!-- A3. 行业工作模块调用 -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-                <h3 class="text-xs font-bold text-slate-200 border-b border-slate-800 pb-2.5">🛠️ 行业工作模块区</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                    <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-                        <div class="text-xl mb-1">🏬</div>
-                        <p class="text-xs font-bold text-white">智慧零售系统</p>
-                        <span class="text-[10px] text-emerald-400 font-mono">运行中</span>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-                        <div class="text-xl mb-1">☕</div>
-                        <p class="text-xs font-bold text-white">餐饮 POS 终端</p>
-                        <span class="text-[10px] text-emerald-400 font-mono">运行中</span>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-                        <div class="text-xl mb-1">📊</div>
-                        <p class="text-xs font-bold text-white">锁粉数据流</p>
-                        <span class="text-[10px] text-emerald-400 font-mono">已连接</span>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-                        <div class="text-xl mb-1">📋</div>
-                        <p class="text-xs font-bold text-white">执行日志</p>
-                        <span class="text-[10px] text-emerald-400 font-mono">已同步</span>
-                    </div>
-                </div>
             </div>
         </div>
 
 
-        <!-- ==================== 视图 B: Business Owner / VIP 控制台 ==================== -->
+        <!-- ==================== 视图 B: Business Owner / Standard VIP 控制台 ==================== -->
         <div id="viewOwner" class="space-y-6 hidden">
             <div class="bg-gradient-to-r from-blue-900/40 to-indigo-900/20 border border-blue-500/30 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                         💼 Business Owner 商业决策与控制台
                     </h2>
-                    <p class="text-xs text-slate-400">行业模块自主配置、Operator 调度与下线运作报告总控</p>
+                    <p class="text-xs text-slate-400">行业模块自主配置、Operator 实时调度与下线运作报告总控</p>
                 </div>
-                <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full font-mono border border-blue-500/30">OWNER DECISION CENTER</span>
+                <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full font-mono border border-blue-500/30">STANDARD & OWNER CENTER</span>
             </div>
 
             <!-- B1. 行业模块选择区 -->
@@ -290,51 +261,108 @@
                 </div>
             </div>
 
-            <!-- B2. 对接 Operator 下达指令 -->
+            <!-- B2. 对接 Operator 下达实时指令 -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
                 <h3 class="text-xs font-bold text-white border-b border-slate-800 pb-2.5">📢 对接 Operator 下达 Daily 工作指令</h3>
                 <div class="space-y-3">
-                    <textarea rows="2" placeholder="在此输入下达给前端 Operator 的工作指令，例如：今日重点跟进零售模块 50 位新锁粉客户..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-blue-500 font-mono"></textarea>
-                    <button onclick="alert('指令已成功推送至关联 Operator 终端手机端！')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-blue-600/20">
-                        🚀 推送工作指令至 Operator 终端
+                    <textarea id="ownerInstructionInput" rows="2" placeholder="在此输入下达给前端 Operator 的工作指令..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-blue-500 font-mono"></textarea>
+                    <button onclick="broadcastInstruction()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-blue-600/20">
+                        🚀 实时推送工作指令至 Operator 终端
                     </button>
                 </div>
             </div>
 
-            <!-- B3. 接收下线运作和 Operator 上报报告 -->
+            <!-- B3. 接收下线运作和 Operator 实时上报报告 (动态表格) -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
-                    <h3 class="text-xs font-bold text-white">📊 接收下线运作与 Operator 上报数据报告</h3>
-                    <span class="text-[10px] text-emerald-400 font-mono">实时接收</span>
+                    <h3 class="text-xs font-bold text-white">📊 实时接收 Operator 上报数据报告</h3>
+                    <span class="text-[10px] text-emerald-400 font-mono bg-emerald-950 px-2 py-0.5 rounded">实时联动中</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-[11px]">
                         <thead>
                             <tr class="text-slate-400 border-b border-slate-800">
-                                <th class="pb-2">Operator / 节点姓名</th>
+                                <th class="pb-2">Operator 姓名</th>
                                 <th class="pb-2">对应行业模块</th>
-                                <th class="pb-2">上报数据/业绩金额</th>
+                                <th class="pb-2">上报业绩金额</th>
+                                <th class="pb-2">执行备注</th>
                                 <th class="pb-2">时间</th>
                                 <th class="pb-2">状态</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800/50 text-slate-300 font-mono">
+                        <tbody id="dynamicReportTableBody" class="divide-y divide-slate-800/50 text-slate-300 font-mono">
                             <tr>
                                 <td class="py-2.5">Operator-01 (Alex)</td>
                                 <td>全渠道零售</td>
-                                <td class="text-emerald-400">MYR 3,200 (锁粉业绩)</td>
+                                <td class="text-emerald-400">MYR 3,200</td>
+                                <td>锁粉业绩达成</td>
                                 <td>10:15 AM</td>
                                 <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">已自动校验入账</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5">Operator-02 (Sarah)</td>
                                 <td>餐饮智慧服务</td>
-                                <td class="text-emerald-400">MYR 1,850 (营业对账)</td>
+                                <td class="text-emerald-400">MYR 1,850</td>
+                                <td>营业对账结算</td>
                                 <td>11:40 AM</td>
                                 <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">已自动校验入账</span></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ==================== 视图 B-PLUS: Platinum VIP 白金高阶特权控制台 ==================== -->
+        <div id="viewPlatinum" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-cyan-950/60 to-blue-950/40 border border-cyan-500/40 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-cyan-300 flex items-center gap-2">
+                        💎 Platinum VIP 白金高阶合伙人专区
+                    </h2>
+                    <p class="text-xs text-slate-400">尊享高阶金池加速通道、多 Operator 团队矩阵树状图与最高分润权重</p>
+                </div>
+                <span class="bg-cyan-500/20 text-cyan-300 text-xs px-3 py-1 rounded-full font-mono border border-cyan-500/30">PLATINUM EXCLUSIVE</span>
+            </div>
+
+            <!-- 专属特权 1：高阶金池加速指标 -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-4 space-y-1">
+                    <span class="text-[11px] text-slate-400">白金加速分润倍率</span>
+                    <p class="text-2xl font-black text-cyan-400 font-mono">1.85X</p>
+                    <p class="text-[10px] text-slate-500">享受顶级生态红利加成</p>
+                </div>
+                <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-4 space-y-1">
+                    <span class="text-[11px] text-slate-400">直属裂变 Operator 节点</span>
+                    <p class="text-2xl font-black text-white font-mono">14 组</p>
+                    <p class="text-[10px] text-emerald-400">今日全员在线高效运转</p>
+                </div>
+                <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-4 space-y-1">
+                    <span class="text-[11px] text-slate-400">白金金池总资产</span>
+                    <p class="text-2xl font-black text-emerald-400 font-mono">MYR 348,200</p>
+                    <p class="text-[10px] text-cyan-400">自动清算无延迟</p>
+                </div>
+            </div>
+
+            <!-- 专属特权 2：多 Operator 团队矩阵树状图 -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <h3 class="text-xs font-bold text-cyan-300 border-b border-slate-800 pb-2.5">🌳 多 Operator 团队裂变矩阵树状图</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+                    <div class="bg-slate-950 border border-cyan-500/30 p-4 rounded-xl space-y-2">
+                        <div class="flex justify-between items-center text-cyan-300 font-bold">
+                            <span>⚡ 团队矩阵组 A (华南区域)</span>
+                            <span class="text-[10px] bg-cyan-950 px-2 py-0.5 rounded text-cyan-400">6 人在岗</span>
+                        </div>
+                        <p class="text-slate-400 text-[11px]">负责全渠道零售模块锁粉，今日累计贡献业绩：<strong class="text-emerald-400">MYR 18,400</strong></p>
+                    </div>
+                    <div class="bg-slate-950 border border-cyan-500/30 p-4 rounded-xl space-y-2">
+                        <div class="flex justify-between items-center text-cyan-300 font-bold">
+                            <span>⚡ 团队矩阵组 B (东南亚中心)</span>
+                            <span class="text-[10px] bg-cyan-950 px-2 py-0.5 rounded text-cyan-400">8 人在岗</span>
+                        </div>
+                        <p class="text-slate-400 text-[11px]">负责餐饮智慧系统点餐对账，今日累计贡献业绩：<strong class="text-emerald-400">MYR 24,100</strong></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -362,7 +390,7 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <span class="text-[11px] text-slate-400">活跃 Business Owner</span>
                     <p class="text-2xl font-black text-white font-mono">612 位</p>
-                    <p class="text-[10px] text-blue-400">VIP 机构节点占比 89%</p>
+                    <p class="text-[10px] text-cyan-300">Platinum VIP 占比 45%</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <span class="text-[11px] text-slate-400">在岗 Operator 节点</span>
@@ -400,13 +428,31 @@
 
     </main>
 
+
+    <!-- ==================== 4. 极致移动端底部快捷导航 (Mobile Bottom Nav) ==================== -->
+    <nav class="sm:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 py-2.5 px-6 flex justify-around items-center z-50">
+        <button onclick="switchMobileTab('dashboard')" class="text-slate-400 hover:text-blue-400 flex flex-col items-center text-[10px]">
+            <span class="text-lg">📊</span>
+            <span>工作台</span>
+        </button>
+        <button onclick="switchMobileTab('input')" class="text-slate-400 hover:text-emerald-400 flex flex-col items-center text-[10px]">
+            <span class="text-lg">📱</span>
+            <span>打卡媒介</span>
+        </button>
+        <button onclick="resetSystemSession()" class="text-slate-400 hover:text-red-400 flex flex-col items-center text-[10px]">
+            <span class="text-lg">⚙️</span>
+            <span>切换身份</span>
+        </button>
+    </nav>
+
+
     <!-- 页脚 -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500">
-        <p class="font-mono tracking-wider">LXJ HOLDING OS SINCE 2026 - ALL RIGHTS RESERVED</p>
+    <footer class="hidden sm:block bg-slate-900 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500">
+        <p class="font-mono tracking-wider">LXJ HOLDING OS SINCE 2026 - ALL RIGHTS RESERVED (ALL-IN-ONE OPTIMIZED)</p>
     </footer>
 
 
-    <!-- ==================== 4. 路由与交互控制脚本 ==================== -->
+    <!-- ==================== 5. 核心闭环与实时交互脚本 ==================== -->
     <script>
         // 切换登录与注册 Tab
         function switchAuthTab(tab) {
@@ -448,25 +494,121 @@
             document.getElementById('authModal').classList.add('hidden');
         }
 
-        // 核心路由分流函数
+        // 核心路由分流函数 (支持 Platinum VIP 专属视图)
         function routeDashboard(role) {
             document.getElementById('activeRoleIndicator').innerText = "Role: " + role;
 
             const viewOperator = document.getElementById('viewOperator');
             const viewOwner = document.getElementById('viewOwner');
+            const viewPlatinum = document.getElementById('viewPlatinum');
             const viewAdmin = document.getElementById('viewAdmin');
 
             viewOperator.classList.add('hidden');
             viewOwner.classList.add('hidden');
+            viewPlatinum.classList.add('hidden');
             viewAdmin.classList.add('hidden');
 
             if (role === 'Operator') {
                 viewOperator.classList.remove('hidden');
             } else if (role === 'Super Admin') {
                 viewAdmin.classList.remove('hidden');
+            } else if (role === 'Platinum VIP') {
+                viewPlatinum.classList.remove('hidden');
             } else {
-                // Standard VIP, Platinum VIP, Business Owner 统一进入决策控制台
+                // Standard VIP 和 Business Owner 统一进入决策控制台
                 viewOwner.classList.remove('hidden');
+            }
+        }
+
+        // 核心实时联动功能 1：Owner 下达指令实时同步至 Operator 终端
+        function broadcastInstruction() {
+            const text = document.getElementById('ownerInstructionInput').value;
+            if(!text) { alert('请输入要下达的指令内容！'); return; }
+
+            localStorage.setItem('lxj_latest_instruction', text);
+            alert('指令已成功实时推送至 Operator 终端！');
+        }
+
+        // 核心实时联动功能 2：Operator 提交数据实时同步至 Owner 后台动态表格
+        function submitOperatorData() {
+            const module = document.getElementById('opModuleSelect').value;
+            const amount = document.getElementById('opAmountInput').value;
+            const note = document.getElementById('opNoteInput').value || '日常打卡';
+
+            if(!amount) { alert('请输入上报金额！'); return; }
+
+            // 构造新行数据对象
+            const newRecord = {
+                operator: 'Operator-Mobile (You)',
+                module: module,
+                amount: 'MYR ' + Number(amount).toLocaleString(),
+                note: note,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                status: '已实时联动入账'
+            };
+
+            // 存入 LocalStorage 模拟后端同步
+            let reports = JSON.parse(localStorage.getItem('lxj_dynamic_reports') || '[]');
+            reports.unshift(newRecord);
+            localStorage.setItem('lxj_dynamic_reports', JSON.stringify(reports));
+
+            alert('数据已通过移动端媒介成功上报，Owner 后台已实时刷新！');
+            document.getElementById('opAmountInput').value = '';
+            document.getElementById('opNoteInput').value = '';
+        }
+
+        // 渲染动态表格数据
+        function renderDynamicReports() {
+            const tbody = document.getElementById('dynamicReportTableBody');
+            if(!tbody) return;
+
+            let reports = JSON.parse(localStorage.getItem('lxj_dynamic_reports') || '[]');
+            if(reports.length === 0) return;
+
+            // 保留默认的2行，并在上方追加新上报的数据
+            let html = '';
+            reports.forEach(r => {
+                html += `
+                    <tr>
+                        <td class="py-2.5">${r.operator}</td>
+                        <td>${r.module}</td>
+                        <td class="text-emerald-400">${r.amount}</td>
+                        <td>${r.note}</td>
+                        <td>${r.time}</td>
+                        <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">${r.status}</span></td>
+                    </tr>
+                `;
+            });
+
+            // 加上原有的两条静态演示数据
+            html += `
+                <tr>
+                    <td class="py-2.5">Operator-01 (Alex)</td>
+                    <td>全渠道零售</td>
+                    <td class="text-emerald-400">MYR 3,200</td>
+                    <td>锁粉业绩达成</td>
+                    <td>10:15 AM</td>
+                    <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">已自动校验入账</span></td>
+                </tr>
+                <tr>
+                    <td class="py-2.5">Operator-02 (Sarah)</td>
+                    <td>餐饮智慧服务</td>
+                    <td class="text-emerald-400">MYR 1,850</td>
+                    <td>营业对账结算</td>
+                    <td>11:40 AM</td>
+                    <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">已自动校验入账</span></td>
+                </tr>
+            `;
+            tbody.innerHTML = html;
+        }
+
+        // 移动端底部导航快速切换视图
+        function switchMobileTab(type) {
+            const role = localStorage.getItem('lxj_active_role') || 'Operator';
+            if(type === 'input' && role === 'Operator') {
+                window.scrollTo({ top: 300, behavior: 'smooth' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
@@ -479,6 +621,18 @@
             } else {
                 document.getElementById('authModal').classList.remove('hidden');
             }
+
+            // 同步加载实时指令
+            const savedInstruction = localStorage.getItem('lxj_latest_instruction');
+            if(savedInstruction && document.getElementById('operatorInstructionDisplay')) {
+                document.getElementById('operatorInstructionDisplay').innerHTML = `
+                    <p class="text-blue-400 font-bold">📌 [最新实时派发指令]：</p>
+                    <p>${savedInstruction}</p>
+                `;
+            }
+
+            // 渲染动态表格
+            renderDynamicReports();
         });
 
         // 重置会话
