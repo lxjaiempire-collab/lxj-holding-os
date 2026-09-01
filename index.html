@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LXJ HOLDING OS - 欢迎页</title>
+    <title>LXJ HOLDING OS - 邮箱/手机号登入</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://tailwindcss.com"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,53 +27,98 @@
 </head>
 <body class="h-full text-slate-100 font-sans flex flex-col justify-between selection:bg-[#0047A1] selection:text-white overflow-hidden">
 
-    <!-- 05 欢迎页容器 (严格匹配设计稿规范) -->
-    <div id="screenWelcome" class="relative flex-1 flex flex-col items-center justify-between p-6 max-w-md mx-auto w-full h-full text-center">
+    <!-- 07 邮箱/手机号登入容器 (严格匹配设计图规范) -->
+    <div id="screenEmailLogin" class="relative flex-1 flex flex-col justify-between p-6 max-w-md mx-auto w-full h-full">
         
-        <!-- 顶部品牌 Logo 与标题 -->
-        <div class="pt-8 space-y-2">
-            <p class="text-[10px] tracking-[0.2em] text-slate-400 uppercase">LXJ HOLDING</p>
-            <h1 class="text-xl font-bold tracking-wider text-white">LXJ AI BUSINESS PARTNER</h1>
-            <p class="text-xs text-blue-400 font-mono">登入界面 UI/UX 设计方案</p>
+        <!-- 顶部返回与标题区域 -->
+        <div class="space-y-4 pt-4">
+            <button onclick="alert('返回上一页')" class="w-8 h-8 rounded-full bg-[#1C1F26] border border-[#2A2E38] flex items-center justify-center text-slate-400 hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold tracking-wide text-white">登入</h2>
+                <p class="text-xs text-slate-400">请输入您的注册邮箱/手机号与安全密码</p>
+            </div>
         </div>
 
-        <!-- 中部科技感晶体与视觉插画区 -->
-        <div class="relative my-auto w-full flex flex-col items-center justify-center py-6">
-            <!-- 发光背景晕影 -->
-            <div class="absolute w-48 h-48 bg-[#0047A1]/20 rounded-full blur-3xl pointer-events-none"></div>
+        <!-- 中部表单输入区 (对齐 UI 组件规范 12) -->
+        <div class="space-y-4 my-auto w-full">
             
-            <!-- 宝石蓝高科技晶体图标示意 -->
-            <div class="relative w-28 h-28 rounded-3xl bg-gradient-to-tr from-[#0047A1] to-blue-400 p-[1px] shadow-2xl shadow-blue-600/30 mb-6 flex items-center justify-center">
-                <div class="w-full h-full bg-[#1C1F26] rounded-3xl flex items-center justify-center">
-                    <svg class="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"></path>
-                    </svg>
+            <!-- 邮箱/手机号输入框 -->
+            <div class="space-y-1.5">
+                <label class="text-[11px] text-slate-400 font-medium">邮箱 / 手机号</label>
+                <div class="relative">
+                    <input type="text" id="loginEmail" placeholder="example@lxj.com" 
+                        class="w-full bg-[#1C1F26] border border-[#2A2E38] focus:border-[#0047A1] text-white text-xs rounded-xl px-4 py-3.5 outline-none transition placeholder:text-slate-600">
                 </div>
             </div>
 
-            <!-- 核心有力文案 -->
+            <!-- 密码输入框 -->
             <div class="space-y-1.5">
-                <h3 class="text-sm font-semibold text-white tracking-wide">AI 助力，人类决策，专注经营</h3>
-                <p class="text-xs text-slate-400 max-w-[260px] mx-auto leading-relaxed">
-                    专业可靠、科技智能、高效便捷、安全信任的下一代商业操作系统。
-                </p>
+                <label class="text-[11px] text-slate-400 font-medium">密码</label>
+                <div class="relative">
+                    <input type="password" id="loginPassword" placeholder="••••••••" 
+                        class="w-full bg-[#1C1F26] border border-[#2A2E38] focus:border-[#0047A1] text-white text-xs rounded-xl px-4 py-3.5 pr-10 outline-none transition placeholder:text-slate-600">
+                    <!-- 密码可见切换图标 -->
+                    <button type="button" onclick="togglePassword()" class="absolute right-3 top-3.5 text-slate-500 hover:text-slate-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round2" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                </div>
             </div>
+
+            <!-- 记住我与忘记密码横排 -->
+            <div class="flex items-center justify-between text-xs pt-1">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded bg-[#1C1F26] border-[#2A2E38] text-[#0047A1] focus:ring-0 accent-[#0047A1]">
+                    <span class="text-slate-300">记住我</span>
+                </label>
+                <a href="#" onclick="alert('跳转至忘记密码页面')" class="text-blue-400 hover:underline">忘记密码？</a>
+            </div>
+
+            <!-- 主登录按钮 -->
+            <button onclick="handleSupabaseLogin()" class="w-full bg-[#0047A1] hover:bg-blue-600 active:scale-[0.98] text-white font-medium py-3.5 rounded-2xl text-sm transition shadow-lg shadow-blue-600/30 mt-2">
+                登入
+            </button>
         </div>
 
-        <!-- 底部开始按钮 -->
-        <div class="w-full pb-8 space-y-4">
-            <button onclick="goToLoginMethod()" class="w-full bg-[#0047A1] hover:bg-blue-600 active:scale-[0.98] text-white font-medium py-3.5 rounded-2xl text-sm transition shadow-lg shadow-blue-600/30">
-                开始使用
-            </button>
-            <p class="text-[10px] text-slate-500 font-mono">Designed for LXJ HOLDING OS · 2026</p>
+        <!-- 底部注册引导 -->
+        <div class="text-center pb-6 space-y-2">
+            <p class="text-[11px] text-slate-400">还没有账号？ <a href="#" class="text-blue-400 font-medium underline">立即注册</a></p>
+            <p class="text-[10px] text-slate-600 font-mono">LXJ HOLDING OS · SECURE AUTH</p>
         </div>
 
     </div>
 
     <script>
-        function goToLoginMethod() {
-            alert('即将平滑跳转至：06 登录方式选择页面...');
-            // 后续我们将在这里无缝切换至下一个模块的 DOM
+        // 初始化 Supabase 客户端 (生产环境请换成你的真实密钥)
+        const supabase = window.supabase.createClient('https://your-project.supabase.co', 'your-anon-key');
+
+        function togglePassword() {
+            const pwdInput = document.getElementById('loginPassword');
+            pwdInput.type = pwdInput.type === 'password' ? 'text' : 'password';
+        }
+
+        async function handleSupabaseLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if(!email || !password) {
+                alert('请输入邮箱和密码！');
+                return;
+            }
+
+            // 调用 Supabase 真实鉴权
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                alert('登入失败: ' + error.message);
+            } else {
+                alert('✅ 登入成功！即将进入系统');
+                // 后续可跳转至模块 10 (登入成功/主控面板)
+            }
         }
     </script>
 </body>
