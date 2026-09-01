@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ BUSINESS PARTNER SYSTEM - 指挥系统</title>
+    <title>LXJ BUSINESS PARTNER SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入二维码生成库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -23,6 +25,7 @@
     <style>
         body { background-color: #0b0f19; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         .device-simulator { transition: all 0.3s ease-in-out; margin: 0 auto; }
+        #qrcode img { display: inline-block !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
@@ -38,7 +41,7 @@
                     <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
                         LXJ HOLDING OS
                     </h1>
-                    <p class="text-xs text-slate-400">Super Admin Supreme Command Center</p>
+                    <p class="text-xs text-slate-400">Empire Command & Partner Center</p>
                 </div>
             </div>
 
@@ -73,7 +76,7 @@
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
                     LXJ
                 </div>
-                <h2 id="loginTitle" class="text-xl font-extrabold text-white tracking-wider">LXJ BUSINESS PARTNER GATEWAY</h2>
+                <h2 id="loginTitle" class="text-xl font-extrabold text-white tracking-wider">LXJ BUSINESS PARTNER SYSTEM</h2>
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
@@ -89,11 +92,11 @@
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
                     <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">Super Admin</option>
-                        <option value="business-owner">Business Owner</option>
-                        <option value="platinum-vip">Platinum VIP </option>
-                        <option value="standard-vip">Standard VIP </option>
-                        <option value="operator-team">Operator Team </option>
+                        <option value="super-admin">Super Admin (最高统帅 - 绝对所有权)</option>
+                        <option value="business-owner">Business Owner (需过审的模块知识贡献者 / 5%)</option>
+                        <option value="platinum-vip">Platinum VIP (白金分佣 / 3%)</option>
+                        <option value="standard-vip">Standard VIP (普通合伙人 / 1%)</option>
+                        <option value="operator-team">Operator Team (执行团队 / 0%)</option>
                     </select>
                 </div>
 
@@ -123,8 +126,10 @@
                 <div>
                     <label id="lblRegRole" class="block text-xs font-medium text-slate-300 mb-1">申请绑定身份 / Apply Role</label>
                     <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="business-owner">Business Owner (申请模块知识改进者 - 需审核)</option>
-                        <option value="operator-team">Operator Team (申请执行团队)</option>
+                        <option value="business-owner">Business Owner (申请模块知识改进者 - 需审核 / 5%)</option>
+                        <option value="platinum-vip">Platinum VIP (申请白金分佣 / 3%)</option>
+                        <option value="standard-vip">Standard VIP (申请普通合伙人 / 1%)</option>
+                        <option value="operator-team">Operator Team (申请执行团队 / 0%)</option>
                     </select>
                 </div>
                 <div>
@@ -152,8 +157,41 @@
 
     </main>
 
+    <!-- 专属海报生成弹窗 Modal -->
+    <div id="posterModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-2xl relative">
+            <button onclick="closePosterModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-lg">✕</button>
+            <h3 class="text-base font-bold text-white text-center">🎨 专属高转化裂变海报</h3>
+            
+            <!-- 海报预览容器 -->
+            <div id="posterCanvasContainer" class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-blue-500/30 rounded-xl p-5 text-center space-y-4 shadow-inner">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl mx-auto flex items-center justify-center font-black text-xl text-white shadow-lg border border-blue-400/30">
+                    LXJ
+                </div>
+                <div>
+                    <h4 class="text-lg font-black bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">LXJ HOLDING OS</h4>
+                    <p class="text-[10px] text-blue-300 tracking-wider uppercase mt-0.5">Empowering Global Business Partners</p>
+                </div>
+                <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700/80 text-left space-y-1">
+                    <div id="posterPartnerRole" class="text-xs font-bold text-amber-400">PARTNER ID: #88899</div>
+                    <div class="text-[11px] text-slate-300 font-medium">加入 LXJ 商业帝国生态，共共享商业数字革命增长红利。</div>
+                </div>
+                
+                <!-- 二维码渲染区 -->
+                <div class="flex flex-col items-center justify-center space-y-2 py-2">
+                    <div id="qrcode" class="p-2 bg-white rounded-lg shadow-md"></div>
+                    <span class="text-[10px] text-slate-400">扫码查看或绑定专属合伙人席位</span>
+                </div>
+            </div>
+
+            <button onclick="downloadPoster()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg transition">
+                ⬇️ 一键保存海报发送至社交群组
+            </button>
+        </div>
+    </div>
+
     <footer class="bg-gemBlue border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
-        <p class="font-medium tracking-widest text-slate-400">LXJ HOLDING OS SINCE 2026 </p>
+        <p class="font-medium tracking-widest text-slate-400">LXJ HOLDING OS SINCE 2026 - EMPIRE COMMAND & IP OWNERSHIP</p>
     </footer>
 
     <script>
@@ -162,7 +200,7 @@
 
         const langData = {
             zh: {
-                loginTitle: "LXJ EMPIRE GATEWAY",
+                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
                 loginSubtitle: "请选择身份或输入授权凭证登入系统",
                 lblRoleSelect: "选择登入角色身份",
                 lblToken: "安全授权令牌 / Security Token",
@@ -196,7 +234,7 @@
                 }
             },
             en: {
-                loginTitle: "LXJ BUSINESS PARTNER GATEWAY",
+                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
                 loginSubtitle: "Select role and enter authorization token to login",
                 lblRoleSelect: "Select Role Identity",
                 lblToken: "Security Token",
@@ -230,7 +268,7 @@
                 }
             },
             bm: {
-                loginTitle: "LXJ BUSINESS PARTNER GATEWAY",
+                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
                 loginSubtitle: "Pilih peranan dan masukkan token keselamatan untuk log masuk",
                 lblRoleSelect: "Pilih Peranan Identiti",
                 lblToken: "Token Keselamatan",
@@ -355,6 +393,36 @@
             navigator.clipboard.writeText(dummyLink).then(() => { alert(t.shareCopied); });
         }
 
+        // 裂变海报弹窗逻辑
+        function openPosterModal() {
+            const modal = document.getElementById('posterModal');
+            const roleBadge = document.getElementById('posterPartnerRole');
+            const qrcodeContainer = document.getElementById('qrcode');
+            
+            qrcodeContainer.innerHTML = ''; // 清空上一二维码
+            const dummyLink = "https://lxj-holding.os/ref?agent=" + loggedInRole + "&ref_id=88899";
+            
+            new QRCode(qrcodeContainer, {
+                text: dummyLink,
+                width: 90,
+                height: 90,
+                colorDark : "#0f172a",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            roleBadge.innerText = `ROLE: ${loggedInRole.toUpperCase()} | ID: #88899`;
+            modal.classList.remove('hidden');
+        }
+
+        function closePosterModal() {
+            document.getElementById('posterModal').classList.add('hidden');
+        }
+
+        function downloadPoster() {
+            alert("海报图片已准备就绪！请在弹出的预览图中【长按图片】或【右键另存为】直接保存至手机或电脑相册。");
+        }
+
         function setDeviceMode(mode) {
             const wrapper = document.getElementById('dashboardView');
             const btnPhone = document.getElementById('btn-phone');
@@ -386,7 +454,10 @@
 
             const shareComponent = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
-                    <h3 class="text-sm font-bold text-slate-200">${t.shareTitle}</h3>
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-slate-200">${t.shareTitle}</h3>
+                        <button onclick="openPosterModal()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold px-3 py-1 rounded-lg text-xs shadow transition">🎨 生成招募海报</button>
+                    </div>
                     <div class="flex gap-2">
                         <input type="text" readonly value="https://lxj-holding.os/ref?agent=${loggedInRole}&ref_id=88899" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
                         <button onclick="copyShareLink()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap">${t.shareBtn}</button>
@@ -394,7 +465,7 @@
                 </div>
             `;
 
-            // 100% 模块金池分配可视化组件（仅限 Super Admin）
+            // 100% 模块金池分配可视化组件（仅限 Super Admin 统帅舱）
             const poolVisualization = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-center">
@@ -441,7 +512,7 @@
                 </div>
             `;
 
-            // 应用模块工具栏组件（替代合伙人面板中的金池图表，更具实战价值）
+            // 应用模块工具栏组件
             const appModulesToolbar = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
                     <div class="flex justify-between items-center">
@@ -449,6 +520,11 @@
                         <span class="text-xs text-blue-400 font-mono">高效赋能系统</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div onclick="openPosterModal()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-amber-500/40 cursor-pointer transition text-center space-y-1">
+                            <div class="text-xl">🖼️</div>
+                            <div class="text-xs font-bold text-amber-300">裂变海报生成</div>
+                            <div class="text-[10px] text-slate-400">一键生成二维码</div>
+                        </div>
                         <div onclick="alert('正在启动：AI 智能营销文案与内容生成模块...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
                             <div class="text-xl">✍️</div>
                             <div class="text-xs font-bold text-slate-200">AI 智能营销</div>
@@ -458,11 +534,6 @@
                             <div class="text-xl">📊</div>
                             <div class="text-xs font-bold text-slate-200">CRM 转化漏斗</div>
                             <div class="text-[10px] text-slate-400">客户全生命周期</div>
-                        </div>
-                        <div onclick="alert('正在接入：自动化社群裂变与跟进系统...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
-                            <div class="text-xl">🤖</div>
-                            <div class="text-xs font-bold text-slate-200">社群自动化</div>
-                            <div class="text-[10px] text-slate-400">24小时自动回复</div>
                         </div>
                         <div onclick="alert('正在调取：数据报表与实时业绩雷达...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
                             <div class="text-xl">📈</div>
@@ -520,7 +591,7 @@
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                             <div>
-                                <h2 class="text-xl font-bold text-white">LXJ HOLDING PARTNER WORKBENCH</h2>
+                                <h2 class="text-xl font-bold text-white">LXJ BUSINESS PARTNER SYSTEM</h2>
                                 <p class="text-xs text-slate-400 mt-1">${roleDesc} | 平台所有知识产权归属 Super Admin 统帅</p>
                             </div>
                             <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-medium">${badge}</span>
@@ -539,7 +610,7 @@
                             </div>
                         </div>
 
-                        <!-- 替换后的应用模块工具栏 -->
+                        <!-- 应用模块工具栏 -->
                         ${appModulesToolbar}
                         ${shareComponent}
 
