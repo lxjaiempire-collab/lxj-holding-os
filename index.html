@@ -2,412 +2,222 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ BUSINESS PARTNER SYSTEM - Production Grade</title>
+    <title>管理后台界面</title>
+    <!-- 引入 Tailwind CSS (CDN) 快速布局 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gemBlue: '#0f172a',
-                        cardDark: '#1e293b',
-                        accentOrange: '#f97316',
-                        accentRed: '#ef4444'
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0b0f19; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        .device-simulator { transition: all 0.3s ease-in-out; margin: 0 auto; }
-        #qrcode img { display: inline-block !important; }
+        /* 自定义滚动条及小细节 */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
+<body class="bg-gray-100 font-sans antialiased h-screen flex overflow-hidden">
 
-    <!-- 顶栏 -->
-    <header id="appHeader" class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg hidden">
-        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center space-x-3 cursor-pointer">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl flex items-center justify-center font-bold text-xl text-white shadow-md border border-blue-400/30">
-                    LXJ
-                </div>
-                <div>
-                    <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                        LXJ HOLDING OS
-                    </h1>
-                    <p class="text-xs text-slate-400">Empire Command & Partner Center v5.0 Pro</p>
-                </div>
+    <!-- 1. 左侧导航栏 (Sidebar) -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0">
+        <div>
+            <!-- Logo 区域 -->
+            <div class="h-16 flex items-center justify-between px-6 bg-slate-950 font-bold text-lg tracking-wide border-b border-slate-800">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-cube text-indigo-500"></i> AdminDash
+                </span>
+                <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/30">v1.0</span>
             </div>
-
-            <div class="flex items-center space-x-3">
-                <span id="currentRoleBadge" class="text-xs bg-slate-900 border border-blue-500/50 text-blue-300 px-3 py-1.5 rounded-xl font-medium"></span>
-                <span id="riskShieldStatus" class="text-[10px] bg-emerald-950 border border-emerald-500/50 text-emerald-400 px-2 py-1 rounded-lg font-mono">🛡️ RiskEngine: ACTIVE</span>
-            </div>
-
-            <div class="flex items-center space-x-2">
-                <button onclick="openWithdrawModal()" class="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs px-3 py-1.5 rounded-xl transition font-bold">💰 提现结算</button>
-
-                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none">
-                    <option value="zh">简中</option>
-                    <option value="en">English</option>
-                    <option value="bm">Bahasa Melayu</option>
-                </select>
-
-                <button onclick="logout()" id="btnLogout" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 text-xs px-3 py-1.5 rounded-xl transition font-medium">退出</button>
-            </div>
+            <!-- 导航菜单 -->
+            <nav class="p-4 space-y-1">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium bg-indigo-600 text-white rounded-lg shadow-sm">
+                    <i class="fa-solid fa-chart-pie w-5"></i> 仪表盘
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors">
+                    <i class="fa-solid fa-users w-5"></i> 用户管理
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors">
+                    <i class="fa-solid fa-folder w-5"></i> 项目数据
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors">
+                    <i class="fa-solid fa-gear w-5"></i> 系统设置
+                </a>
+            </nav>
         </div>
-    </header>
-
-    <!-- 主体容器 -->
-    <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
-        
-        <!-- 1. 登入网关界面 -->
-        <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
-            <div class="text-center space-y-2">
-                <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
-                    LXJ
+        <!-- 底部用户信息 -->
+        <div class="p-4 border-t border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-white">A</div>
+                <div class="text-xs">
+                    <p class="font-semibold text-slate-200">Admin User</p>
+                    <p class="text-slate-400">admin@example.com</p>
                 </div>
-                <h2 id="loginTitle" class="text-xl font-extrabold text-white tracking-wider">LXJ BUSINESS PARTNER SYSTEM</h2>
-                <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
-
-            <!-- 扫码锁粉提示 Banner -->
-            <div id="referralBanner" class="hidden bg-blue-950/80 border border-blue-500/40 p-3 rounded-xl text-center space-y-0.5">
-                <span class="text-[11px] font-bold text-blue-300">🔗 扫码锁粉绑定成功</span>
-                <p id="referralBannerText" class="text-[10px] text-slate-300"></p>
-            </div>
-
-            <!-- 防刷指纹检测 -->
-            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-[10px] text-slate-400 flex justify-between items-center font-mono">
-                <span>设备指纹 (Device Hash):</span>
-                <span id="deviceFingerprintDisplay" class="text-blue-400 font-bold">Calculating...</span>
-            </div>
-
-            <!-- 语言选择按钮 -->
-            <div class="flex justify-center space-x-2 pb-1">
-                <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
-                <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
-                <button onclick="setLoginLang('bm')" id="l-bm" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">BM</button>
-            </div>
-
-            <!-- 登入表单 -->
-            <div id="loginFormSection" class="space-y-4">
-                <div>
-                    <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
-                    <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">Super Admin (最高统帅 - 绝对所有权)</option>
-                        <option value="business-owner">Business Owner (需过审的模块知识贡献者 / 5%)</option>
-                        <option value="platinum-vip">Platinum VIP (白金分佣 / 3%)</option>
-                        <option value="standard-vip">Standard VIP (普通合伙人 / 1%)</option>
-                        <option value="operator-team">Operator Team (执行团队 / 0%)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label id="lblToken" class="block text-xs font-medium text-slate-300 mb-1.5">安全授权令牌 / Security Token</label>
-                    <input type="password" id="loginTokenInput" value="lxj-security-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                </div>
-
-                <button onclick="handleLogin()" id="btnLoginText" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
-                    安全登入指挥系统
-                </button>
-            </div>
-        </div>
-
-        <!-- 2. 主指挥工作台界面 -->
-        <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
-            <div id="dynamicMainContent" class="space-y-6"></div>
-        </div>
-
-    </main>
-
-    <!-- Modal 1: 收益提现与风控申请面板 -->
-    <div id="withdrawModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
-            <button onclick="closeModal('withdrawModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">💰 收益提现与结算网关 (防刷审计保护)</h3>
-            
-            <div class="space-y-3">
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-                    <div class="flex justify-between text-xs text-slate-400">
-                        <span>可提现金池分润额度：</span>
-                        <span class="text-emerald-400 font-bold font-mono">2,450.00 MYR</span>
-                    </div>
-                    <div class="flex justify-between text-xs text-slate-400">
-                        <span>扣除风控与储备金 (20%)：</span>
-                        <span class="text-amber-400 font-bold font-mono">-490.00 MYR</span>
-                    </div>
-                    <div class="border-t border-slate-800 pt-2 flex justify-between text-sm font-bold text-white">
-                        <span>预计实际到账：</span>
-                        <span class="text-blue-400 font-mono">1,960.00 MYR</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">收款银行 / USDT TRC20 钱包地址：</label>
-                    <input type="text" id="payoutAddress" placeholder="例如：Maybank / Touch 'n Go / USDT TRC20" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-                </div>
-
-                <button onclick="submitWithdraw()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
-                    🚀 提交提现申请 (自动打包签署凭证)
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal 2: IP 契约合规条款面板 -->
-    <div id="complianceModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
-            <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">⚖️ LXJ Empire IP & 金池分配契约</h3>
-            
-            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2 max-h-60 overflow-y-auto leading-relaxed">
-                <p class="font-bold text-white">1. 知识产权所有权声明：</p>
-                <p>LXJ HOLDING OS 系统全套架构、源代码、业务逻辑与品牌资产 100% 归属于 Super Admin（统帅）绝对所有。</p>
-                <p class="font-bold text-white">2. 模块金池分润规则：</p>
-                <p>合伙人（Business Owner, Platinum, Standard VIP）所享有的分润来源于 100% 模块金池的分发分配，不构成股权或资产持有权。</p>
-                <p class="font-bold text-white">3. 防刷与反欺诈协议：</p>
-                <p>系统自动记录设备指纹与 IP 节点。凡恶意刷粉、伪造账户者，系统有权取消其金池分润资格。</p>
-            </div>
-
-            <button onclick="acceptCompliance()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
-                我已阅读并完全签署合规协议
+            <button class="text-slate-400 hover:text-red-400 transition-colors" title="退出">
+                <i class="fa-solid fa-right-from-bracket"></i>
             </button>
         </div>
-    </div>
+    </aside>
 
-    <!-- AI 营销 Modal -->
-    <div id="aiMarketingModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
-            <button onclick="closeModal('aiMarketingModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">✍️ AI 多语言智能文案生成器</h3>
-            
-            <div class="space-y-3">
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">选择发布平台与场景：</label>
-                    <select id="aiPlatformSelect" onchange="generateAiCopy()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-                        <option value="moments">微信朋友圈 / 私域社交精准推荐</option>
-                        <option value="redbook">小红书 / 商业干货爆款文案</option>
-                        <option value="im">WhatsApp & Telegram 多语言营销</option>
-                    </select>
+    <!-- 2. 右侧主内容区 (Main Area) -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <!-- 顶部栏 (Top Navbar) -->
+        <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-4 flex-1">
+                <div class="relative w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" placeholder="搜索关键词..." class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
                 </div>
-
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">生成的营销文案 (自适应当前系统语言)：</label>
-                    <textarea id="aiCopyOutput" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-blue-500 font-mono" readonly></textarea>
-                </div>
-
-                <button onclick="copyAiText()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
-                    📋 一键复制文案并去分享
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="w-9 h-9 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-lg transition-colors relative">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+                <div class="h-6 w-px bg-gray-200"></div>
+                <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-plus text-xs"></i> 新建项目
                 </button>
             </div>
-        </div>
+        </header>
+
+        <!-- 主体内容滚地区域 -->
+        <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            
+            <!-- 页面标题 -->
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">总览数据</h1>
+                    <p class="text-sm text-gray-500 mt-1">查看系统最新的关键指标与实时记录。</p>
+                </div>
+            </div>
+
+            <!-- 数据卡片网格 (Stats Cards) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase">总用户数</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1">12,846</h3>
+                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up"></i> +12% 较上月
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase">月收入</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1">¥45,210</h3>
+                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up"></i> +8.4% 较上月
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase">活跃项目</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1">142</h3>
+                        <p class="text-xs text-rose-500 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-down"></i> -3.1% 较上周
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase">转化率</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1">3.24%</h3>
+                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up"></i> +0.5% 较上周
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据表格区域 (Data Table) -->
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div class="p-5 border-b border-gray-200 flex items-center justify-between">
+                    <h2 class="text-base font-bold text-gray-800">最新订单动态</h2>
+                    <button class="text-sm text-indigo-600 font-medium hover:text-indigo-800">查看全部</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium">
+                            <tr>
+                                <th class="p-4 pl-6">订单编号</th>
+                                <th class="p-4">客户姓名</th>
+                                <th class="p-4">创建时间</th>
+                                <th class="p-4">状态</th>
+                                <th class="p-4">金额</th>
+                                <th class="p-4 pr-6 text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-gray-700">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="p-4 pl-6 font-mono font-medium text-gray-900">#ORD-9082</td>
+                                <td class="p-4 font-medium">张三</td>
+                                <td class="p-4 text-gray-500">2026-03-30 14:22</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 已完成
+                                    </span>
+                                </td>
+                                <td class="p-4 font-medium">¥1,200.00</td>
+                                <td class="p-4 pr-6 text-right">
+                                    <button class="text-gray-400 hover:text-indigo-600 transition-colors px-1"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="text-gray-400 hover:text-red-600 transition-colors px-1"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="p-4 pl-6 font-mono font-medium text-gray-900">#ORD-9081</td>
+                                <td class="p-4 font-medium">李四</td>
+                                <td class="p-4 text-gray-500">2026-03-30 11:05</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 处理中
+                                    </span>
+                                </td>
+                                <td class="p-4 font-medium">¥850.00</td>
+                                <td class="p-4 pr-6 text-right">
+                                    <button class="text-gray-400 hover:text-indigo-600 transition-colors px-1"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="text-gray-400 hover:text-red-600 transition-colors px-1"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="p-4 pl-6 font-mono font-medium text-gray-900">#ORD-9080</td>
+                                <td class="p-4 font-medium">王五</td>
+                                <td class="p-4 text-gray-500">2026-03-29 18:40</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> 已取消
+                                    </span>
+                                </td>
+                                <td class="p-4 font-medium">¥320.00</td>
+                                <td class="p-4 pr-6 text-right">
+                                    <button class="text-gray-400 hover:text-indigo-600 transition-colors px-1"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="text-gray-400 hover:text-red-600 transition-colors px-1"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
     </div>
 
-    <footer class="bg-gemBlue border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
-        <p class="font-medium tracking-widest text-slate-400">LXJ HOLDING OS SINCE 2026 - EMPIRE COMMAND & IP OWNERSHIP</p>
-    </footer>
-
-    <script>
-        let currentLang = 'zh';
-        let loggedInRole = '';
-        let deviceFingerprint = '';
-
-        // 生成设备指纹（简单的防刷指纹算法）
-        function generateFingerprint() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const txt = 'LXJ_SECURITY_DEVICE_FINGERPRINT_2026';
-            ctx.textBaseline = "top";
-            ctx.font = "14px 'Arial'";
-            ctx.fillText(txt, 2, 2);
-            const b64 = canvas.toDataURL().replace("data:image/png;base64,", "");
-            let hash = 0;
-            for (let i = 0; i < b64.length; i++) {
-                hash = ((hash << 5) - hash) + b64.charCodeAt(i);
-                hash |= 0;
-            }
-            return 'DEV-' + Math.abs(hash).toString(16).toUpperCase();
-        }
-
-        const langData = {
-            zh: {
-                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
-                loginSubtitle: "请选择身份或输入授权凭证登入系统",
-                aiCopyMoments: "🚀 2026 商业数字革命已至！加入 LXJ HOLDING OS 商业帝国生态，共享 100% 模块金池红利。
-点击链接绑定专属席位：
-",
-                aiCopyRedbook: "🔥【干货】普通人如何参与商业生态数字分润？
-LXJ 系统通过绝对 IP 保护与透明金池架构，实现合伙人长期合作！
-立即点击下方链接开启：
-",
-                aiCopyIm: "Hi！邀请你加入 LXJ 商业合伙人系统，共享商业增长红利。全自动锁粉与智能分润系统已上线，立即加入：
-"
-            },
-            en: {
-                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
-                loginSubtitle: "Select role and enter authorization token to login",
-                aiCopyMoments: "🚀 The 2026 Business Digital Revolution is here! Join LXJ HOLDING OS ecosystem and share 100% module pool dividends.
-Click link to lock your seat:
-",
-                aiCopyRedbook: "🔥 How to participate in business ecosystem profit sharing?
-LXJ OS provides absolute IP protection & transparent module pool!
-Click link to get started:
-",
-                aiCopyIm: "Hi! You are invited to join LXJ Partner System to share global digital business growth dividends. Join now:
-"
-            },
-            bm: {
-                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
-                loginSubtitle: "Pilih peranan dan masukkan token keselamatan untuk log masuk",
-                aiCopyMoments: "🚀 Revolusi Digital Perniagaan 2026 telah tiba! Sertai ekosistem LXJ HOLDING OS & nikmati dividen kolam modul 100%.
-Klik pautan untuk kunci tempat anda:
-",
-                aiCopyRedbook: "🔥 Bagaimana cara menyertai pembahagian keuntungan ekosistem perniagaan digital?
-Sistem LXJ memberikan perlindungan IP mutlak & struktur telus!
-Klik pautan di bawah:
-",
-                aiCopyIm: "Hi! Anda dijemput menyertai Sistem Rakan Kongsi LXJ untuk berkongsi dividen pertumbuhan perniagaan digital. Sertai sekarang:
-"
-            }
-        };
-
-        function setLoginLang(lang) {
-            currentLang = lang;
-            document.getElementById('langSelect').value = lang;
-            ['zh', 'en', 'bm'].forEach(l => {
-                const btn = document.getElementById(`l-${l}`);
-                if (btn) btn.className = (l === lang) ? "px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition" : "px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition";
-            });
-            document.getElementById('loginTitle').innerText = langData[lang].loginTitle;
-            document.getElementById('loginSubtitle').innerText = langData[lang].loginSubtitle;
-        }
-
-        function changeLanguage() {
-            currentLang = document.getElementById('langSelect').value;
-            setLoginLang(currentLang);
-            if (loggedInRole) renderDashboard();
-        }
-
-        function handleLogin() {
-            const role = document.getElementById('loginRoleSelect').value;
-            loggedInRole = role;
-            document.getElementById('loginView').classList.add('hidden');
-            document.getElementById('appHeader').classList.remove('hidden');
-            document.getElementById('dashboardView').classList.remove('hidden');
-
-            if (!localStorage.getItem('lxj_compliance_signed')) {
-                document.getElementById('complianceModal').classList.remove('hidden');
-            }
-            renderDashboard();
-        }
-
-        function acceptCompliance() {
-            localStorage.setItem('lxj_compliance_signed', 'true');
-            closeModal('complianceModal');
-        }
-
-        function openWithdrawModal() {
-            document.getElementById('withdrawModal').classList.remove('hidden');
-        }
-
-        function submitWithdraw() {
-            const addr = document.getElementById('payoutAddress').value;
-            if(!addr) { alert("请填写您的收款地址或银行账户！"); return; }
-            alert(`[防刷校验通过] 设备指纹 ${deviceFingerprint} 验证无误！提现申请已成功打包签署发往云端 API。`);
-            closeModal('withdrawModal');
-        }
-
-        function openAiMarketing() {
-            document.getElementById('aiMarketingModal').classList.remove('hidden');
-            generateAiCopy();
-        }
-
-        function generateAiCopy() {
-            const platform = document.getElementById('aiPlatformSelect').value;
-            const myUrl = window.location.href.split('#')[0] + `#ref_role=${loggedInRole}&ref_id=88899`;
-            let text = "";
-
-            if (platform === 'moments') text = langData[currentLang].aiCopyMoments + myUrl;
-            else if (platform === 'redbook') text = langData[currentLang].aiCopyRedbook + myUrl;
-            else text = langData[currentLang].aiCopyIm + myUrl;
-
-            document.getElementById('aiCopyOutput').value = text;
-        }
-
-        function copyAiText() {
-            const copyText = document.getElementById('aiCopyOutput');
-            navigator.clipboard.writeText(copyText.value).then(() => {
-                alert("营销文案已成功复制到剪贴板！");
-                closeModal('aiMarketingModal');
-            });
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        function logout() {
-            loggedInRole = '';
-            document.getElementById('dashboardView').classList.add('hidden');
-            document.getElementById('appHeader').classList.add('hidden');
-            document.getElementById('loginView').classList.remove('hidden');
-        }
-
-        function renderDashboard() {
-            const container = document.getElementById('dynamicMainContent');
-            document.getElementById('currentRoleBadge').innerText = loggedInRole.toUpperCase();
-
-            if (loggedInRole === 'super-admin') {
-                container.innerHTML = `
-                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-white">Super Admin 统帅全盘控制台</h2>
-                                <p class="text-xs text-slate-400 mt-1">全局掌控 100% 平台收益与底层资产所有权</p>
-                            </div>
-                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Supreme Owner</span>
-                        </div>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
-                            <h3 class="text-xs font-bold text-amber-400">🛡️ Business Owner 贡献审核队列 (5% 资格确认)</h3>
-                            <div class="flex justify-between items-center text-xs bg-slate-800 p-2.5 rounded-lg">
-                                <span>贡献者 #1029 (改进了 CRM 私域模块算法)</span>
-                                <div class="space-x-2">
-                                    <button onclick="alert('已批准该贡献者享用 5% 模块分润资格！')" class="bg-emerald-600 text-white px-2.5 py-1 rounded-md font-bold">批准</button>
-                                    <button onclick="alert('已驳回申请')" class="bg-red-600 text-white px-2.5 py-1 rounded-md font-bold">驳回</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-white">LXJ BUSINESS PARTNER WORKBENCH</h2>
-                                <p class="text-xs text-slate-400 mt-1">身份：${loggedInRole.toUpperCase()} | 智能工具链与分润中心</p>
-                            </div>
-                            <button onclick="openAiMarketing()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl transition font-bold">✍️ AI 营销工具</button>
-                        </div>
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 block mb-1">您的个人专属设备指纹 (防刷锁定)：</span>
-                            <span class="text-emerald-400 font-mono text-sm font-bold">${deviceFingerprint}</span>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            deviceFingerprint = generateFingerprint();
-            document.getElementById('deviceFingerprintDisplay').innerText = deviceFingerprint;
-        });
-    </script>
 </body>
 </html>
