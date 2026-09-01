@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ HOLDING OS - 统帅帝国金池指挥系统</title>
+    <title>LXJ HOLDING OS - 指挥系统</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -89,11 +89,11 @@
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
                     <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">Super Admin (最高统帅 - 绝对所有权)</option>
-                        <option value="business-owner">Business Owner (知识改进者 / 5%)</option>
-                        <option value="platinum-vip">Platinum VIP (白金分佣 / 3%)</option>
-                        <option value="standard-vip">Standard VIP (普通合伙人 / 1%)</option>
-                        <option value="operator-team">Operator Team (执行团队 / 0%)</option>
+                        <option value="super-admin">Super Admin</option>
+                        <option value="business-owner">Business Owner</option>
+                        <option value="platinum-vip">Platinum VIP </option>
+                        <option value="standard-vip">Standard VIP </option>
+                        <option value="operator-team">Operator Team </option>
                     </select>
                 </div>
 
@@ -123,9 +123,7 @@
                 <div>
                     <label id="lblRegRole" class="block text-xs font-medium text-slate-300 mb-1">申请绑定身份 / Apply Role</label>
                     <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="business-owner">Business Owner (申请模块知识改进者 / 5%)</option>
-                        <option value="platinum-vip">Platinum VIP (申请白金分佣 / 3%)</option>
-                        <option value="standard-vip">Standard VIP (申请普通合伙人 / 1%)</option>
+                        <option value="business-owner">Business Owner (申请模块知识改进者 - 需审核 / 5%)</option>
                         <option value="operator-team">Operator Team (申请执行团队 / 0%)</option>
                     </select>
                 </div>
@@ -184,7 +182,7 @@
                 poolStatus: "模块金池 100% 闭环运转",
                 
                 poolTitle: "模块金池 (Module Profit Pool) 100% 永续分润架构",
-                poolDesc: "基于 AI 模块售出 100 元基准，系统自动执行统帅定下的永久感恩与贡献分润矩阵。",
+                poolDesc: "基于 AI 模块售出 100 元基准，系统执行统帅定下的永久感恩与贡献分润矩阵。",
                 
                 taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
                 taskBtn: "下发团队任务",
@@ -194,7 +192,7 @@
                 shareCopied: "专属分享链接已成功复制到剪贴板！",
                 roleNames: {
                     'super-admin': 'Super Admin 最高统帅 (绝对所有权)',
-                    'business-owner': 'Business Owner (知识改进者 5%)',
+                    'business-owner': 'Business Owner (过审知识贡献者 5%)',
                     'platinum-vip': 'Platinum VIP (白金分佣 3%)',
                     'standard-vip': 'Standard VIP (普通合伙人 1%)',
                     'operator-team': 'Operator 执行团队 (0%)'
@@ -231,7 +229,7 @@
                 shareCopied: "Exclusive referral link copied to clipboard!",
                 roleNames: {
                     'super-admin': 'Super Admin (Absolute IP & 70%)',
-                    'business-owner': 'Business Owner (Knowledge Contributor 5%)',
+                    'business-owner': 'Business Owner (Verified Contributor 5%)',
                     'platinum-vip': 'Platinum VIP (3%)',
                     'standard-vip': 'Standard VIP (1%)',
                     'operator-team': 'Operator Team (0%)'
@@ -268,7 +266,7 @@
                 shareCopied: "Pautan perkongsian berjaya disalin ke papan klip!",
                 roleNames: {
                     'super-admin': 'Super Admin (Hak Milik Mutlak IP)',
-                    'business-owner': 'Business Owner (Penyumbang Ilmu 5%)',
+                    'business-owner': 'Business Owner (Penyumbang Tersemak 5%)',
                     'platinum-vip': 'Platinum VIP (3%)',
                     'standard-vip': 'Standard VIP (1%)',
                     'operator-team': 'Pasukan Operator (0%)'
@@ -405,7 +403,7 @@
                 </div>
             `;
 
-            // 100% 模块金池分配可视化组件 (Standard VIP 固化为 1%)
+            // 100% 模块金池分配可视化组件 (注明 BO 必须经系统审核合格才享有 5%)
             const poolVisualization = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-center">
@@ -421,7 +419,7 @@
                         <div class="bg-slate-800/80 p-3 rounded-lg border border-purple-500/30">
                             <span class="text-[10px] text-slate-400 block">Business Owner</span>
                             <span class="text-lg font-black text-purple-400">5%</span>
-                            <span class="text-[9px] text-slate-500 block">知识改进者</span>
+                            <span class="text-[9px] text-purple-300 block">需过审之贡献者</span>
                         </div>
                         <div class="bg-slate-800/80 p-3 rounded-lg border border-amber-500/30">
                             <span class="text-[10px] text-slate-400 block">Platinum VIP</span>
@@ -431,7 +429,7 @@
                         <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
                             <span class="text-[10px] text-slate-400 block">Standard VIP</span>
                             <span class="text-lg font-black text-slate-300">1%</span>
-                            <span class="text-[9px] text-slate-500 block">标准合伙人 (固定)</span>
+                            <span class="text-[9px] text-slate-500 block">普通合伙人 (固定)</span>
                         </div>
                         <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
                             <span class="text-[10px] text-slate-400 block">荣誉贡献者</span>
@@ -482,10 +480,13 @@
                     </div>
                 `;
             } else if (['business-owner', 'platinum-vip', 'standard-vip'].includes(loggedInRole)) {
-                let title = t.poolTitle, roleDesc = "同源工作台架构与永续分润通道", badge = "Partner", badgeColor = "bg-blue-500/20 text-blue-300", myShare = "1%";
+                let roleDesc = "同源工作台架构与永续分润通道", badge = "Partner", badgeColor = "bg-blue-500/20 text-blue-300", myShare = "1%", extraNote = "源自 100% 模块金池的特许感恩分润";
                 
                 if (loggedInRole === 'business-owner') {
-                    badge = "Business Owner (模块知识改进者)"; badgeColor = "bg-purple-500/20 text-purple-300"; myShare = "5% 永续收益权";
+                    badge = "Business Owner (模块知识改进者)"; 
+                    badgeColor = "bg-purple-500/20 text-purple-300"; 
+                    myShare = "5% (须经系统审核确认贡献)"; 
+                    extraNote = "注：仅限对模块做出实际改进、并经系统及统帅审核合格之合格贡献者方可享有";
                 } else if (loggedInRole === 'platinum-vip') {
                     badge = "Platinum VIP (白金分佣)"; badgeColor = "bg-amber-500/20 text-amber-300"; myShare = "3% 永续分佣";
                 } else if (loggedInRole === 'standard-vip') {
@@ -506,7 +507,7 @@
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
                                 <span class="text-xs text-slate-400 font-medium">当前身份分润回报 / My Allocation</span>
                                 <div class="text-2xl font-black text-amber-400 mt-2">${myShare}</div>
-                                <span class="text-xs text-slate-500 mt-1 block">源自 100% 模块金池的特许感恩分润</span>
+                                <span class="text-xs text-slate-500 mt-1 block">${extraNote}</span>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
                                 <span class="text-xs text-slate-400 font-medium">知识产权与资产归属 / IP Ownership</span>
