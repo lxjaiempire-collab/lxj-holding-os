@@ -180,7 +180,7 @@
                 <!-- 二维码渲染区 -->
                 <div class="flex flex-col items-center justify-center space-y-2 py-2">
                     <div id="qrcode" class="p-2 bg-white rounded-lg shadow-md"></div>
-                    <span class="text-[10px] text-slate-400">扫码查看或绑定专属合伙人席位</span>
+                    <span class="text-[10px] text-slate-400">扫码直达当前系统绑定专属席位</span>
                 </div>
             </div>
 
@@ -197,6 +197,12 @@
     <script>
         let currentLang = 'zh';
         let loggedInRole = '';
+
+        // 获取当前真实访问网址（自适应 GitHub Pages / Vercel / 本地环境）
+        function getRealShareUrl() {
+            const baseUrl = window.location.origin + window.location.pathname;
+            return `${baseUrl}?ref_role=${loggedInRole}&ref_id=88899`;
+        }
 
         const langData = {
             zh: {
@@ -389,21 +395,21 @@
 
         function copyShareLink() {
             const t = langData[currentLang];
-            const dummyLink = "https://lxj-holding.os/ref?agent=" + loggedInRole + "&ref_id=88899";
-            navigator.clipboard.writeText(dummyLink).then(() => { alert(t.shareCopied); });
+            const liveLink = getRealShareUrl();
+            navigator.clipboard.writeText(liveLink).then(() => { alert(t.shareCopied); });
         }
 
-        // 裂变海报弹窗逻辑
+        // 裂变海报弹窗逻辑（生成真实网址二维码）
         function openPosterModal() {
             const modal = document.getElementById('posterModal');
             const roleBadge = document.getElementById('posterPartnerRole');
             const qrcodeContainer = document.getElementById('qrcode');
             
             qrcodeContainer.innerHTML = ''; // 清空上一二维码
-            const dummyLink = "https://lxj-holding.os/ref?agent=" + loggedInRole + "&ref_id=88899";
+            const liveLink = getRealShareUrl();
             
             new QRCode(qrcodeContainer, {
-                text: dummyLink,
+                text: liveLink,
                 width: 90,
                 height: 90,
                 colorDark : "#0f172a",
@@ -420,7 +426,7 @@
         }
 
         function downloadPoster() {
-            alert("海报图片已准备就绪！请在弹出的预览图中【长按图片】或【右键另存为】直接保存至手机或电脑相册。");
+            alert("海报已准备就绪！手机端请对准预览图【长按图片】即可保存到手机相册；电脑端请【右键另存为】保存。");
         }
 
         function setDeviceMode(mode) {
@@ -448,6 +454,7 @@
         function renderDashboard() {
             const t = langData[currentLang];
             const container = document.getElementById('dynamicMainContent');
+            const liveShareUrl = getRealShareUrl();
             
             document.getElementById('currentRoleBadge').innerText = t.roleNames[loggedInRole];
             document.getElementById('btnLogout').innerText = t.logoutBtn;
@@ -459,7 +466,7 @@
                         <button onclick="openPosterModal()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold px-3 py-1 rounded-lg text-xs shadow transition">🎨 生成招募海报</button>
                     </div>
                     <div class="flex gap-2">
-                        <input type="text" readonly value="https://lxj-holding.os/ref?agent=${loggedInRole}&ref_id=88899" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
+                        <input type="text" readonly value="${liveShareUrl}" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
                         <button onclick="copyShareLink()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap">${t.shareBtn}</button>
                     </div>
                 </div>
