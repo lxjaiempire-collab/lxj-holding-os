@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ HOLDING OS - 指挥系统</title>
+    <title>LXJ HOLDING OS - 统帅帝国金池指挥系统</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -89,11 +89,11 @@
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
                     <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">Super Admin</option>
-                        <option value="business-owner">Business Owner</option>
-                        <option value="platinum-vip">Platinum VIP </option>
-                        <option value="standard-vip">Standard VIP </option>
-                        <option value="operator-team">Operator Team </option>
+                        <option value="super-admin">Super Admin (最高统帅 - 绝对所有权)</option>
+                        <option value="business-owner">Business Owner (需过审的模块知识贡献者 / 5%)</option>
+                        <option value="platinum-vip">Platinum VIP (白金分佣 / 3%)</option>
+                        <option value="standard-vip">Standard VIP (普通合伙人 / 1%)</option>
+                        <option value="operator-team">Operator Team (执行团队 / 0%)</option>
                     </select>
                 </div>
 
@@ -124,6 +124,8 @@
                     <label id="lblRegRole" class="block text-xs font-medium text-slate-300 mb-1">申请绑定身份 / Apply Role</label>
                     <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
                         <option value="business-owner">Business Owner (申请模块知识改进者 - 需审核 / 5%)</option>
+                        <option value="platinum-vip">Platinum VIP (申请白金分佣 / 3%)</option>
+                        <option value="standard-vip">Standard VIP (申请普通合伙人 / 1%)</option>
                         <option value="operator-team">Operator Team (申请执行团队 / 0%)</option>
                     </select>
                 </div>
@@ -181,9 +183,6 @@
                 ipOwnership: "平台 IP 与底层资产",
                 poolStatus: "模块金池 100% 闭环运转",
                 
-                poolTitle: "模块金池 (Module Profit Pool) 100% 永续分润架构",
-                poolDesc: "基于 AI 模块售出 100 元基准，系统执行统帅定下的永久感恩与贡献分润矩阵。",
-                
                 taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
                 taskBtn: "下发团队任务",
                 alertMsg: "任务已成功下发给 Operator 团队！",
@@ -218,9 +217,6 @@
                 ipOwnership: "Platform IP & Core Assets",
                 poolStatus: "Module Pool 100% Closed-Loop",
                 
-                poolTitle: "Module Profit Pool 100% Permanent Distribution Architecture",
-                poolDesc: "Based on 100 Currency AI module sales, executing the permanent gratitude and contribution matrix.",
-                
                 taskPlaceholder: "Assign task to Operator Team...",
                 taskBtn: "Assign Team Task",
                 alertMsg: "Task successfully assigned to Operator Team!",
@@ -254,9 +250,6 @@
                 netProfit: "Hasil Kolam Komander (70% Kekal)",
                 ipOwnership: "IP Platform & Aset Teras",
                 poolStatus: "Kolam Modul 100% Tertutup",
-                
-                poolTitle: "Seni Bina Agihan Kekal Kolam Keuntungan Modul 100%",
-                poolDesc: "Berdasarkan asas jualan modul AI 100, melaksanakan matriks agihan sumbangan dan penghargaan tetap.",
                 
                 taskPlaceholder: "Masukkan tugasan untuk Pasukan Operator...",
                 taskBtn: "Hantar Tugasan Pasukan",
@@ -403,7 +396,7 @@
                 </div>
             `;
 
-            // 100% 模块金池分配可视化组件 (注明 BO 必须经系统审核合格才享有 5%)
+            // 100% 模块金池分配可视化组件（仅限 Super Admin）
             const poolVisualization = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-center">
@@ -445,6 +438,38 @@
                             <span class="text-[10px] text-slate-400 block">系统储备金</span>
                             <span class="text-lg font-black text-teal-400">20%</span>
                             <span class="text-[9px] text-slate-500 block">风控与迭代</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 应用模块工具栏组件（替代合伙人面板中的金池图表，更具实战价值）
+            const appModulesToolbar = `
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-slate-200">🛠️ 应用模块工具栏 (Application Modules Toolbar)</h3>
+                        <span class="text-xs text-blue-400 font-mono">高效赋能系统</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div onclick="alert('正在启动：AI 智能营销文案与内容生成模块...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                            <div class="text-xl">✍️</div>
+                            <div class="text-xs font-bold text-slate-200">AI 智能营销</div>
+                            <div class="text-[10px] text-slate-400">多平台文案裂变</div>
+                        </div>
+                        <div onclick="alert('正在打开：私域客户资产管理与转化漏斗...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                            <div class="text-xl">📊</div>
+                            <div class="text-xs font-bold text-slate-200">CRM 转化漏斗</div>
+                            <div class="text-[10px] text-slate-400">客户全生命周期</div>
+                        </div>
+                        <div onclick="alert('正在接入：自动化社群裂变与跟进系统...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                            <div class="text-xl">🤖</div>
+                            <div class="text-xs font-bold text-slate-200">社群自动化</div>
+                            <div class="text-[10px] text-slate-400">24小时自动回复</div>
+                        </div>
+                        <div onclick="alert('正在调取：数据报表与实时业绩雷达...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                            <div class="text-xl">📈</div>
+                            <div class="text-xs font-bold text-slate-200">业绩实时雷达</div>
+                            <div class="text-[10px] text-slate-400">数据看板与复盘</div>
                         </div>
                     </div>
                 </div>
@@ -516,7 +541,8 @@
                             </div>
                         </div>
 
-                        ${poolVisualization}
+                        <!-- 替换后的应用模块工具栏 -->
+                        ${appModulesToolbar}
                         ${shareComponent}
 
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
