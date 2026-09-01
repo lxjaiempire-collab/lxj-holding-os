@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LXJ BUSINESS PARTNER SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 二维码生成库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Supabase 云数据库 SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
@@ -52,11 +50,7 @@
             </div>
 
             <div class="flex items-center space-x-2">
-                <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 hidden sm:flex items-center space-x-1">
-                    <button onclick="setDeviceMode('phone')" id="btn-phone" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">手机</button>
-                    <button onclick="setDeviceMode('tablet')" id="btn-tablet" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">平板</button>
-                    <button onclick="setDeviceMode('desktop')" id="btn-desktop" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition">电脑</button>
-                </div>
+                <button onclick="openWithdrawModal()" class="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs px-3 py-1.5 rounded-xl transition font-bold">💰 提现结算</button>
 
                 <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none">
                     <option value="zh">简中</option>
@@ -72,7 +66,7 @@
     <!-- 主体容器 -->
     <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
         
-        <!-- 1. 登入网关界面 -->
+        <!-- 登入网关界面 -->
         <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
@@ -82,20 +76,11 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
-            <!-- 扫码锁粉提示 Banner -->
             <div id="referralBanner" class="hidden bg-blue-950/80 border border-blue-500/40 p-3 rounded-xl text-center space-y-0.5">
                 <span class="text-[11px] font-bold text-blue-300">🔗 扫码锁粉绑定成功</span>
                 <p id="referralBannerText" class="text-[10px] text-slate-300"></p>
             </div>
 
-            <!-- 语言切换 -->
-            <div class="flex justify-center space-x-2 pb-2">
-                <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
-                <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
-                <button onclick="setLoginLang('bm')" id="l-bm" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">BM</button>
-            </div>
-
-            <!-- 登入表单 -->
             <div id="loginFormSection" class="space-y-4">
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
@@ -110,159 +95,72 @@
 
                 <div>
                     <label id="lblToken" class="block text-xs font-medium text-slate-300 mb-1.5">安全授权令牌 / Security Token</label>
-                    <div class="relative">
-                        <input type="password" id="loginTokenInput" value="lxj-security-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 pr-10">
-                        <button type="button" onclick="toggleTokenVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-white text-xs font-bold">👁️</button>
-                    </div>
+                    <input type="password" id="loginTokenInput" value="lxj-security-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
 
-                <button onclick="handleLogin()" id="btnLoginText" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
+                <button onclick="handleLogin()" id="btnLoginText" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
                     安全登入指挥系统
                 </button>
-
-                <div class="text-center pt-2">
-                    <button onclick="toggleAuthView('register')" id="toRegisterText" class="text-xs text-blue-400 hover:underline">没有账号？点击前往新用户注册 &rarr;</button>
-                </div>
             </div>
-
-            <!-- 注册表单 -->
-            <div id="registerFormSection" class="space-y-4 hidden">
-                <div id="referrerInfoField" class="hidden bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-xs space-y-1">
-                    <span class="text-slate-400 block text-[10px]">自动识别邀请推荐人 (Referrer Locked)：</span>
-                    <div id="referrerInfoText" class="font-bold text-amber-400 text-xs"></div>
-                </div>
-                <div>
-                    <label id="lblRegUser" class="block text-xs font-medium text-slate-300 mb-1">新用户全名 / Full Name</label>
-                    <input type="text" id="regNameInput" placeholder="请输入您的名字" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                </div>
-                <div>
-                    <label id="lblRegRole" class="block text-xs font-medium text-slate-300 mb-1">申请绑定身份 / Apply Role</label>
-                    <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="business-owner">Business Owner (申请模块知识改进者 - 需审核 / 5%)</option>
-                        <option value="platinum-vip">Platinum VIP (申请白金分佣 / 3%)</option>
-                        <option value="standard-vip">Standard VIP (申请普通合伙人 / 1%)</option>
-                        <option value="operator-team">Operator Team (申请执行团队 / 0%)</option>
-                    </select>
-                </div>
-                <div>
-                    <label id="lblRegToken" class="block text-xs font-medium text-slate-300 mb-1">设置安全访问口令 / Set Password</label>
-                    <input type="password" id="regTokenInput" value="lxj-new-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                </div>
-
-                <button onclick="handleRegister()" id="btnRegisterText" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
-                    提交注册并同步至云端
-                </button>
-
-                <div class="text-center pt-2">
-                    <button onclick="toggleAuthView('login')" id="toLoginText" class="text-xs text-slate-400 hover:underline">&larr; 已有账号？返回安全登入</button>
-                </div>
-            </div>
-
         </div>
 
-        <!-- 2. 主指挥工作台界面 -->
+        <!-- 主指挥工作台界面 -->
         <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
-            <div id="dynamicMainContent" class="space-y-6">
-                <!-- 动态渲染区域 -->
-            </div>
+            <div id="dynamicMainContent" class="space-y-6"></div>
         </div>
 
     </main>
 
-    <!-- 工具链 Modal 1: AI 智能营销系统 -->
-    <div id="aiMarketingModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
-            <button onclick="closeModal('aiMarketingModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">✍️ AI 智能裂变营销文案引擎</h3>
+    <!-- Modal 1: 收益提现申请面板 -->
+    <div id="withdrawModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('withdrawModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">💰 收益提现与结算网关</h3>
             
             <div class="space-y-3">
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">选择发布平台 / 推广场景：</label>
-                    <select id="aiPlatformSelect" onchange="generateAiCopy()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-                        <option value="moments">微信朋友圈 / 熟人圈精准推荐</option>
-                        <option value="redbook">小红书 / 种草干货爆款文案</option>
-                        <option value="im">WhatsApp & Telegram 私域群发</option>
-                    </select>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>可提现金池分润额度：</span>
+                        <span class="text-emerald-400 font-bold font-mono">2,450.00 MYR</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>扣除风控与储备金 (20%)：</span>
+                        <span class="text-amber-400 font-bold font-mono">-490.00 MYR</span>
+                    </div>
+                    <div class="border-t border-slate-800 pt-2 flex justify-between text-sm font-bold text-white">
+                        <span>预计实际到账：</span>
+                        <span class="text-blue-400 font-mono">1,960.00 MYR</span>
+                    </div>
                 </div>
 
                 <div>
-                    <label class="text-xs text-slate-400 block mb-1">生成的专属营销文案 (自动带上您的绑定链接)：</label>
-                    <textarea id="aiCopyOutput" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-blue-500 font-mono" readonly></textarea>
+                    <label class="text-xs text-slate-400 block mb-1">收款银行/加密货币钱包地址：</label>
+                    <input type="text" id="payoutAddress" placeholder="例如：Maybank / Touch 'n Go / USDT TRC20" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
                 </div>
 
-                <button onclick="copyAiText()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
-                    📋 一键复制文案并去分享
+                <button onclick="submitWithdraw()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                    🚀 提交提现申请 (自动打包签署凭证)
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 工具链 Modal 2: 私域 CRM 转化漏斗 -->
-    <div id="crmModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative">
-            <button onclick="closeModal('crmModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">📊 CRM 私域锁粉与转化漏斗</h3>
+    <!-- Modal 2: IP 契约合规条款面板 -->
+    <div id="complianceModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+            <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">⚖️ LXJ Empire IP & 金池分配契约</h3>
             
-            <div class="space-y-3">
-                <div class="grid grid-cols-3 gap-3 text-center">
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[10px] text-slate-400 block">今日扫码总数</span>
-                        <span class="text-lg font-bold text-blue-400">12</span>
-                    </div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[10px] text-slate-400 block">成功绑定锁粉</span>
-                        <span class="text-lg font-bold text-emerald-400">5 人</span>
-                    </div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[10px] text-slate-400 block">预估带来分润</span>
-                        <span class="text-lg font-bold text-amber-400">+450 MYR</span>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-2">
-                    <span class="text-xs font-bold text-slate-300 block">实时锁粉轨迹（最近绑定）：</span>
-                    <div class="space-y-1.5 text-xs">
-                        <div class="flex justify-between items-center text-slate-400 border-b border-slate-800/60 pb-1">
-                            <span>用户 #9921 (John D.)</span>
-                            <span class="text-emerald-400 font-mono">已注册 (Standard VIP)</span>
-                        </div>
-                        <div class="flex justify-between items-center text-slate-400 border-b border-slate-800/60 pb-1">
-                            <span>用户 #9925 (Sarah M.)</span>
-                            <span class="text-amber-400 font-mono">扫码未完成注册</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 专属海报 Modal -->
-    <div id="posterModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-2xl relative">
-            <button onclick="closeModal('posterModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-lg">✕</button>
-            <h3 class="text-base font-bold text-white text-center">🎨 专属高转化裂变海报</h3>
-            
-            <div id="posterCanvasContainer" class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-blue-500/30 rounded-xl p-5 text-center space-y-4 shadow-inner">
-                <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl mx-auto flex items-center justify-center font-black text-xl text-white shadow-lg border border-blue-400/30">
-                    LXJ
-                </div>
-                <div>
-                    <h4 class="text-lg font-black bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">LXJ HOLDING OS</h4>
-                    <p class="text-[10px] text-blue-300 tracking-wider uppercase mt-0.5">Empowering Global Business Partners</p>
-                </div>
-                <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700/80 text-left space-y-1">
-                    <div id="posterPartnerRole" class="text-xs font-bold text-amber-400">PARTNER ID: #88899</div>
-                    <div class="text-[11px] text-slate-300 font-medium">加入 LXJ 商业帝国生态，共享商业数字革命增长红利。</div>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center space-y-2 py-2">
-                    <div id="qrcode" class="p-2 bg-white rounded-lg shadow-md"></div>
-                    <span class="text-[10px] text-slate-400">扫码直达 GitHub Pages 绑定席位</span>
-                </div>
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2 max-h-60 overflow-y-auto leading-relaxed">
+                <p class="font-bold text-white">1. 知识产权所有权声明：</p>
+                <p>LXJ HOLDING OS 系统全套架构、源代码、业务逻辑与品牌资产 100% 归属于 Super Admin（统帅）绝对所有。</p>
+                <p class="font-bold text-white">2. 模块金池分润规则：</p>
+                <p>合伙人（Business Owner, Platinum, Standard VIP）所享有的分润来源于 100% 模块金池的分发分配，不构成股权或资产持有权。</p>
+                <p class="font-bold text-white">3. Business Owner 贡献审核：</p>
+                <p>Business Owner 获得的 5% 改进分润须经 Super Admin 正式审核并认可其对模块的有效贡献后方可生效。</p>
             </div>
 
-            <button onclick="downloadPoster()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg transition">
-                ⬇️ 一键保存海报发送至社交群组
+            <button onclick="acceptCompliance()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                我已阅读并完全签署合规协议
             </button>
         </div>
     </div>
@@ -272,207 +170,40 @@
     </footer>
 
     <script>
-        let currentLang = 'zh';
         let loggedInRole = '';
-        let activeReferrerRole = '';
-        let activeReferrerId = '';
-
-        function parseReferralParams() {
-            const hash = window.location.hash;
-            if (hash && hash.includes('ref_role=')) {
-                const params = new URLSearchParams(hash.replace('#', '?'));
-                activeReferrerRole = params.get('ref_role');
-                activeReferrerId = params.get('ref_id');
-
-                if (activeReferrerId && activeReferrerRole) {
-                    document.getElementById('referralBanner').classList.remove('hidden');
-                    document.getElementById('referralBannerText').innerText = `已成功识别推荐上级：ID #${activeReferrerId} (${activeReferrerRole.toUpperCase()})`;
-                    
-                    document.getElementById('referrerInfoField').classList.remove('hidden');
-                    document.getElementById('referrerInfoText').innerText = `ID #${activeReferrerId} [${activeReferrerRole.toUpperCase()}]`;
-                }
-            }
-        }
-
-        function getRealShareUrl() {
-            const cleanUrl = window.location.href.split('?')[0].split('#')[0];
-            return `${cleanUrl}#ref_role=${loggedInRole}&ref_id=88899`;
-        }
-
-        const langData = {
-            zh: {
-                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
-                loginSubtitle: "请选择身份或输入授权凭证登入系统",
-                lblRoleSelect: "选择登入角色身份",
-                lblToken: "安全授权令牌 / Security Token",
-                btnLoginText: "安全登入指挥系统",
-                toRegisterText: "没有账号？点击前往新用户注册 \u2192",
-                toLoginText: "\u2190 已有账号？返回安全登入",
-                lblRegUser: "新用户全名 / Full Name",
-                lblRegRole: "申请绑定身份 / Apply Role",
-                lblRegToken: "设置安全访问口令 / Set Password",
-                btnRegisterText: "提交注册并同步至云端",
-                logoutBtn: "退出登入",
-                superAdminTitle: "Super Admin 最高统帅绝对主权指挥舱",
-                superAdminDesc: "全局掌控 100% 平台收益与全部知识产权。模块金池利润永续分发架构总控。",
-                netProfit: "统帅金池总收益 (70% 永久)",
-                ipOwnership: "平台 IP 与底层资产",
-                poolStatus: "模块金池 100% 闭环运转",
-                taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
-                taskBtn: "下发团队任务",
-                alertMsg: "任务已成功同步并下发给 Operator 团队！",
-                shareTitle: "专属招募与分享链接 (Exclusive Referral Link)",
-                shareBtn: "复制专属分享链接",
-                shareCopied: "专属分享链接已成功复制到剪贴板！",
-                roleNames: {
-                    'super-admin': 'Super Admin 最高统帅 (绝对所有权)',
-                    'business-owner': 'Business Owner (过审知识贡献者 5%)',
-                    'platinum-vip': 'Platinum VIP (白金分佣 3%)',
-                    'standard-vip': 'Standard VIP (普通合伙人 1%)',
-                    'operator-team': 'Operator 执行团队 (0%)'
-                }
-            },
-            en: {
-                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
-                loginSubtitle: "Select role and enter authorization token to login",
-                lblRoleSelect: "Select Role Identity",
-                lblToken: "Security Token",
-                btnLoginText: "Secure Login to Command System",
-                toRegisterText: "No account? Click to Register New User \u2192",
-                toLoginText: "\u2190 Already have an account? Back to Login",
-                lblRegUser: "Full Name",
-                lblRegRole: "Apply Role",
-                lblRegToken: "Set Password / Token",
-                btnRegisterText: "Submit Registration & Sync Cloud",
-                logoutBtn: "Logout",
-                superAdminTitle: "Super Admin Supreme Command Center",
-                superAdminDesc: "Global control over 100% platform revenue and all IP assets. Module profit pool master control.",
-                netProfit: "Commander Pool Revenue (70% Permanent)",
-                ipOwnership: "Platform IP & Core Assets",
-                poolStatus: "Module Pool 100% Closed-Loop",
-                taskPlaceholder: "Assign task to Operator Team...",
-                taskBtn: "Assign Team Task",
-                alertMsg: "Task successfully assigned to Operator Team!",
-                shareTitle: "Exclusive Referral Link",
-                shareBtn: "Copy Share Link",
-                shareCopied: "Exclusive referral link copied to clipboard!",
-                roleNames: {
-                    'super-admin': 'Super Admin (Absolute IP & 70%)',
-                    'business-owner': 'Business Owner (Verified Contributor 5%)',
-                    'platinum-vip': 'Platinum VIP (3%)',
-                    'standard-vip': 'Standard VIP (1%)',
-                    'operator-team': 'Operator Team (0%)'
-                }
-            },
-            bm: {
-                loginTitle: "LXJ BUSINESS PARTNER SYSTEM",
-                loginSubtitle: "Pilih peranan dan masukkan token keselamatan untuk log masuk",
-                lblRoleSelect: "Pilih Peranan Identiti",
-                lblToken: "Token Keselamatan",
-                btnLoginText: "Log Masuk Selamat ke Sistem",
-                toRegisterText: "Tiada akaun? Daftar Pengguna Baru \u2192",
-                toLoginText: "\u2190 Sudah ada akaun? Kembali ke Log Masuk",
-                lblRegUser: "Nama Penuh",
-                lblRegRole: "Peranan Pilihan",
-                lblRegToken: "Tetapkan Kata Laluan",
-                btnRegisterText: "Hantar Pendaftaran & Simpan Awan",
-                logoutBtn: "Log Keluar",
-                superAdminTitle: "Super Admin Pusat Kawalan Tertinggi",
-                superAdminDesc: "Kawalan penuh ke atas 100% hasil platform dan semua aset IP. Pengurusan kolam keuntungan modul.",
-                netProfit: "Hasil Kolam Komander (70% Kekal)",
-                ipOwnership: "IP Platform & Aset Teras",
-                poolStatus: "Kolam Modul 100% Tertutup",
-                taskPlaceholder: "Masukkan tugasan untuk Pasukan Operator...",
-                taskBtn: "Hantar Tugasan Pasukan",
-                alertMsg: "Tugasan berjaya dihantar kepada Pasukan Operator!",
-                shareTitle: "Pautan Rujukan Eksklusif (Referral Link)",
-                shareBtn: "Salin Pautan Kongsi",
-                shareCopied: "Pautan perkongsian berjaya disalin ke papan klip!",
-                roleNames: {
-                    'super-admin': 'Super Admin (Hak Milik Mutlak IP)',
-                    'business-owner': 'Business Owner (Penyumbang Tersemak 5%)',
-                    'platinum-vip': 'Platinum VIP (3%)',
-                    'standard-vip': 'Standard VIP (1%)',
-                    'operator-team': 'Pasukan Operator (0%)'
-                }
-            }
-        };
-
-        function setLoginLang(lang) {
-            currentLang = lang;
-            document.getElementById('langSelect').value = lang;
-            
-            ['zh', 'en', 'bm'].forEach(l => {
-                const btn = document.getElementById(`l-${l}`);
-                if (l === lang) {
-                    btn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition";
-                } else {
-                    btn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition";
-                }
-            });
-
-            const t = langData[lang];
-            document.getElementById('loginTitle').innerText = t.loginTitle;
-            document.getElementById('loginSubtitle').innerText = t.loginSubtitle;
-            document.getElementById('lblRoleSelect').innerText = t.lblRoleSelect;
-            document.getElementById('lblToken').innerText = t.lblToken;
-            document.getElementById('btnLoginText').innerText = t.btnLoginText;
-            document.getElementById('toRegisterText').innerText = t.toRegisterText;
-            document.getElementById('lblRegUser').innerText = t.lblRegUser;
-            document.getElementById('lblRegRole').innerText = t.lblRegRole;
-            document.getElementById('lblRegToken').innerText = t.lblRegToken;
-            document.getElementById('btnRegisterText').innerText = t.btnRegisterText;
-            document.getElementById('toLoginText').innerText = t.toLoginText;
-        }
-
-        function changeLanguage() {
-            currentLang = document.getElementById('langSelect').value;
-            setLoginLang(currentLang);
-            if (loggedInRole) { renderDashboard(); }
-        }
-
-        function toggleAuthView(view) {
-            const loginSec = document.getElementById('loginFormSection');
-            const regSec = document.getElementById('registerFormSection');
-            if (view === 'register') {
-                loginSec.classList.add('hidden');
-                regSec.classList.remove('hidden');
-            } else {
-                regSec.classList.add('hidden');
-                loginSec.classList.remove('hidden');
-            }
-        }
-
-        function toggleTokenVisibility() {
-            const input = document.getElementById('loginTokenInput');
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
 
         function handleLogin() {
             const role = document.getElementById('loginRoleSelect').value;
-            const token = document.getElementById('loginTokenInput').value;
-            if (!token) { alert("Please enter security token!"); return; }
             loggedInRole = role;
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('appHeader').classList.remove('hidden');
             document.getElementById('dashboardView').classList.remove('hidden');
+
+            // 检查是否显示合规弹窗
+            if (!localStorage.getItem('lxj_compliance_signed')) {
+                document.getElementById('complianceModal').classList.remove('hidden');
+            }
             renderDashboard();
         }
 
-        function handleRegister() {
-            const name = document.getElementById('regNameInput').value;
-            const role = document.getElementById('regRoleSelect').value;
-            const token = document.getElementById('regTokenInput').value;
-            if (!name || !token) { alert("Please fill in all registration fields!"); return; }
-            
-            let referralMsg = activeReferrerId ? ` (Bound to Referrer ID #${activeReferrerId})` : '';
-            alert(`Registration successful! Welcome ${name}${referralMsg}. Logging into your dashboard...`);
-            
-            loggedInRole = role;
-            document.getElementById('loginView').classList.add('hidden');
-            document.getElementById('appHeader').classList.remove('hidden');
-            document.getElementById('dashboardView').classList.remove('hidden');
-            renderDashboard();
+        function acceptCompliance() {
+            localStorage.setItem('lxj_compliance_signed', 'true');
+            closeModal('complianceModal');
+        }
+
+        function openWithdrawModal() {
+            document.getElementById('withdrawModal').classList.remove('hidden');
+        }
+
+        function submitWithdraw() {
+            const addr = document.getElementById('payoutAddress').value;
+            if(!addr) { alert("请填写您的收款地址或银行账户！"); return; }
+            alert("提现申请已成功打包签署！云端 API 审核通过后将直接划转至您的指定账户。");
+            closeModal('withdrawModal');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
         }
 
         function logout() {
@@ -480,293 +211,37 @@
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('appHeader').classList.add('hidden');
             document.getElementById('loginView').classList.remove('hidden');
-            toggleAuthView('login');
-        }
-
-        function copyShareLink() {
-            const t = langData[currentLang];
-            const liveLink = getRealShareUrl();
-            navigator.clipboard.writeText(liveLink).then(() => { alert(t.shareCopied); });
-        }
-
-        // --- 工具链函数：AI 营销文案生成 ---
-        function openAiMarketing() {
-            document.getElementById('aiMarketingModal').classList.remove('hidden');
-            generateAiCopy();
-        }
-
-        function generateAiCopy() {
-            const platform = document.getElementById('aiPlatformSelect').value;
-            const myUrl = getRealShareUrl();
-            let text = "";
-
-            if (platform === 'moments') {
-                text = `🚀 2026 商业数字革命已至！加入 LXJ HOLDING OS 商业帝国生态，共享 100% 模块金池红利。\n点击链接绑定专属席位：\n${myUrl}`;
-            } else if (platform === 'redbook') {
-                text = `🔥【干货】普通人如何参与商业生态数字分润？\nLXJ 系统通过绝对 IP 保护与透明金池架构，实现合伙人长期合作！\n立即点击下方链接开启：\n${myUrl}`;
-            } else {
-                text = `Hi！邀请你加入 LXJ 商业合伙人系统，共享商业增长红利。全自动锁粉与智能分润系统已上线，立即加入：\n${myUrl}`;
-            }
-
-            document.getElementById('aiCopyOutput').value = text;
-        }
-
-        function copyAiText() {
-            const copyText = document.getElementById('aiCopyOutput');
-            navigator.clipboard.writeText(copyText.value).then(() => {
-                alert("AI 文案已成功复制到剪贴板！可以去对应平台发送了。");
-                closeModal('aiMarketingModal');
-            });
-        }
-
-        // --- 工具链函数：CRM 漏斗 ---
-        function openCrmModal() {
-            document.getElementById('crmModal').classList.remove('hidden');
-        }
-
-        function openPosterModal() {
-            const modal = document.getElementById('posterModal');
-            const roleBadge = document.getElementById('posterPartnerRole');
-            const qrcodeContainer = document.getElementById('qrcode');
-            
-            qrcodeContainer.innerHTML = '';
-            const liveLink = getRealShareUrl();
-            
-            new QRCode(qrcodeContainer, {
-                text: liveLink,
-                width: 100,
-                height: 100,
-                colorDark : "#0f172a",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-
-            roleBadge.innerText = `ROLE: ${loggedInRole.toUpperCase()} | ID: #88899`;
-            modal.classList.remove('hidden');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        function downloadPoster() {
-            alert("海报已准备就绪！手机端请长按二维码保存，电脑端请右键另存为。");
-        }
-
-        function setDeviceMode(mode) {
-            const wrapper = document.getElementById('dashboardView');
-            const btnPhone = document.getElementById('btn-phone');
-            const btnTablet = document.getElementById('btn-tablet');
-            const btnDesktop = document.getElementById('btn-desktop');
-
-            [btnPhone, btnTablet, btnDesktop].forEach(b => {
-                b.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition";
-            });
-
-            if (mode === 'phone') {
-                wrapper.style.maxWidth = '390px'; wrapper.style.border = '8px solid #334155'; wrapper.style.borderRadius = '32px'; wrapper.style.padding = '12px';
-                btnPhone.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
-            } else if (mode === 'tablet') {
-                wrapper.style.maxWidth = '768px'; wrapper.style.border = '8px solid #334155'; wrapper.style.borderRadius = '24px'; wrapper.style.padding = '16px';
-                btnTablet.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
-            } else {
-                wrapper.style.maxWidth = '1280px'; wrapper.style.border = 'none'; wrapper.style.borderRadius = '0'; wrapper.style.padding = '0';
-                btnDesktop.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
-            }
         }
 
         function renderDashboard() {
-            const t = langData[currentLang];
             const container = document.getElementById('dynamicMainContent');
-            const liveShareUrl = getRealShareUrl();
-            
-            document.getElementById('currentRoleBadge').innerText = t.roleNames[loggedInRole];
-            document.getElementById('btnLogout').innerText = t.logoutBtn;
-
-            const shareComponent = `
-                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-sm font-bold text-slate-200">${t.shareTitle}</h3>
-                        <button onclick="openPosterModal()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold px-3 py-1 rounded-lg text-xs shadow transition">🎨 生成招募海报</button>
-                    </div>
-                    <div class="flex gap-2">
-                        <input type="text" readonly value="${liveShareUrl}" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
-                        <button onclick="copyShareLink()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap">${t.shareBtn}</button>
-                    </div>
-                </div>
-            `;
-
-            const poolVisualization = `
-                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-sm font-bold text-slate-200">💎 100% 模块金池 (Module Profit Pool) 分配架构</h3>
-                        <span class="text-xs text-emerald-400 font-mono">100% 闭环合规</span>
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-center">
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-blue-500/40">
-                            <span class="text-[10px] text-slate-400 block">Super Admin</span>
-                            <span class="text-lg font-black text-blue-400">70%</span>
-                            <span class="text-[9px] text-slate-500 block">统帅永久 / 绝对IP</span>
-                        </div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-purple-500/30">
-                            <span class="text-[10px] text-slate-400 block">Business Owner</span>
-                            <span class="text-lg font-black text-purple-400">5%</span>
-                            <span class="text-[9px] text-purple-300 block">需过审之贡献者</span>
-                        </div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-amber-500/30">
-                            <span class="text-[10px] text-slate-400 block">Platinum VIP</span>
-                            <span class="text-lg font-black text-amber-400">3%</span>
-                            <span class="text-[9px] text-slate-500 block">永久分佣</span>
-                        </div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                            <span class="text-[10px] text-slate-400 block">Standard VIP</span>
-                            <span class="text-lg font-black text-slate-300">1%</span>
-                            <span class="text-[9px] text-slate-500 block">普通合伙人 (固定)</span>
-                        </div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                            <span class="text-[10px] text-slate-400 block">荣誉贡献者</span>
-                            <span class="text-lg font-black text-slate-300">1%</span>
-                            <span class="text-[9px] text-slate-500 block">长期改进</span>
-                        </div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                            <span class="text-[10px] text-slate-400 block">Operator Team</span>
-                            <span class="text-lg font-black text-emerald-400">0%</span>
-                            <span class="text-[9px] text-slate-500 block">执行职责</span>
-                        </div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                            <span class="text-[10px] text-slate-400 block">系统储备金</span>
-                            <span class="text-lg font-black text-teal-400">20%</span>
-                            <span class="text-[9px] text-slate-500 block">风控与迭代</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const appModulesToolbar = `
-                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-sm font-bold text-slate-200">🛠️ 应用模块工具链 (Application Modules Toolbar)</h3>
-                        <span class="text-xs text-blue-400 font-mono">赋能闭环</span>
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <div onclick="openPosterModal()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-amber-500/40 cursor-pointer transition text-center space-y-1">
-                            <div class="text-xl">🖼️</div>
-                            <div class="text-xs font-bold text-amber-300">裂变海报生成</div>
-                            <div class="text-[10px] text-slate-400">一键生成二维码</div>
-                        </div>
-                        <div onclick="openAiMarketing()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-blue-500/40 cursor-pointer transition text-center space-y-1">
-                            <div class="text-xl">✍️</div>
-                            <div class="text-xs font-bold text-blue-300">AI 智能营销</div>
-                            <div class="text-[10px] text-slate-400">多平台文案裂变</div>
-                        </div>
-                        <div onclick="openCrmModal()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-emerald-500/40 cursor-pointer transition text-center space-y-1">
-                            <div class="text-xl">📊</div>
-                            <div class="text-xs font-bold text-emerald-300">CRM 转化漏斗</div>
-                            <div class="text-[10px] text-slate-400">客户全生命周期</div>
-                        </div>
-                        <div onclick="alert('实时业绩雷达显示：今日系统已产生 12 笔合伙分润订单，系统稳定率 100%。')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-purple-500/40 cursor-pointer transition text-center space-y-1">
-                            <div class="text-xl">📈</div>
-                            <div class="text-xs font-bold text-purple-300">业绩实时雷达</div>
-                            <div class="text-[10px] text-slate-400">实时看板与数据</div>
-                        </div>
-                    </div>
-                </div>
-            `;
+            document.getElementById('currentRoleBadge').innerText = loggedInRole.toUpperCase();
 
             if (loggedInRole === 'super-admin') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-white">${t.superAdminTitle}</h2>
-                                <p class="text-xs text-slate-400 mt-1">${t.superAdminDesc}</p>
+                        <h2 class="text-xl font-bold text-white">Super Admin 统帅控制台</h2>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                            <h3 class="text-xs font-bold text-amber-400">🛡️ Business Owner 贡献审核队列 (5% 资格确认)</h3>
+                            <div class="flex justify-between items-center text-xs bg-slate-800 p-2.5 rounded-lg">
+                                <span>贡献者 #1029 (改进了 CRM 私域模块算法)</span>
+                                <div class="space-x-2">
+                                    <button onclick="alert('已批准该贡献者享用 5% 模块分润资格！')" class="bg-emerald-600 text-white px-2.5 py-1 rounded-md">批准</button>
+                                    <button onclick="alert('已驳回申请')" class="bg-red-600 text-white px-2.5 py-1 rounded-md">驳回</button>
+                                </div>
                             </div>
-                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Absolute Control</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">${t.netProfit}</span>
-                                <div class="text-3xl font-black text-emerald-400 mt-2">87,150 <span class="text-xs text-slate-400">MYR</span></div>
-                            </div>
-                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">${t.ipOwnership}</span>
-                                <div class="text-xl font-black text-blue-400 mt-2">100% Secured (统帅)</div>
-                            </div>
-                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">${t.poolStatus}</span>
-                                <div class="text-xl font-black text-purple-400 mt-2">Active (100%)</div>
-                            </div>
-                        </div>
-
-                        ${poolVisualization}
-                        ${appModulesToolbar}
-                        ${shareComponent}
-                    </div>
-                `;
-            } else if (['business-owner', 'platinum-vip', 'standard-vip'].includes(loggedInRole)) {
-                let roleDesc = "同源工作台架构与永续分润通道", badge = "Partner", badgeColor = "bg-blue-500/20 text-blue-300", myShare = "1%", extraNote = "源自 100% 模块金池的特许感恩分润";
-                
-                if (loggedInRole === 'business-owner') {
-                    badge = "Business Owner (模块知识改进者)"; 
-                    badgeColor = "bg-purple-500/20 text-purple-300"; 
-                    myShare = "5% (须经系统审核确认贡献)"; 
-                    extraNote = "注：仅限对模块做出实际改进、并经系统及统帅审核合格之合格贡献者方可享有";
-                } else if (loggedInRole === 'platinum-vip') {
-                    badge = "Platinum VIP (白金分佣)"; badgeColor = "bg-amber-500/20 text-amber-300"; myShare = "3% 永续分佣";
-                } else if (loggedInRole === 'standard-vip') {
-                    badge = "Standard VIP (普通合伙人)"; badgeColor = "bg-slate-700 text-slate-200"; myShare = "1% 永续分佣";
-                }
-
-                container.innerHTML = `
-                    <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-white">LXJ BUSINESS PARTNER SYSTEM</h2>
-                                <p class="text-xs text-slate-400 mt-1">${roleDesc} | 平台所有知识产权归属 Super Admin 统帅</p>
-                            </div>
-                            <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-medium">${badge}</span>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">当前身份分润回报 / My Allocation</span>
-                                <div class="text-2xl font-black text-amber-400 mt-2">${myShare}</div>
-                                <span class="text-xs text-slate-500 mt-1 block">${extraNote}</span>
-                            </div>
-                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">知识产权与资产归属 / IP Ownership</span>
-                                <div class="text-xl font-black text-blue-400 mt-2">Super Admin (统帅)</div>
-                                <span class="text-xs text-slate-500 mt-1 block">平台资产受绝对法律与顶层契约保护</span>
-                            </div>
-                        </div>
-
-                        ${appModulesToolbar}
-                        ${shareComponent}
-
-                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
-                            <h3 class="text-sm font-bold text-slate-200">Task Management Workbench / 团队任务协同中枢</h3>
-                            <input type="text" placeholder="${t.taskPlaceholder}" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" onkeydown="if(event.key==='Enter') alert('${t.alertMsg}')">
-                            <button onclick="alert('${t.alertMsg}')" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium">${t.taskBtn}</button>
                         </div>
                     </div>
                 `;
-            } else if (loggedInRole === 'operator-team') {
+            } else {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                        <h2 class="text-xl font-bold text-emerald-400">Operator Command Center</h2>
-                        <p class="text-xs text-slate-400">日常执行与流水线维护工作台</p>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300 space-y-2">
-                            <p>Status: Execution pipeline operating under Super Admin IP protection.</p>
-                            <p class="text-xs text-slate-500">Note: Operator role executes daily duties (0% module pool direct share, compensated via performance).</p>
-                        </div>
+                        <h2 class="text-xl font-bold text-white">合伙人专属工作台 [${loggedInRole.toUpperCase()}]</h2>
+                        <p class="text-xs text-slate-400">您可以点击右上角的“💰 提现结算”提交您的收益划转请求。</p>
                     </div>
                 `;
             }
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            parseReferralParams();
-        });
     </script>
 </body>
 </html>
