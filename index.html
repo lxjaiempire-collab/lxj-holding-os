@@ -20,48 +20,75 @@
 </head>
 <body class="h-full text-slate-100 font-sans flex flex-col justify-between selection:bg-blue-500 selection:text-white">
 
-    <!-- ==================== 1. 首次登入 & 用户类型选择弹窗 (First-time Login Modal) ==================== -->
-    <div id="firstLoginModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-2xl relative">
-            <div class="text-center space-y-2">
-                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center font-black text-white text-xl mx-auto shadow-lg shadow-blue-500/30">
+    <!-- ==================== 1. 首次登入 & 身份类型选择弹窗 ==================== -->
+    <div id="firstLoginModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-7 max-w-lg w-full space-y-5 shadow-2xl relative my-auto">
+            <div class="text-center space-y-1.5">
+                <div class="w-11 h-11 bg-blue-600 rounded-xl flex items-center justify-center font-black text-white text-xl mx-auto shadow-lg shadow-blue-500/30">
                     LXJ
                 </div>
-                <h2 class="text-xl font-bold text-white" id="modalTitle">欢迎首次登入 LXJ HOLDING OS</h2>
+                <h2 class="text-lg font-bold text-white" id="modalTitle">欢迎首次登入 LXJ HOLDING OS</h2>
                 <p class="text-xs text-slate-400" id="modalSub">请选择您的合伙人身份类型以初始化系统配置：</p>
             </div>
 
-            <!-- 用户身份类型选择框 -->
-            <div class="space-y-3">
-                <label class="block p-3.5 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition flex items-center justify-between">
+            <!-- 5 种精细化身份类型选项 -->
+            <div class="space-y-2.5 max-h-[60vh] overflow-y-auto pr-1">
+                
+                <!-- 1. 标准 VIP -->
+                <label class="block p-3 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition">
                     <div class="flex items-center gap-3">
-                        <input type="radio" name="userRole" value="Partner" checked class="text-blue-600 focus:ring-0">
+                        <input type="radio" name="userRole" value="Standard VIP" checked class="text-blue-600 focus:ring-0">
                         <div>
-                            <p class="text-xs font-bold text-white" id="role1Title">普通商业合伙人 (Partner)</p>
-                            <p class="text-[11px] text-slate-400" id="role1Desc">享有基础模块金池分润与独立推广锁粉链接</p>
+                            <p class="text-xs font-bold text-blue-400" id="role1Title">Standard VIP (标准 VIP 合伙人)</p>
+                            <p class="text-[11px] text-slate-400" id="role1Desc">享有基础模块金池分润与专属推广锁粉链接</p>
                         </div>
                     </div>
                 </label>
 
-                <label class="block p-3.5 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition flex items-center justify-between">
+                <!-- 2. 白金 VIP -->
+                <label class="block p-3 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="userRole" value="Platinum VIP" class="text-blue-600 focus:ring-0">
+                        <div>
+                            <p class="text-xs font-bold text-cyan-300" id="role2Title">Platinum VIP (白金 VIP 合伙人)</p>
+                            <p class="text-[11px] text-slate-400" id="role2Desc">进阶金池分润比例，优先享受全网生态分红机制</p>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- 3. 运营者 / 操作员 -->
+                <label class="block p-3 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="userRole" value="Operator" class="text-blue-600 focus:ring-0">
+                        <div>
+                            <p class="text-xs font-bold text-emerald-400" id="role3Title">Operator (系统运营者/操作员)</p>
+                            <p class="text-[11px] text-slate-400" id="role3Desc">负责日常前端业务执行、客户对接与数据流监控</p>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- 4. VIP 机构节点 -->
+                <label class="block p-3 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition">
                     <div class="flex items-center gap-3">
                         <input type="radio" name="userRole" value="VIP Agency" class="text-blue-600 focus:ring-0">
                         <div>
-                            <p class="text-xs font-bold text-amber-400" id="role2Title">VIP 机构节点 (VIP Agency)</p>
-                            <p class="text-[11px] text-slate-400" id="role2Desc">额外享有 3% 全网团队金池加成与优先结算权</p>
+                            <p class="text-xs font-bold text-amber-400" id="role4Title">VIP Agency (VIP 机构节点)</p>
+                            <p class="text-[11px] text-slate-400" id="role4Desc">额外享有 3% 全网团队金池加成与优先结算权</p>
                         </div>
                     </div>
                 </label>
 
-                <label class="block p-3.5 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition flex items-center justify-between">
+                <!-- 5. 超级管理员 -->
+                <label class="block p-3 border border-slate-800 bg-slate-950 rounded-xl cursor-pointer hover:border-blue-500 transition">
                     <div class="flex items-center gap-3">
                         <input type="radio" name="userRole" value="Super Admin" class="text-blue-600 focus:ring-0">
                         <div>
-                            <p class="text-xs font-bold text-indigo-400" id="role3Title">系统超级管理员 (Super Admin)</p>
-                            <p class="text-[11px] text-slate-400" id="role3Desc">拥有完全掌控权、风控金池划拨与知识产权所有权</p>
+                            <p class="text-xs font-bold text-indigo-400" id="role5Title">Super Admin (系统超级管理员)</p>
+                            <p class="text-[11px] text-slate-400" id="role5Desc">拥有完全掌控权、风控金池划拨与知识产权所有权</p>
                         </div>
                     </div>
                 </label>
+
             </div>
 
             <button onclick="confirmFirstLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-blue-600/30" id="btnConfirmRole">
@@ -71,10 +98,9 @@
     </div>
 
 
-    <!-- ==================== 2. 顶部导航栏 (含三语切换 & 响应式折叠) ==================== -->
+    <!-- ==================== 2. 顶部导航栏 ==================== -->
     <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Brand Logo -->
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-blue-500/20">
                     LXJ
@@ -87,10 +113,7 @@
                 </div>
             </div>
 
-            <!-- 右侧操作区：多语言切换 & 控制台 -->
             <div class="flex items-center space-x-2 sm:space-x-4">
-                
-                <!-- 🌐 恢复：三语切换下拉框 -->
                 <select id="langSelect" onchange="switchLanguage(this.value)" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-blue-500">
                     <option value="zh">🇨🇳 中文</option>
                     <option value="en">🇺🇸 English</option>
@@ -107,7 +130,6 @@
             </div>
         </div>
 
-        <!-- 手机端折叠菜单 -->
         <div id="mobileMenu" class="hidden md:hidden border-t border-slate-800 bg-slate-900 px-4 py-3 space-y-2 text-xs">
             <div class="flex justify-between py-2 text-slate-400 border-b border-slate-800">
                 <span>系统风控状态:</span>
@@ -120,10 +142,9 @@
     </header>
 
 
-    <!-- ==================== 3. 主体内容 (自适应看板) ==================== -->
+    <!-- ==================== 3. 主体内容看板 ==================== -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- 顶部提示通栏 -->
         <div class="bg-gradient-to-r from-blue-900/40 to-indigo-900/20 border border-blue-500/30 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="space-y-1">
                 <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2" id="dashTitle">
@@ -135,7 +156,6 @@
             </div>
         </div>
 
-        <!-- 数据看板网格 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
                 <span class="text-xs text-slate-400 font-medium" id="card1Label">总金池分润额度</span>
@@ -155,11 +175,11 @@
                 <p class="text-[11px] text-slate-500">设备指纹防刷保护中</p>
             </div>
 
-            <!-- 当前用户类型动态卡片 -->
+            <!-- 动态当前选择身份 -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
                 <span class="text-xs text-slate-400 font-medium" id="card3Label">当前选择身份类型</span>
                 <div class="flex items-baseline justify-between">
-                    <span class="text-lg font-bold text-amber-400 font-mono" id="currentRoleDisplay">Partner</span>
+                    <span class="text-lg font-bold text-amber-400 font-mono" id="currentRoleDisplay">Standard VIP</span>
                     <span class="text-[11px] text-amber-400 bg-amber-950 border border-amber-800/50 px-2 py-0.5 rounded-full">已激活</span>
                 </div>
                 <p class="text-[11px] text-slate-500">根据首次登入选择配置</p>
@@ -174,7 +194,6 @@
             </div>
         </div>
 
-        <!-- 工具与提现交互面板 -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4">
                 <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -208,25 +227,27 @@
 
     </main>
 
-    <!-- 页脚 -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500">
         <p class="font-mono tracking-wider">LXJ HOLDING OS SINCE 2026 - ALL RIGHTS RESERVED</p>
     </footer>
 
 
-    <!-- ==================== 4. 核心三语 + 首次登入控制 JS 脚本 ==================== -->
+    <!-- ==================== 4. 三语 & 5种身份切换逻辑 ==================== -->
     <script>
-        // 多语言字典配置
         const i18n = {
             zh: {
                 modalTitle: "欢迎首次登入 LXJ HOLDING OS",
                 modalSub: "请选择您的合伙人身份类型以初始化系统配置：",
-                role1Title: "普通商业合伙人 (Partner)",
-                role1Desc: "享有基础模块金池分润与独立推广锁粉链接",
-                role2Title: "VIP 机构节点 (VIP Agency)",
-                role2Desc: "额外享有 3% 全网团队金池加成与优先结算权",
-                role3Title: "系统超级管理员 (Super Admin)",
-                role3Desc: "拥有完全掌控权、风控金池划拨与知识产权所有权",
+                role1Title: "Standard VIP (标准 VIP 合伙人)",
+                role1Desc: "享有基础模块金池分润与专属推广锁粉链接",
+                role2Title: "Platinum VIP (白金 VIP 合伙人)",
+                role2Desc: "进阶金池分润比例，优先享受全网生态分红机制",
+                role3Title: "Operator (系统运营者/操作员)",
+                role3Desc: "负责日常前端业务执行、客户对接与数据流监控",
+                role4Title: "VIP Agency (VIP 机构节点)",
+                role4Desc: "额外享有 3% 全网团队金池加成与优先结算权",
+                role5Title: "Super Admin (系统超级管理员)",
+                role5Desc: "拥有完全掌控权、风控金池划拨与知识产权所有权",
                 btnConfirmRole: "确认身份并进入系统",
                 dashTitle: "🚀 LXJ 商业帝国合伙人控制中心",
                 dashSub: "自动适配移动端与桌面端，提供透明化 100% 模块金池收益管理与防刷保护。",
@@ -241,13 +262,17 @@
             },
             en: {
                 modalTitle: "Welcome to LXJ HOLDING OS",
-                modalSub: "Please select your user role type to initialize configuration:",
-                role1Title: "Standard Partner",
-                role1Desc: "Enjoys basic pool dividends and exclusive referral links",
-                role2Title: "VIP Agency Node",
-                role2Desc: "Enjoys extra 3% pool bonus and priority settlement",
-                role3Title: "Super Admin",
-                role3Desc: "Full control, risk pool allocation, and IP ownership",
+                modalSub: "Please select your role type to initialize configuration:",
+                role1Title: "Standard VIP Partner",
+                role1Desc: "Standard pool dividend and exclusive referral link",
+                role2Title: "Platinum VIP Partner",
+                role2Desc: "Higher dividend ratio with priority pool rewards",
+                role3Title: "Operator",
+                role3Desc: "Responsible for daily operations, client tasks & data monitoring",
+                role4Title: "VIP Agency Node",
+                role4Desc: "Extra 3% pool bonus and priority settlement rights",
+                role5Title: "Super Admin",
+                role5Desc: "Full control, risk pool allocation & IP ownership",
                 btnConfirmRole: "Confirm Role & Enter System",
                 dashTitle: "🚀 LXJ Empire Partner Control Center",
                 dashSub: "Fully responsive for Mobile & PC with transparent 100% pool revenue management.",
@@ -263,12 +288,16 @@
             ms: {
                 modalTitle: "Selamat Datang ke LXJ HOLDING OS",
                 modalSub: "Sila pilih jenis peranan anda untuk memulakan sistem:",
-                role1Title: "Rakan Niaga (Partner)",
+                role1Title: "Rakan VIP Standard",
                 role1Desc: "Menikmati dividen asas dan pautan rujukan khas",
-                role2Title: "Nod Agensi VIP (VIP Agency)",
-                role2Desc: "Tambahan bonus 3% dan keutamaan pengeluaran",
-                role3Title: "Pentadbir Super (Super Admin)",
-                role3Desc: "Kawalan penuh, peruntukan dana dan hak cipta",
+                role2Title: "Rakan VIP Platinum",
+                role2Desc: "Nisbah dividen lebih tinggi dengan ganjaran keutamaan",
+                role3Title: "Operator (Pengendali)",
+                role3Desc: "Bertanggungjawab untuk operasi harian dan pemantauan data",
+                role4Title: "Nod Agensi VIP",
+                role4Desc: "Bonus tambahan 3% dan keutamaan pengeluaran",
+                role5Title: "Pentadbir Super (Super Admin)",
+                role5Desc: "Kawalan penuh, peruntukan dana dan hak cipta",
                 btnConfirmRole: "Sahkan Peranan & Masuk",
                 dashTitle: "🚀 Pusat Kawalan Rakan Niaga LXJ",
                 dashSub: "Responsif penuh untuk Telefon & PC dengan pengurusan pendapatan telus.",
@@ -283,7 +312,6 @@
             }
         };
 
-        // 切换语言函数
         function switchLanguage(lang) {
             const data = i18n[lang] || i18n['zh'];
             for (let key in data) {
@@ -293,26 +321,21 @@
             localStorage.setItem('lxj_lang', lang);
         }
 
-        // 检查是否为首次登录
         window.addEventListener('DOMContentLoaded', () => {
             const savedRole = localStorage.getItem('lxj_user_role');
             const savedLang = localStorage.getItem('lxj_lang') || 'zh';
 
-            // 设置语言选择框状态
             document.getElementById('langSelect').value = savedLang;
             switchLanguage(savedLang);
 
             if (savedRole) {
-                // 如果非第一次，隐藏弹窗，展示保存的身份
                 document.getElementById('firstLoginModal').classList.add('hidden');
                 document.getElementById('currentRoleDisplay').innerText = savedRole;
             } else {
-                // 第一次登录，展示弹窗
                 document.getElementById('firstLoginModal').classList.remove('hidden');
             }
         });
 
-        // 确认首次登录身份选择
         function confirmFirstLogin() {
             const selectedRole = document.querySelector('input[name="userRole"]:checked').value;
             localStorage.setItem('lxj_user_role', selectedRole);
@@ -320,13 +343,11 @@
             document.getElementById('firstLoginModal').classList.add('hidden');
         }
 
-        // 重置登录状态 (供测试唤起首次登录)
         function resetLoginState() {
             localStorage.removeItem('lxj_user_role');
             location.reload();
         }
 
-        // 手机端菜单展开
         function toggleMobileMenu() {
             document.getElementById('mobileMenu').classList.toggle('hidden');
         }
