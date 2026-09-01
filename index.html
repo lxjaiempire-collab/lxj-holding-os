@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LXJ BUSINESS PARTNER SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 二维码生成库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Supabase 云数据库 SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
@@ -30,6 +32,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
+    <!-- 顶栏 -->
     <header id="appHeader" class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg hidden">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3 cursor-pointer">
@@ -66,8 +69,10 @@
         </div>
     </header>
 
+    <!-- 主体容器 -->
     <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
         
+        <!-- 1. 登入网关界面 -->
         <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
@@ -77,17 +82,20 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
+            <!-- 扫码锁粉提示 Banner -->
             <div id="referralBanner" class="hidden bg-blue-950/80 border border-blue-500/40 p-3 rounded-xl text-center space-y-0.5">
                 <span class="text-[11px] font-bold text-blue-300">🔗 扫码锁粉绑定成功</span>
                 <p id="referralBannerText" class="text-[10px] text-slate-300"></p>
             </div>
 
+            <!-- 语言切换 -->
             <div class="flex justify-center space-x-2 pb-2">
                 <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
                 <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
                 <button onclick="setLoginLang('bm')" id="l-bm" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">BM</button>
             </div>
 
+            <!-- 登入表单 -->
             <div id="loginFormSection" class="space-y-4">
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
@@ -117,6 +125,7 @@
                 </div>
             </div>
 
+            <!-- 注册表单 -->
             <div id="registerFormSection" class="space-y-4 hidden">
                 <div id="referrerInfoField" class="hidden bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-xs space-y-1">
                     <span class="text-slate-400 block text-[10px]">自动识别邀请推荐人 (Referrer Locked)：</span>
@@ -151,16 +160,86 @@
 
         </div>
 
+        <!-- 2. 主指挥工作台界面 -->
         <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
             <div id="dynamicMainContent" class="space-y-6">
-                </div>
+                <!-- 动态渲染区域 -->
+            </div>
         </div>
 
     </main>
 
+    <!-- 工具链 Modal 1: AI 智能营销系统 -->
+    <div id="aiMarketingModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('aiMarketingModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">✍️ AI 智能裂变营销文案引擎</h3>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">选择发布平台 / 推广场景：</label>
+                    <select id="aiPlatformSelect" onchange="generateAiCopy()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
+                        <option value="moments">微信朋友圈 / 熟人圈精准推荐</option>
+                        <option value="redbook">小红书 / 种草干货爆款文案</option>
+                        <option value="im">WhatsApp & Telegram 私域群发</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">生成的专属营销文案 (自动带上您的绑定链接)：</label>
+                    <textarea id="aiCopyOutput" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-blue-500 font-mono" readonly></textarea>
+                </div>
+
+                <button onclick="copyAiText()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                    📋 一键复制文案并去分享
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工具链 Modal 2: 私域 CRM 转化漏斗 -->
+    <div id="crmModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('crmModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">✕</button>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">📊 CRM 私域锁粉与转化漏斗</h3>
+            
+            <div class="space-y-3">
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 block">今日扫码总数</span>
+                        <span class="text-lg font-bold text-blue-400">12</span>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 block">成功绑定锁粉</span>
+                        <span class="text-lg font-bold text-emerald-400">5 人</span>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] text-slate-400 block">预估带来分润</span>
+                        <span class="text-lg font-bold text-amber-400">+450 MYR</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <span class="text-xs font-bold text-slate-300 block">实时锁粉轨迹（最近绑定）：</span>
+                    <div class="space-y-1.5 text-xs">
+                        <div class="flex justify-between items-center text-slate-400 border-b border-slate-800/60 pb-1">
+                            <span>用户 #9921 (John D.)</span>
+                            <span class="text-emerald-400 font-mono">已注册 (Standard VIP)</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400 border-b border-slate-800/60 pb-1">
+                            <span>用户 #9925 (Sarah M.)</span>
+                            <span class="text-amber-400 font-mono">扫码未完成注册</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 专属海报 Modal -->
     <div id="posterModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-2xl relative">
-            <button onclick="closePosterModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-lg">✕</button>
+            <button onclick="closeModal('posterModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-lg">✕</button>
             <h3 class="text-base font-bold text-white text-center">🎨 专属高转化裂变海报</h3>
             
             <div id="posterCanvasContainer" class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-blue-500/30 rounded-xl p-5 text-center space-y-4 shadow-inner">
@@ -198,18 +277,6 @@
         let activeReferrerRole = '';
         let activeReferrerId = '';
 
-        // --- Supabase 初始化配置占位 (接入真实 Database 时填入专用秘钥) ---
-        const SUPABASE_URL = "https://your-supabase-project.supabase.co";
-        const SUPABASE_KEY = "your-anon-key";
-        let supabaseClient = null;
-
-        try {
-            if (window.supabase) {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            }
-        } catch(e) { console.log('Supabase mode running in offline/local fallback'); }
-
-        // 解析 URL 参数实现自动锁粉推荐人绑定
         function parseReferralParams() {
             const hash = window.location.hash;
             if (hash && hash.includes('ref_role=')) {
@@ -246,13 +313,11 @@
                 lblRegToken: "设置安全访问口令 / Set Password",
                 btnRegisterText: "提交注册并同步至云端",
                 logoutBtn: "退出登入",
-                
                 superAdminTitle: "Super Admin 最高统帅绝对主权指挥舱",
                 superAdminDesc: "全局掌控 100% 平台收益与全部知识产权。模块金池利润永续分发架构总控。",
                 netProfit: "统帅金池总收益 (70% 永久)",
                 ipOwnership: "平台 IP 与底层资产",
                 poolStatus: "模块金池 100% 闭环运转",
-                
                 taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
                 taskBtn: "下发团队任务",
                 alertMsg: "任务已成功同步并下发给 Operator 团队！",
@@ -280,13 +345,11 @@
                 lblRegToken: "Set Password / Token",
                 btnRegisterText: "Submit Registration & Sync Cloud",
                 logoutBtn: "Logout",
-                
                 superAdminTitle: "Super Admin Supreme Command Center",
                 superAdminDesc: "Global control over 100% platform revenue and all IP assets. Module profit pool master control.",
                 netProfit: "Commander Pool Revenue (70% Permanent)",
                 ipOwnership: "Platform IP & Core Assets",
                 poolStatus: "Module Pool 100% Closed-Loop",
-                
                 taskPlaceholder: "Assign task to Operator Team...",
                 taskBtn: "Assign Team Task",
                 alertMsg: "Task successfully assigned to Operator Team!",
@@ -314,13 +377,11 @@
                 lblRegToken: "Tetapkan Kata Laluan",
                 btnRegisterText: "Hantar Pendaftaran & Simpan Awan",
                 logoutBtn: "Log Keluar",
-                
                 superAdminTitle: "Super Admin Pusat Kawalan Tertinggi",
                 superAdminDesc: "Kawalan penuh ke atas 100% hasil platform dan semua aset IP. Pengurusan kolam keuntungan modul.",
                 netProfit: "Hasil Kolam Komander (70% Kekal)",
                 ipOwnership: "IP Platform & Aset Teras",
                 poolStatus: "Kolam Modul 100% Tertutup",
-                
                 taskPlaceholder: "Masukkan tugasan untuk Pasukan Operator...",
                 taskBtn: "Hantar Tugasan Pasukan",
                 alertMsg: "Tugasan berjaya dihantar kepada Pasukan Operator!",
@@ -428,6 +489,41 @@
             navigator.clipboard.writeText(liveLink).then(() => { alert(t.shareCopied); });
         }
 
+        // --- 工具链函数：AI 营销文案生成 ---
+        function openAiMarketing() {
+            document.getElementById('aiMarketingModal').classList.remove('hidden');
+            generateAiCopy();
+        }
+
+        function generateAiCopy() {
+            const platform = document.getElementById('aiPlatformSelect').value;
+            const myUrl = getRealShareUrl();
+            let text = "";
+
+            if (platform === 'moments') {
+                text = `🚀 2026 商业数字革命已至！加入 LXJ HOLDING OS 商业帝国生态，共享 100% 模块金池红利。\n点击链接绑定专属席位：\n${myUrl}`;
+            } else if (platform === 'redbook') {
+                text = `🔥【干货】普通人如何参与商业生态数字分润？\nLXJ 系统通过绝对 IP 保护与透明金池架构，实现合伙人长期合作！\n立即点击下方链接开启：\n${myUrl}`;
+            } else {
+                text = `Hi！邀请你加入 LXJ 商业合伙人系统，共享商业增长红利。全自动锁粉与智能分润系统已上线，立即加入：\n${myUrl}`;
+            }
+
+            document.getElementById('aiCopyOutput').value = text;
+        }
+
+        function copyAiText() {
+            const copyText = document.getElementById('aiCopyOutput');
+            navigator.clipboard.writeText(copyText.value).then(() => {
+                alert("AI 文案已成功复制到剪贴板！可以去对应平台发送了。");
+                closeModal('aiMarketingModal');
+            });
+        }
+
+        // --- 工具链函数：CRM 漏斗 ---
+        function openCrmModal() {
+            document.getElementById('crmModal').classList.remove('hidden');
+        }
+
         function openPosterModal() {
             const modal = document.getElementById('posterModal');
             const roleBadge = document.getElementById('posterPartnerRole');
@@ -449,8 +545,8 @@
             modal.classList.remove('hidden');
         }
 
-        function closePosterModal() {
-            document.getElementById('posterModal').classList.add('hidden');
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
         }
 
         function downloadPoster() {
@@ -549,8 +645,8 @@
             const appModulesToolbar = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
                     <div class="flex justify-between items-center">
-                        <h3 class="text-sm font-bold text-slate-200">🛠️ 应用模块工具栏 (Application Modules Toolbar)</h3>
-                        <span class="text-xs text-blue-400 font-mono">高效赋能系统</span>
+                        <h3 class="text-sm font-bold text-slate-200">🛠️ 应用模块工具链 (Application Modules Toolbar)</h3>
+                        <span class="text-xs text-blue-400 font-mono">赋能闭环</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <div onclick="openPosterModal()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-amber-500/40 cursor-pointer transition text-center space-y-1">
@@ -558,20 +654,20 @@
                             <div class="text-xs font-bold text-amber-300">裂变海报生成</div>
                             <div class="text-[10px] text-slate-400">一键生成二维码</div>
                         </div>
-                        <div onclick="alert('正在启动：AI 智能营销文案与内容生成模块...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                        <div onclick="openAiMarketing()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-blue-500/40 cursor-pointer transition text-center space-y-1">
                             <div class="text-xl">✍️</div>
-                            <div class="text-xs font-bold text-slate-200">AI 智能营销</div>
+                            <div class="text-xs font-bold text-blue-300">AI 智能营销</div>
                             <div class="text-[10px] text-slate-400">多平台文案裂变</div>
                         </div>
-                        <div onclick="alert('正在打开：私域客户资产管理与转化漏斗...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                        <div onclick="openCrmModal()" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-emerald-500/40 cursor-pointer transition text-center space-y-1">
                             <div class="text-xl">📊</div>
-                            <div class="text-xs font-bold text-slate-200">CRM 转化漏斗</div>
+                            <div class="text-xs font-bold text-emerald-300">CRM 转化漏斗</div>
                             <div class="text-[10px] text-slate-400">客户全生命周期</div>
                         </div>
-                        <div onclick="alert('正在调取：数据报表与实时业绩雷达...')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer transition text-center space-y-1">
+                        <div onclick="alert('实时业绩雷达显示：今日系统已产生 12 笔合伙分润订单，系统稳定率 100%。')" class="bg-slate-800/80 hover:bg-slate-800 p-4 rounded-xl border border-purple-500/40 cursor-pointer transition text-center space-y-1">
                             <div class="text-xl">📈</div>
-                            <div class="text-xs font-bold text-slate-200">业绩实时雷达</div>
-                            <div class="text-[10px] text-slate-400">数据看板与复盘</div>
+                            <div class="text-xs font-bold text-purple-300">业绩实时雷达</div>
+                            <div class="text-[10px] text-slate-400">实时看板与数据</div>
                         </div>
                     </div>
                 </div>
@@ -603,6 +699,7 @@
                         </div>
 
                         ${poolVisualization}
+                        ${appModulesToolbar}
                         ${shareComponent}
                     </div>
                 `;
@@ -667,7 +764,6 @@
             }
         }
 
-        // 页面初始化执行
         window.addEventListener('DOMContentLoaded', () => {
             parseReferralParams();
         });
