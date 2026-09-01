@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LXJ HOLDING OS - 商业操作系统 (全功能增强版)</title>
+    <title>LXJ HOLDING OS - 商业操作系统 (行业运用区升级版)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,7 +20,7 @@
 </head>
 <body class="h-full text-slate-100 font-sans flex flex-col justify-between selection:bg-blue-500 selection:text-white pb-16 sm:pb-0">
 
-    <!-- ==================== 1. 登录与新用户注册双模弹窗 (含 Super Admin 与密码鉴权) ==================== -->
+    <!-- ==================== 1. 安全登录与注册网关 ==================== -->
     <div id="authModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-6 shadow-2xl relative my-auto">
             
@@ -29,16 +29,16 @@
                     LXJ
                 </div>
                 <h2 id="modalTitle" class="text-lg font-bold text-white tracking-wide">LXJ HOLDING OS 安全登录网关</h2>
-                <p id="modalSub" class="text-xs text-slate-400">请选择合伙人身份并输入安全密码进行行业管理：</p>
+                <p id="modalSub" class="text-xs text-slate-400">请选择身份并输入安全密码进入行业运用区：</p>
             </div>
 
-            <!-- Tab 切换：已有身份登录 vs 新用户注册 -->
+            <!-- Tab 切换 -->
             <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
                 <button id="tabBtnLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 font-bold rounded-lg text-blue-400 bg-slate-900 shadow-md transition">合伙人登录</button>
-                <button id="tabBtnRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 font-bold rounded-lg text-slate-400 hover:text-slate-200 transition">新用户注册资料</button>
+                <button id="tabBtnRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 font-bold rounded-lg text-slate-400 hover:text-slate-200 transition">新用户注册</button>
             </div>
 
-            <!-- 表单 A: 身份选择与密码登录 -->
+            <!-- 登录表单 -->
             <div id="loginFormContainer" class="space-y-4">
                 <div class="space-y-2 max-h-[35vh] overflow-y-auto pr-1">
                     <label class="block p-3 border border-slate-800 bg-slate-950 rounded-2xl cursor-pointer hover:border-blue-500 transition">
@@ -81,7 +81,6 @@
                         </div>
                     </label>
 
-                    <!-- 已找回的 Super Admin -->
                     <label class="block p-3 border border-slate-800 bg-slate-950 rounded-2xl cursor-pointer hover:border-indigo-500 transition">
                         <div class="flex items-center gap-3">
                             <input type="radio" name="authRole" value="Super Admin" class="text-indigo-600 focus:ring-0">
@@ -99,30 +98,22 @@
                 </div>
 
                 <button onclick="handleSecureLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-blue-600/30">
-                    🔒 验证密码并进入行业管理系统
+                    🔒 验证并进入系统
                 </button>
             </div>
 
-            <!-- 表单 B: 已找回的新用户注册功能 -->
+            <!-- 注册表单 -->
             <div id="registerFormContainer" class="space-y-3.5 hidden">
                 <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">合伙人姓名 / 团队名称</label>
+                    <label class="block text-[11px] text-slate-400 mb-1">合伙人姓名</label>
                     <input type="text" id="regName" placeholder="例如：Alex Wong" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">WhatsApp 联系电话</label>
+                    <label class="block text-[11px] text-slate-400 mb-1">WhatsApp 电话</label>
                     <input type="text" id="regPhone" placeholder="+60 12-345 6789" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
                 </div>
                 <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">主营行业模块</label>
-                    <select id="regIndustry" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="retail">🛍️ 全渠道零售行业</option>
-                        <option value="fnb">🍜 餐饮智慧服务</option>
-                        <option value="agency">🏢 机构裂变代理</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">申请开通身份</label>
+                    <label class="block text-[11px] text-slate-400 mb-1">申请身份</label>
                     <select id="regRole" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
                         <option value="Business Owner">Business Owner (商业主)</option>
                         <option value="Platinum VIP">Platinum VIP (白金高阶合伙人)</option>
@@ -130,7 +121,7 @@
                     </select>
                 </div>
                 <button onclick="handleRegisterSubmit()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-600/30 mt-2">
-                    ✨ 提交注册资料并初始化系统
+                    ✨ 提交注册并直接初始化
                 </button>
             </div>
 
@@ -138,7 +129,7 @@
     </div>
 
 
-    <!-- ==================== 2. 顶部主导航栏 (已恢复 3 语切换) ==================== -->
+    <!-- ==================== 2. 顶部主导航栏 ==================== -->
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -146,14 +137,13 @@
                     LXJ
                 </div>
                 <div>
-                    <span id="brandTitle" class="font-bold text-sm sm:text-base tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent block">
+                    <span class="font-bold text-sm sm:text-base tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent block">
                         LXJ HOLDING OS
                     </span>
                     <span class="text-[10px] text-blue-400 font-mono block -mt-1" id="activeRoleIndicator">Role: Unauthenticated</span>
                 </div>
             </div>
 
-            <!-- 已找回的 3 语切换选择器 -->
             <div class="flex items-center space-x-2.5">
                 <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-blue-500 font-mono">
                     <option value="zh">🇨🇳 简体中文</option>
@@ -168,15 +158,15 @@
     </header>
 
 
-    <!-- ==================== 3. 主后台行业管理界面容器 ==================== -->
+    <!-- ==================== 3. 主后台面板 (核心：行业模块变身为“运用区”) ==================== -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-        <!-- Operator 终端 -->
+        <!-- 运营操作员视图 -->
         <div id="viewOperator" class="space-y-6 hidden">
             <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 flex justify-between items-center">
                 <div>
-                    <h2 class="text-base font-bold text-emerald-400">👷‍♂️ Operator 行业运营终端</h2>
-                    <p class="text-xs text-slate-400">已通过安全鉴权 | 现场上报数据实时通道已开启</p>
+                    <h2 class="text-base font-bold text-emerald-400">👷‍♂️ Operator 现场运营终端</h2>
+                    <p class="text-xs text-slate-400">已通过鉴权 | 现场上报数据实时通道</p>
                 </div>
                 <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-2.5 py-1 rounded-full font-mono border border-emerald-500/30">ONLINE</span>
             </div>
@@ -187,9 +177,9 @@
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">目标管理行业</label>
                         <select id="opIndustrySelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white">
-                            <option value="全渠道零售">🛍️ 全渠道零售行业管理</option>
-                            <option value="餐饮智慧服务">🍜 餐饮智慧服务管理</option>
-                            <option value="机构裂变代理">🏢 机构裂变代理管理</option>
+                            <option value="全渠道零售">🛍️ 全渠道零售行业运用</option>
+                            <option value="餐饮智慧服务">🍜 餐饮智慧服务运用</option>
+                            <option value="机构裂变代理">🏢 机构裂变代理运用</option>
                         </select>
                     </div>
                     <div>
@@ -203,62 +193,84 @@
             </div>
         </div>
 
-        <!-- Business Owner / Standard VIP 控制台 -->
+        <!-- 商业主与标准合伙人控制台 -->
         <div id="viewOwner" class="space-y-6 hidden">
             <div class="bg-gradient-to-r from-blue-900/40 to-indigo-900/20 border border-blue-500/30 rounded-2xl p-4 sm:p-6 flex justify-between items-center">
                 <div>
-                    <h2 class="text-base sm:text-lg font-bold text-white">💼 商业主与标准合伙人 - 行业管理中心</h2>
-                    <p class="text-xs text-slate-400">多行业板块自主管理、经营报表监控与风控审核</p>
+                    <h2 class="text-base sm:text-lg font-bold text-white">💼 商业主与标准合伙人 - 行业运用中心</h2>
+                    <p class="text-xs text-slate-400">将传统板块转化为独立可执行的“行业运用区”，点击即可运行对应业务</p>
                 </div>
                 <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full font-mono border border-blue-500/30">STANDARD OWNER</span>
             </div>
 
-            <!-- 行业板块动态管理区 -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-slate-900 border border-blue-500/50 p-4 rounded-2xl space-y-2">
-                    <p class="text-xs font-bold text-white flex items-center justify-between">
-                        <span>🛍️ 零售行业管理</span>
-                        <span class="text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded">运行中</span>
-                    </p>
-                    <p class="text-[11px] text-slate-400">已绑定锁粉节点 8 个，今日流水 <strong class="text-white font-mono">MYR 12,400</strong></p>
-                    <button onclick="alert('进入零售行业独立管理后台成功！')" class="w-full mt-2 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white py-2 rounded-xl text-[11px] transition">进入行业管理</button>
+            <!-- 🔥 核心改造：行业模块变身为功能完整的“运用区卡片” -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">🚀 独立行业运用区矩阵 (Interactive Applications)</h3>
+                    <span class="text-[11px] text-blue-400 font-mono">已挂载 3 个核心商业运用</span>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
-                    <p class="text-xs font-bold text-white flex items-center justify-between">
-                        <span>🍜 餐饮行业管理</span>
-                        <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">未配置</span>
-                    </p>
-                    <p class="text-[11px] text-slate-400">配置扫码点餐与智慧结算通道</p>
-                    <button onclick="alert('餐饮行业管理权限已激活并绑定！')" class="w-full mt-2 bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white py-2 rounded-xl text-[11px] transition">激活并管理</button>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
-                    <p class="text-xs font-bold text-white flex items-center justify-between">
-                        <span>🏢 机构代理管理</span>
-                        <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">未配置</span>
-                    </p>
-                    <p class="text-[11px] text-slate-400">管理团队 3% 额外分润与矩阵</p>
-                    <button onclick="alert('机构代理管理权限已激活！')" class="w-full mt-2 bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white py-2 rounded-xl text-[11px] transition">激活并管理</button>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- 运用区 1: 零售 -->
+                    <div class="bg-slate-900 border border-blue-500/60 p-5 rounded-2xl space-y-3 shadow-lg shadow-blue-500/5 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-bl-full pointer-events-none"></div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-white flex items-center gap-2">🛍️ 全渠道零售运用</span>
+                            <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">运行中</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">支持多门店锁粉、SKU实时分润计算与自动化进销存对账。</p>
+                        <div class="pt-2 flex gap-2">
+                            <button onclick="launchApp('retail', 'run')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-md shadow-blue-600/30">▶ 启动运用</button>
+                            <button onclick="launchApp('retail', 'config')" class="px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs transition">⚙️ 设置</button>
+                        </div>
+                    </div>
+
+                    <!-- 运用区 2: 餐饮 -->
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3 shadow-lg relative overflow-hidden group hover:border-slate-700 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-white flex items-center gap-2">🍜 餐饮智慧服务运用</span>
+                            <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full font-mono">备用就绪</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">提供扫码点餐、后厨分单打印与桌台流水实时清算功能。</p>
+                        <div class="pt-2 flex gap-2">
+                            <button onclick="launchApp('fnb', 'run')" class="flex-1 bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white py-2.5 rounded-xl text-xs font-bold transition">▶ 启动运用</button>
+                            <button onclick="launchApp('fnb', 'config')" class="px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs transition">⚙️ 设置</button>
+                        </div>
+                    </div>
+
+                    <!-- 运用区 3: 机构代理 -->
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3 shadow-lg relative overflow-hidden group hover:border-slate-700 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-white flex items-center gap-2">🏢 机构裂变代理运用</span>
+                            <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full font-mono">备用就绪</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">管理多级团队佣金架构、业绩团队自动拆帐与合伙人晋升通道。</p>
+                        <div class="pt-2 flex gap-2">
+                            <button onclick="launchApp('agency', 'run')" class="flex-1 bg-slate-800 hover:bg-indigo-600 text-slate-200 hover:text-white py-2.5 rounded-xl text-xs font-bold transition">▶ 启动运用</button>
+                            <button onclick="launchApp('agency', 'config')" class="px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs transition">⚙️ 设置</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- 数据报表表格 -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-                <h3 class="text-xs font-bold text-white border-b border-slate-800 pb-2.5">📊 各行业板块实时运营报表</h3>
+                <h3 class="text-xs font-bold text-white border-b border-slate-800 pb-2.5">📊 各行业运用区实时流水对账</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-[11px]">
                         <thead>
                             <tr class="text-slate-400 border-b border-slate-800">
                                 <th class="pb-2">上报人员</th>
-                                <th class="pb-2">管理行业</th>
-                                <th class="pb-2">业绩金额</th>
+                                <th class="pb-2">所属行业运用区</th>
+                                <th class="pb-2">流水金额</th>
                                 <th class="pb-2">时间</th>
-                                <th class="pb-2">校验状态</th>
+                                <th class="pb-2">对账状态</th>
                             </tr>
                         </thead>
                         <tbody id="ownerReportTable" class="divide-y divide-slate-800/50 text-slate-300 font-mono">
                             <tr>
                                 <td class="py-2.5">Operator-Alex</td>
-                                <td>全渠道零售</td>
+                                <td>全渠道零售运用</td>
                                 <td class="text-emerald-400">MYR 3,200</td>
                                 <td>10:15</td>
                                 <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">安全入账</span></td>
@@ -269,19 +281,19 @@
             </div>
         </div>
 
-        <!-- Platinum VIP 高阶专区 -->
+        <!-- Platinum VIP 专区 -->
         <div id="viewPlatinum" class="space-y-6 hidden">
             <div class="bg-gradient-to-r from-cyan-950/60 to-blue-950/40 border border-cyan-500/40 rounded-2xl p-4 sm:p-6 flex justify-between items-center">
                 <div>
-                    <h2 class="text-base sm:text-lg font-bold text-cyan-300">💎 Platinum VIP 高阶合伙人行业管理中心</h2>
-                    <p class="text-xs text-slate-400">高阶金池加速、多行业矩阵树状图与最高权重分润控制</p>
+                    <h2 class="text-base sm:text-lg font-bold text-cyan-300">💎 Platinum VIP 高阶合伙人运用中心</h2>
+                    <p class="text-xs text-slate-400">白金级高阶金池加速与跨行业全域运用调度</p>
                 </div>
                 <span class="bg-cyan-500/20 text-cyan-300 text-xs px-3 py-1 rounded-full font-mono border border-cyan-500/30">PLATINUM EXCLUSIVE</span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-4 space-y-1">
-                    <span class="text-[11px] text-slate-400">白金加速分润权重</span>
+                    <span class="text-[11px] text-slate-400">白金加速权重</span>
                     <p class="text-2xl font-black text-cyan-400 font-mono">1.85X</p>
                 </div>
                 <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-4 space-y-1">
@@ -290,17 +302,17 @@
                 </div>
                 <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-4 space-y-1">
                     <span class="text-[11px] text-slate-400">安全密钥状态</span>
-                    <p class="text-lg font-bold text-emerald-400 font-mono">VERIFIED (已鉴权)</p>
+                    <p class="text-lg font-bold text-emerald-400 font-mono">VERIFIED</p>
                 </div>
             </div>
         </div>
 
-        <!-- 已找回的 Super Admin 管家总控视图 -->
+        <!-- Super Admin 视图 -->
         <div id="viewAdmin" class="space-y-6 hidden">
             <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-2xl p-4 sm:p-6 flex justify-between items-center">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-indigo-300">👑 Super Admin 系统管家总控台</h2>
-                    <p class="text-xs text-slate-400">全网系统运行总报告、金池风控隔离与设备指纹安全审计</p>
+                    <p class="text-xs text-slate-400">全网系统运用区监控、金池风控隔离</p>
                 </div>
                 <span class="bg-indigo-500/20 text-indigo-300 text-xs px-3 py-1 rounded-full font-mono border border-indigo-500/30">ADMIN MASTER</span>
             </div>
@@ -311,11 +323,11 @@
                     <p class="text-2xl font-black text-white font-mono">MYR 1,500,000</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
-                    <span class="text-[11px] text-slate-400">活跃 Business Owner</span>
+                    <span class="text-[11px] text-slate-400">活跃运营商户</span>
                     <p class="text-2xl font-black text-white font-mono">612 位</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
-                    <span class="text-[11px] text-slate-400">管家监控状态</span>
+                    <span class="text-[11px] text-slate-400">系统整体状态</span>
                     <p class="text-lg font-bold text-emerald-400 font-mono">HEALTHY (优)</p>
                 </div>
             </div>
@@ -324,9 +336,8 @@
     </main>
 
 
-    <!-- ==================== 4. 核心脚本 (鉴权 + 注册 + 3语切换) ==================== -->
+    <!-- ==================== 4. 交互与运用区逻辑脚本 ==================== -->
     <script>
-        // 内置密码字典（包含 Super Admin）
         const validPasswords = {
             'Standard VIP': 'vip123',
             'Platinum VIP': 'plat888',
@@ -335,29 +346,12 @@
             'Super Admin': 'admin000'
         };
 
-        // 3 语翻译字典
         const translations = {
-            zh: {
-                title: "LXJ HOLDING OS 安全登录网关",
-                sub: "请选择合伙人身份并输入安全密码进行行业管理：",
-                btnLogin: "合伙人登录",
-                btnReg: "新用户注册资料"
-            },
-            en: {
-                title: "LXJ HOLDING OS Secure Gateway",
-                sub: "Select your role and enter security password:",
-                btnLogin: "Partner Login",
-                btnReg: "New Registration"
-            },
-            ms: {
-                title: "Pintu Masuk Selamat LXJ OS",
-                sub: "Sila pilih peranan dan masukkan kata laluan keselamatan:",
-                btnLogin: "Log Masuk",
-                btnReg: "Pendaftaran Baru"
-            }
+            zh: { title: "LXJ HOLDING OS 安全登录网关", sub: "请选择身份并输入安全密码进入行业运用区：", btnLogin: "合伙人登录", btnReg: "新用户注册" },
+            en: { title: "LXJ HOLDING OS Secure Gateway", sub: "Select role and enter password for Application Area:", btnLogin: "Partner Login", btnReg: "New Registration" },
+            ms: { title: "Pintu Masuk Selamat LXJ OS", sub: "Pilih peranan untuk masuk ke Zon Aplikasi:", btnLogin: "Log Masuk", btnReg: "Pendaftaran Baru" }
         };
 
-        // 切换多语言
         function changeLanguage(lang) {
             const t = translations[lang];
             if(!t) return;
@@ -368,7 +362,6 @@
             localStorage.setItem('lxj_lang', lang);
         }
 
-        // 切换登录与注册 Tab
         function switchAuthTab(tab) {
             const loginForm = document.getElementById('loginFormContainer');
             const regForm = document.getElementById('registerFormContainer');
@@ -388,13 +381,12 @@
             }
         }
 
-        // 新用户注册提交
         function handleRegisterSubmit() {
             const name = document.getElementById('regName').value;
             const role = document.getElementById('regRole').value;
-            if(!name) { alert('请填写合伙人姓名或团队名称'); return; }
+            if(!name) { alert('请填写合伙人姓名'); return; }
 
-            alert('注册资料已入库！系统已为您自动初始化并以 ' + role + ' 身份进入系统。');
+            alert('注册资料已入库！已为您以 ' + role + ' 身份初始化并接入运用区。');
             localStorage.setItem('lxj_auth_role', role);
             localStorage.setItem('lxj_is_auth', 'true');
             
@@ -402,7 +394,6 @@
             loadDashboardByRole(role);
         }
 
-        // 安全登录鉴权函数
         function handleSecureLogin() {
             const role = document.querySelector('input[name="authRole"]:checked').value;
             const password = document.getElementById('authPasswordInput').value;
@@ -412,7 +403,7 @@
             if (validPasswords[role] && validPasswords[role] === password) {
                 localStorage.setItem('lxj_auth_role', role);
                 localStorage.setItem('lxj_is_auth', 'true');
-                alert('密码验证成功！欢迎进入 ' + role + ' 行业管理系统。');
+                alert('密码验证成功！欢迎进入 ' + role + ' 行业运用区。');
                 
                 document.getElementById('authModal').classList.add('hidden');
                 loadDashboardByRole(role);
@@ -421,7 +412,21 @@
             }
         }
 
-        // 根据角色加载对应管理后台 (含 Super Admin 路由)
+        // 🔥 新增：行业运用区交互执行函数
+        function launchApp(appId, action) {
+            const appNames = {
+                'retail': '全渠道零售运用区',
+                'fnb': '餐饮智慧服务运用区',
+                'agency': '机构裂变代理运用区'
+            };
+            
+            if(action === 'run') {
+                alert('🚀 成功启动 [' + appNames[appId] + ']！底层系统已为您加载对应业务沙箱与实时通道。');
+            } else {
+                alert('⚙️ 正在打开 [' + appNames[appId] + '] 的高级参数设置面板...');
+            }
+        }
+
         function loadDashboardByRole(role) {
             document.getElementById('activeRoleIndicator').innerText = "Auth Role: " + role;
 
@@ -441,7 +446,6 @@
             }
         }
 
-        // 提交上报数据
         function submitOperatorData() {
             const industry = document.getElementById('opIndustrySelect').value;
             const amount = document.getElementById('opAmountInput').value;
@@ -459,12 +463,11 @@
             reports.unshift(newRecord);
             localStorage.setItem('lxj_reports', JSON.stringify(reports));
 
-            alert('数据已成功提交至该行业的管理后台！');
+            alert('数据已成功提交至该行业运用区！');
             document.getElementById('opAmountInput').value = '';
             renderReports();
         }
 
-        // 渲染报表
         function renderReports() {
             const tbody = document.getElementById('ownerReportTable');
             if(!tbody) return;
@@ -485,7 +488,7 @@
             html += `
                 <tr>
                     <td class="py-2.5">Operator-Alex</td>
-                    <td>全渠道零售</td>
+                    <td>全渠道零售运用</td>
                     <td class="text-emerald-400">MYR 3,200</td>
                     <td>10:15</td>
                     <td><span class="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">安全入账</span></td>
@@ -494,14 +497,12 @@
             tbody.innerHTML = html;
         }
 
-        // 锁屏 / 退出登录
         function lockSystemSession() {
             localStorage.removeItem('lxj_is_auth');
             localStorage.removeItem('lxj_auth_role');
             location.reload();
         }
 
-        // 页面初始化检测鉴权状态与语言
         window.addEventListener('DOMContentLoaded', () => {
             const isAuth = localStorage.getItem('lxj_is_auth');
             const role = localStorage.getItem('lxj_auth_role');
