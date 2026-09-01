@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ BUSINESS PARTNER SYSTEM</title>
+    <title>LXJ BUSINESS PARTNER</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -27,7 +27,6 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
-    <!-- 顶栏 -->
     <header id="appHeader" class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg hidden">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3 cursor-pointer">
@@ -36,7 +35,7 @@
                 </div>
                 <div>
                     <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                        LXJ BUSINESS PARTNER OS
+                        LXJ BUSINESS PARTNER
                     </h1>
                     <p class="text-xs text-slate-400">Empire Command Center</p>
                 </div>
@@ -64,10 +63,8 @@
         </div>
     </header>
 
-    <!-- 主体容器 -->
     <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
         
-        <!-- 1. 前置登入网关界面 -->
         <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
@@ -77,19 +74,18 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
-            <!-- 语言切换按钮 -->
             <div class="flex justify-center space-x-2 pb-2">
                 <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
                 <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
                 <button onclick="setLoginLang('bm')" id="l-bm" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">BM</button>
             </div>
 
-            <div class="space-y-4">
+            <div id="loginFormSection" class="space-y-4">
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
                     <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">Super Admin (最高统帅)</option>
-                        <option value="platinum-vip">Platinum VIP (白金VIP / 3%金池)</option>
+                        <option value="super-admin">Super Admin (总系统运作)</option>
+                        <option value="platinum-vip">Platinum VIP (白金VIP)</option>
                         <option value="standard-vip">Standard VIP (标准VIP)</option>
                         <option value="business-owner">Business Owner (业务主理人)</option>
                         <option value="operator-team">Operator Team (执行团队)</option>
@@ -98,20 +94,54 @@
 
                 <div>
                     <label id="lblToken" class="block text-xs font-medium text-slate-300 mb-1.5">安全授权令牌 / Security Token</label>
-                    <input type="password" id="loginTokenInput" value="lxj-security-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                    <div class="relative">
+                        <input type="password" id="loginTokenInput" value="lxj-security-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 pr-10">
+                        <button type="button" onclick="toggleTokenVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-white text-xs font-bold">👁️</button>
+                    </div>
                 </div>
 
                 <button onclick="handleLogin()" id="btnLoginText" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
                     安全登入指挥系统
                 </button>
+
+                <div class="text-center pt-2">
+                    <button onclick="toggleAuthView('register')" id="toRegisterText" class="text-xs text-blue-400 hover:underline">没有账号？点击前往新用户注册 &rarr;</button>
+                </div>
             </div>
+
+            <div id="registerFormSection" class="space-y-4 hidden">
+                <div>
+                    <label id="lblRegUser" class="block text-xs font-medium text-slate-300 mb-1">新用户全名 / Full Name</label>
+                    <input type="text" id="regNameInput" placeholder="请输入您的名字" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label id="lblRegRole" class="block text-xs font-medium text-slate-300 mb-1">申请绑定身份 / Apply Role</label>
+                    <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                        <option value="platinum-vip">Platinum VIP (申请白金VIP)</option>
+                        <option value="standard-vip">Standard VIP (申请标准VIP)</option>
+                        <option value="business-owner">Business Owner (申请业务主理人)</option>
+                        <option value="operator-team">Operator Team (申请执行团队)</option>
+                    </select>
+                </div>
+                <div>
+                    <label id="lblRegToken" class="block text-xs font-medium text-slate-300 mb-1">设置安全访问口令 / Set Password</label>
+                    <input type="password" id="regTokenInput" value="lxj-new-2026" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                </div>
+
+                <button onclick="handleRegister()" id="btnRegisterText" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition tracking-wider">
+                    提交注册并开通账号
+                </button>
+
+                <div class="text-center pt-2">
+                    <button onclick="toggleAuthView('login')" id="toLoginText" class="text-xs text-slate-400 hover:underline">&larr; 已有账号？返回安全登入</button>
+                </div>
+            </div>
+
         </div>
 
-        <!-- 2. 主指挥工作台界面 -->
         <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
             <div id="dynamicMainContent" class="space-y-6">
-                <!-- 动态渲染区域 -->
-            </div>
+                </div>
         </div>
 
     </main>
@@ -131,6 +161,12 @@
                 lblRoleSelect: "选择登入角色身份",
                 lblToken: "安全授权令牌 / Security Token",
                 btnLoginText: "安全登入指挥系统",
+                toRegisterText: "没有账号？点击前往新用户注册 \u2192",
+                toLoginText: "\u2190 已有账号？返回安全登入",
+                lblRegUser: "新用户全名 / Full Name",
+                lblRegRole: "申请绑定身份 / Apply Role",
+                lblRegToken: "设置安全访问口令 / Set Password",
+                btnRegisterText: "提交注册并开通账号",
                 logoutBtn: "退出登入",
                 
                 superAdminTitle: "Super Admin 最高统帅指挥舱",
@@ -155,6 +191,9 @@
                 taskBtn: "下发团队任务",
                 alertMsg: "任务已成功下发给 Operator 团队！",
                 moduleLimit: "模块应用限制：当前角色享有独立的权限边界与分配率",
+                shareTitle: "专属招募与分享链接 (Exclusive Referral Link)",
+                shareBtn: "复制专属分享链接",
+                shareCopied: "专属分享链接已成功复制到剪贴板！",
                 roleNames: {
                     'super-admin': 'Super Admin 最高统帅',
                     'platinum-vip': 'Platinum VIP (3%金池)',
@@ -169,6 +208,12 @@
                 lblRoleSelect: "Select Role Identity",
                 lblToken: "Security Token",
                 btnLoginText: "Secure Login to Command System",
+                toRegisterText: "No account? Click to Register New User \u2192",
+                toLoginText: "\u2190 Already have an account? Back to Login",
+                lblRegUser: "Full Name",
+                lblRegRole: "Apply Role",
+                lblRegToken: "Set Password / Token",
+                btnRegisterText: "Submit Registration & Open Account",
                 logoutBtn: "Logout",
                 
                 superAdminTitle: "Super Admin Supreme Command",
@@ -193,6 +238,9 @@
                 taskBtn: "Assign Team Task",
                 alertMsg: "Task successfully assigned to Operator Team!",
                 moduleLimit: "Module Restriction: Role-based permission boundaries and allocation applied",
+                shareTitle: "Exclusive Referral Link",
+                shareBtn: "Copy Share Link",
+                shareCopied: "Exclusive referral link copied to clipboard!",
                 roleNames: {
                     'super-admin': 'Super Admin',
                     'platinum-vip': 'Platinum VIP (3% Pool)',
@@ -207,6 +255,12 @@
                 lblRoleSelect: "Pilih Peranan Identiti",
                 lblToken: "Token Keselamatan",
                 btnLoginText: "Log Masuk Selamat ke Sistem",
+                toRegisterText: "Tiada akaun? Daftar Pengguna Baru \u2192",
+                toLoginText: "\u2190 Sudah ada akaun? Kembali ke Log Masuk",
+                lblRegUser: "Nama Penuh",
+                lblRegRole: "Peranan Pilihan",
+                lblRegToken: "Tetapkan Kata Laluan",
+                btnRegisterText: "Hantar Pendaftaran & Buka Akaun",
                 logoutBtn: "Log Keluar",
                 
                 superAdminTitle: "Super Admin Kawalan Tertinggi",
@@ -231,6 +285,9 @@
                 taskBtn: "Hantar Tugasan Pasukan",
                 alertMsg: "Tugasan berjaya dihantar kepada Pasukan Operator!",
                 moduleLimit: "Had Modul: Batasan kebenaran dan nisbah peruntukan berasaskan peranan",
+                shareTitle: "Pautan Rujukan Eksklusif (Referral Link)",
+                shareBtn: "Salin Pautan Kongsi",
+                shareCopied: "Pautan perkongsian berjaya disalin ke papan klip!",
                 roleNames: {
                     'super-admin': 'Super Admin',
                     'platinum-vip': 'Platinum VIP (Kolam 3%)',
@@ -260,6 +317,12 @@
             document.getElementById('lblRoleSelect').innerText = t.lblRoleSelect;
             document.getElementById('lblToken').innerText = t.lblToken;
             document.getElementById('btnLoginText').innerText = t.btnLoginText;
+            document.getElementById('toRegisterText').innerText = t.toRegisterText;
+            document.getElementById('lblRegUser').innerText = t.lblRegUser;
+            document.getElementById('lblRegRole').innerText = t.lblRegRole;
+            document.getElementById('lblRegToken').innerText = t.lblRegToken;
+            document.getElementById('btnRegisterText').innerText = t.btnRegisterText;
+            document.getElementById('toLoginText').innerText = t.toLoginText;
         }
 
         function changeLanguage() {
@@ -267,6 +330,29 @@
             setLoginLang(currentLang);
             if (loggedInRole) {
                 renderDashboard();
+            }
+        }
+
+        // 切换登入与注册视图
+        function toggleAuthView(view) {
+            const loginSec = document.getElementById('loginFormSection');
+            const regSec = document.getElementById('registerFormSection');
+            if (view === 'register') {
+                loginSec.classList.add('hidden');
+                regSec.classList.remove('hidden');
+            } else {
+                regSec.classList.add('hidden');
+                loginSec.classList.remove('hidden');
+            }
+        }
+
+        // 令牌可见切换功能
+        function toggleTokenVisibility() {
+            const input = document.getElementById('loginTokenInput');
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
             }
         }
 
@@ -287,11 +373,39 @@
             renderDashboard();
         }
 
+        function handleRegister() {
+            const name = document.getElementById('regNameInput').value;
+            const role = document.getElementById('regRoleSelect').value;
+            const token = document.getElementById('regTokenInput').value;
+
+            if (!name || !token) {
+                alert("Please fill in all registration fields!");
+                return;
+            }
+
+            alert(`Registration successful! Welcome ${name}. Logging into your dashboard...`);
+            loggedInRole = role;
+            document.getElementById('loginView').classList.add('hidden');
+            document.getElementById('appHeader').classList.remove('hidden');
+            document.getElementById('dashboardView').classList.remove('hidden');
+
+            renderDashboard();
+        }
+
         function logout() {
             loggedInRole = '';
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('appHeader').classList.add('hidden');
             document.getElementById('loginView').classList.remove('hidden');
+            toggleAuthView('login');
+        }
+
+        function copyShareLink() {
+            const t = langData[currentLang];
+            const dummyLink = "https://lxj-empire.os/ref?agent=" + loggedInRole + "&ref_id=88899";
+            navigator.clipboard.writeText(dummyLink).then(() => {
+                alert(t.shareCopied);
+            });
         }
 
         function setDeviceMode(mode) {
@@ -332,6 +446,17 @@
             document.getElementById('currentRoleBadge').innerText = t.roleNames[loggedInRole];
             document.getElementById('btnLogout').innerText = t.logoutBtn;
 
+            // 分享链接组件模板
+            const shareComponent = `
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <h3 class="text-sm font-bold text-slate-200">${t.shareTitle}</h3>
+                    <div class="flex gap-2">
+                        <input type="text" readonly value="https://lxj-empire.os/ref?agent=${loggedInRole}&ref_id=88899" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
+                        <button onclick="copyShareLink()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap">${t.shareBtn}</button>
+                    </div>
+                </div>
+            `;
+
             if (loggedInRole === 'super-admin') {
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
@@ -356,6 +481,7 @@
                                 <div class="text-3xl font-black text-purple-400 mt-2">Optimized</div>
                             </div>
                         </div>
+                        ${shareComponent}
                     </div>
                 `;
             } else if (loggedInRole === 'platinum-vip' || loggedInRole === 'standard-vip' || loggedInRole === 'business-owner') {
@@ -394,6 +520,8 @@
                                 <span class="text-xs text-slate-500 mt-1 block">Subordinate Control</span>
                             </div>
                         </div>
+
+                        ${shareComponent}
 
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                             <h3 class="text-sm font-bold text-slate-200">Task Management Workbench / 团队任务协同中枢</h3>
