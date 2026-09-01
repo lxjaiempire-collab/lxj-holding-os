@@ -1,223 +1,230 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="h-full bg-slate-950">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理后台界面</title>
-    <!-- 引入 Tailwind CSS (CDN) 快速布局 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LXJ HOLDING OS - 商业合伙人系统</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 FontAwesome 图标库 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* 自定义滚动条及小细节 */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100 font-sans antialiased h-screen flex overflow-hidden">
+<body class="h-full text-slate-100 font-sans flex flex-col justify-between selection:bg-blue-500 selection:text-white">
 
-    <!-- 1. 左侧导航栏 (Sidebar) -->
-    <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0">
-        <div>
-            <!-- Logo 区域 -->
-            <div class="h-16 flex items-center justify-between px-6 bg-slate-950 font-bold text-lg tracking-wide border-b border-slate-800">
-                <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-cube text-indigo-500"></i> AdminDash
-                </span>
-                <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/30">v1.0</span>
-            </div>
-            <!-- 导航菜单 -->
-            <nav class="p-4 space-y-1">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium bg-indigo-600 text-white rounded-lg shadow-sm">
-                    <i class="fa-solid fa-chart-pie w-5"></i> 仪表盘
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors">
-                    <i class="fa-solid fa-users w-5"></i> 用户管理
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors">
-                    <i class="fa-solid fa-folder w-5"></i> 项目数据
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors">
-                    <i class="fa-solid fa-gear w-5"></i> 系统设置
-                </a>
-            </nav>
-        </div>
-        <!-- 底部用户信息 -->
-        <div class="p-4 border-t border-slate-800 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-white">A</div>
-                <div class="text-xs">
-                    <p class="font-semibold text-slate-200">Admin User</p>
-                    <p class="text-slate-400">admin@example.com</p>
+    <!-- 1. 顶部导航栏 (手机/电脑自适应) -->
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-blue-500/20">
+                    LXJ
+                </div>
+                <div>
+                    <span class="font-bold text-sm sm:text-base tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent block">
+                        LXJ HOLDING OS
+                    </span>
+                    <span class="text-[10px] text-blue-400 font-mono block -mt-1">EMPIRE SYSTEM v5.0</span>
                 </div>
             </div>
-            <button class="text-slate-400 hover:text-red-400 transition-colors" title="退出">
-                <i class="fa-solid fa-right-from-bracket"></i>
+
+            <!-- 右侧操作区 (电脑端展示，手机端简化) -->
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <div class="hidden md:flex items-center space-x-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-slate-400">风控系统: <strong class="text-emerald-400">运行中</strong></span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-400 hover:text-white p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <button class="bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm px-3.5 py-2 rounded-xl transition shadow-lg shadow-blue-600/20">
+                    控制台登入
+                </button>
+            </div>
+        </div>
+
+        <!-- 手机端折叠菜单 -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-800 bg-slate-900 px-4 py-3 space-y-2 text-xs">
+            <div class="flex justify-between py-2 text-slate-400 border-b border-slate-800">
+                <span>系统风控状态:</span>
+                <span class="text-emerald-400 font-mono">ACTIVE (已保护)</span>
+            </div>
+            <div class="flex justify-between py-2 text-slate-400">
+                <span>当前环境:</span>
+                <span class="text-slate-200">Production Pro</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 主体容器 (响应式布局) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- 顶部提示通栏 -->
+        <div class="bg-gradient-to-r from-blue-900/40 to-indigo-900/20 border border-blue-500/30 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+                <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                    🚀 LXJ 商业帝国合伙人控制中心
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400">
+                    自动适配移动端与桌面端，提供透明化 100% 模块金池收益管理与防刷保护。
+                </p>
+            </div>
+            <button class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs px-4 py-2.5 rounded-xl font-medium transition whitespace-nowrap">
+                查看合规契约
             </button>
         </div>
-    </aside>
 
-    <!-- 2. 右侧主内容区 (Main Area) -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-        
-        <!-- 顶部栏 (Top Navbar) -->
-        <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0">
-            <div class="flex items-center gap-4 flex-1">
-                <div class="relative w-72">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <input type="text" placeholder="搜索关键词..." class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+        <!-- 数据看板网格 (手机单列，平板双列，电脑四列) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <!-- 卡片 1 -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <span class="text-xs text-slate-400 font-medium">总金池分润额度</span>
+                <div class="flex items-baseline justify-between">
+                    <span class="text-2xl font-black text-white font-mono">MYR 12,450</span>
+                    <span class="text-[11px] text-emerald-400 bg-emerald-950 border border-emerald-800/50 px-2 py-0.5 rounded-full">+15.2%</span>
                 </div>
+                <p class="text-[11px] text-slate-500">自动打包结算，风控储备扣除 20%</p>
             </div>
-            <div class="flex items-center gap-3">
-                <button class="w-9 h-9 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-lg transition-colors relative">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
-                <div class="h-6 w-px bg-gray-200"></div>
-                <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-plus text-xs"></i> 新建项目
-                </button>
-            </div>
-        </header>
 
-        <!-- 主体内容滚地区域 -->
-        <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- 卡片 2 -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <span class="text-xs text-slate-400 font-medium">已锁定下线合伙人</span>
+                <div class="flex items-baseline justify-between">
+                    <span class="text-2xl font-black text-white font-mono">1,280 人</span>
+                    <span class="text-[11px] text-blue-400 bg-blue-950 border border-blue-800/50 px-2 py-0.5 rounded-full">直推锁粉</span>
+                </div>
+                <p class="text-[11px] text-slate-500">设备指纹防刷机制保护中</p>
+            </div>
+
+            <!-- 卡片 3 -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <span class="text-xs text-slate-400 font-medium">当前身份级别</span>
+                <div class="flex items-baseline justify-between">
+                    <span class="text-xl font-bold text-amber-400">Platinum VIP</span>
+                    <span class="text-[11px] text-amber-400 bg-amber-950 border border-amber-800/50 px-2 py-0.5 rounded-full">3% 模块池</span>
+                </div>
+                <p class="text-[11px] text-slate-500">知识产权归 Super Admin 所有</p>
+            </div>
+
+            <!-- 卡片 4 -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <span class="text-xs text-slate-400 font-medium">本机设备指纹 (Device Hash)</span>
+                <div class="text-sm font-mono text-blue-400 font-bold truncate" id="deviceHash">
+                    Calculating...
+                </div>
+                <p class="text-[11px] text-slate-500">防篡改、防刷单全自动绑定</p>
+            </div>
+        </div>
+
+        <!-- 核心功能交互区 (手机端堆叠，电脑端左右分栏) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- 页面标题 -->
-            <div class="flex items-center justify-between">
+            <!-- 左侧：AI 裂变工具箱 (占 2 栏) -->
+            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                        ✍️ AI 多语言推广文案生成器
+                    </h3>
+                    <span class="text-[11px] text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg">自适应语言</span>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">选择发布平台：</label>
+                        <select id="platformSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                            <option value="moments">微信朋友圈 / 朋友圈私域精准文案</option>
+                            <option value="xiaohongshu">小红书 / 爆款干货推介</option>
+                            <option value="whatsapp">WhatsApp / 海外多语言群发</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">生成的带锁粉链接文案：</label>
+                        <textarea id="copyTextarea" rows="4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 font-mono focus:outline-none focus:border-blue-500" readonly>🚀 2026 商业数字革命已至！加入 LXJ HOLDING OS 生态，共享 100% 模块金池红利。
+专属绑定链接：https://os.lxj-holding.com/#ref=88899</textarea>
+                    </div>
+
+                    <button onclick="copyCopywriterText()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-blue-600/20">
+                        📋 一键复制文案并分享
+                    </button>
+                </div>
+            </div>
+
+            <!-- 右侧：提现结算面板 (占 1 栏) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 flex flex-col justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">总览数据</h1>
-                    <p class="text-sm text-gray-500 mt-1">查看系统最新的关键指标与实时记录。</p>
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                            💰 收益提现申请
+                        </h3>
+                    </div>
+
+                    <div class="mt-4 space-y-3">
+                        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800/80 space-y-1 text-xs">
+                            <div class="flex justify-between text-slate-400">
+                                <span>可提现金池：</span>
+                                <span class="text-emerald-400 font-mono font-bold">MYR 2,450.00</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400">
+                                <span>储备金 (20%)：</span>
+                                <span class="text-amber-400 font-mono">-MYR 490.00</span>
+                            </div>
+                            <div class="border-t border-slate-800 pt-1.5 flex justify-between font-bold text-white">
+                                <span>预计到账：</span>
+                                <span class="text-blue-400 font-mono">MYR 1,960.00</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">收款账户 (Bank / Touch 'n Go / USDT)：</label>
+                            <input type="text" placeholder="输入账户地址" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
                 </div>
+
+                <button onclick="alert('提现申请已提交风控系统审核！')" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-600/20">
+                    🚀 发起提现申请
+                </button>
             </div>
 
-            <!-- 数据卡片网格 (Stats Cards) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-gray-500 uppercase">总用户数</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1">12,846</h3>
-                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-up"></i> +12% 较上月
-                        </p>
-                    </div>
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                </div>
+        </div>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-gray-500 uppercase">月收入</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1">¥45,210</h3>
-                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-up"></i> +8.4% 较上月
-                        </p>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                </div>
+    </main>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-gray-500 uppercase">活跃项目</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1">142</h3>
-                        <p class="text-xs text-rose-500 font-medium mt-2 flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-down"></i> -3.1% 较上周
-                        </p>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-list-check"></i>
-                    </div>
-                </div>
+    <!-- 3. 页脚 -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500">
+        <p class="font-mono tracking-wider">LXJ HOLDING OS SINCE 2026 - EMPIRE COMMAND CENTER</p>
+    </footer>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-gray-500 uppercase">转化率</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1">3.24%</h3>
-                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-up"></i> +0.5% 较上周
-                        </p>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                </div>
-            </div>
+    <!-- 极简原生脚本 -->
+    <script>
+        // 手机端菜单展开/收起
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
 
-            <!-- 数据表格区域 (Data Table) -->
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                <div class="p-5 border-b border-gray-200 flex items-center justify-between">
-                    <h2 class="text-base font-bold text-gray-800">最新订单动态</h2>
-                    <button class="text-sm text-indigo-600 font-medium hover:text-indigo-800">查看全部</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead class="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium">
-                            <tr>
-                                <th class="p-4 pl-6">订单编号</th>
-                                <th class="p-4">客户姓名</th>
-                                <th class="p-4">创建时间</th>
-                                <th class="p-4">状态</th>
-                                <th class="p-4">金额</th>
-                                <th class="p-4 pr-6 text-right">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 text-gray-700">
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="p-4 pl-6 font-mono font-medium text-gray-900">#ORD-9082</td>
-                                <td class="p-4 font-medium">张三</td>
-                                <td class="p-4 text-gray-500">2026-03-30 14:22</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 已完成
-                                    </span>
-                                </td>
-                                <td class="p-4 font-medium">¥1,200.00</td>
-                                <td class="p-4 pr-6 text-right">
-                                    <button class="text-gray-400 hover:text-indigo-600 transition-colors px-1"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="text-gray-400 hover:text-red-600 transition-colors px-1"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="p-4 pl-6 font-mono font-medium text-gray-900">#ORD-9081</td>
-                                <td class="p-4 font-medium">李四</td>
-                                <td class="p-4 text-gray-500">2026-03-30 11:05</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 处理中
-                                    </span>
-                                </td>
-                                <td class="p-4 font-medium">¥850.00</td>
-                                <td class="p-4 pr-6 text-right">
-                                    <button class="text-gray-400 hover:text-indigo-600 transition-colors px-1"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="text-gray-400 hover:text-red-600 transition-colors px-1"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="p-4 pl-6 font-mono font-medium text-gray-900">#ORD-9080</td>
-                                <td class="p-4 font-medium">王五</td>
-                                <td class="p-4 text-gray-500">2026-03-29 18:40</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> 已取消
-                                    </span>
-                                </td>
-                                <td class="p-4 font-medium">¥320.00</td>
-                                <td class="p-4 pr-6 text-right">
-                                    <button class="text-gray-400 hover:text-indigo-600 transition-colors px-1"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="text-gray-400 hover:text-red-600 transition-colors px-1"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        // 一键复制文案
+        function copyCopywriterText() {
+            const textarea = document.getElementById('copyTextarea');
+            textarea.select();
+            document.execCommand('copy');
+            alert('营销文案已成功复制到剪贴板！');
+        }
 
-        </main>
-    </div>
-
+        // 简易设备指纹计算 (原生轻量实现)
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            document.getElementById('deviceHash').innerText = hash;
+        });
+    </script>
 </body>
 </html>
