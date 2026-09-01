@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LXJ BUSINESS PARTNER</title>
+    <title>LXJ HOLDING OS - 统帅帝国金池指挥系统</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -35,9 +35,9 @@
                 </div>
                 <div>
                     <h1 class="font-extrabold text-sm md:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                        LXJ BUSINESS PARTNER
+                        LXJ HOLDING OS
                     </h1>
-                    <p class="text-xs text-slate-400">Empire Command Center</p>
+                    <p class="text-xs text-slate-400">Super Admin Supreme Command Center</p>
                 </div>
             </div>
 
@@ -84,11 +84,11 @@
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
                     <select id="loginRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="super-admin">Super Admin (总系统运作)</option>
-                        <option value="platinum-vip">Platinum VIP (白金VIP)</option>
-                        <option value="standard-vip">Standard VIP (标准VIP)</option>
-                        <option value="business-owner">Business Owner (业务主理人)</option>
-                        <option value="operator-team">Operator Team (执行团队)</option>
+                        <option value="super-admin">Super Admin (最高统帅 - 绝对所有权)</option>
+                        <option value="business-owner">Business Owner (知识改进者 / 5%)</option>
+                        <option value="platinum-vip">Platinum VIP (白金分佣 / 3%)</option>
+                        <option value="standard-vip">Standard VIP (标准合伙人 / 1%)</option>
+                        <option value="operator-team">Operator Team (执行团队 / 0%)</option>
                     </select>
                 </div>
 
@@ -117,10 +117,10 @@
                 <div>
                     <label id="lblRegRole" class="block text-xs font-medium text-slate-300 mb-1">申请绑定身份 / Apply Role</label>
                     <select id="regRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                        <option value="platinum-vip">Platinum VIP (申请白金VIP)</option>
-                        <option value="standard-vip">Standard VIP (申请标准VIP)</option>
-                        <option value="business-owner">Business Owner (申请业务主理人)</option>
-                        <option value="operator-team">Operator Team (申请执行团队)</option>
+                        <option value="business-owner">Business Owner (申请模块知识改进者 / 5%)</option>
+                        <option value="platinum-vip">Platinum VIP (申请白金分佣 / 3%)</option>
+                        <option value="standard-vip">Standard VIP (申请标准合伙人 / 1%)</option>
+                        <option value="operator-team">Operator Team (申请执行团队 / 0%)</option>
                     </select>
                 </div>
                 <div>
@@ -147,7 +147,7 @@
     </main>
 
     <footer class="bg-gemBlue border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
-        <p class="font-medium tracking-widest text-slate-400">LXJ BUSINESS SYSTEM SINCE 2026 - EMPIRE COMMAND</p>
+        <p class="font-medium tracking-widest text-slate-400">LXJ HOLDING OS SINCE 2026 - EMPIRE COMMAND & IP OWNERSHIP</p>
     </footer>
 
     <script>
@@ -169,37 +169,27 @@
                 btnRegisterText: "提交注册并开通账号",
                 logoutBtn: "退出登入",
                 
-                superAdminTitle: "Super Admin 最高统帅指挥舱",
-                superAdminDesc: "全局掌控核心利润、模块金池收益、VIP 与 Business Owner 同源工作台流水线",
-                netProfit: "统帅实际净利润大盘",
-                vipCommission: "白金 VIP 模块金池收益",
-                teamEffort: "团队协助管理效能",
+                superAdminTitle: "Super Admin 最高统帅绝对主权指挥舱",
+                superAdminDesc: "全局掌控 100% 平台收益与全部知识产权。模块金池利润永续分发架构总控。",
+                netProfit: "统帅金池总收益 (70% 永久)",
+                ipOwnership: "平台 IP 与底层资产",
+                poolStatus: "模块金池 100% 闭环运转",
                 
-                platTitle: "白金 VIP 专属尊贵大盘 (同源工作台)",
-                platDesc: "欢迎尊贵的白金 VIP。您享有与主理人同源的工作图架构，专属享有模块金池的 3% 利润率分配。",
-                
-                stdTitle: "标准 VIP 专属特权区 (同源工作台)",
-                stdDesc: "欢迎标准 VIP。您享有同源的工作台面板与日常业务支持，模块应用权限按标准协议执行。",
-                
-                boTitle: "Business Owner 业务主理人工作台",
-                boDesc: "主理人与 VIP 共享同源的工作台界面与任务面板，专职负责统筹底层 Operator 团队（1至5）。",
-                
-                opTitle: "Operator 团队执行端",
-                opDesc: "全体 Operator 严格执行底层业务任务，保障各项流水平稳运行。",
+                poolTitle: "模块金池 (Module Profit Pool) 100% 永续分润架构",
+                poolDesc: "基于 AI 模块售出 100 元基准，系统自动执行统帅定下的永久感恩与贡献分润矩阵。",
                 
                 taskPlaceholder: "输入要下发给 Operator 团队的工作任务...",
                 taskBtn: "下发团队任务",
                 alertMsg: "任务已成功下发给 Operator 团队！",
-                moduleLimit: "模块应用限制：当前角色享有独立的权限边界与分配率",
                 shareTitle: "专属招募与分享链接 (Exclusive Referral Link)",
                 shareBtn: "复制专属分享链接",
                 shareCopied: "专属分享链接已成功复制到剪贴板！",
                 roleNames: {
-                    'super-admin': 'Super Admin 最高统帅',
-                    'platinum-vip': 'Platinum VIP (3%金池)',
-                    'standard-vip': 'Standard VIP',
-                    'business-owner': 'Business Owner',
-                    'operator-team': 'Operator 团队'
+                    'super-admin': 'Super Admin 最高统帅 (绝对所有权)',
+                    'business-owner': 'Business Owner (知识改进者 5%)',
+                    'platinum-vip': 'Platinum VIP (白金分佣 3%)',
+                    'standard-vip': 'Standard VIP (标准合伙人 1%)',
+                    'operator-team': 'Operator 执行团队 (0%)'
                 }
             },
             en: {
@@ -216,37 +206,27 @@
                 btnRegisterText: "Submit Registration & Open Account",
                 logoutBtn: "Logout",
                 
-                superAdminTitle: "Super Admin Supreme Command",
-                superAdminDesc: "Global control over net profit, module pool margin, and isomorphic VIP/Owner workbenches",
-                netProfit: "Net Profit Dashboard",
-                vipCommission: "Platinum VIP Module Pool",
-                teamEffort: "Team Management Efficiency",
+                superAdminTitle: "Super Admin Supreme Command Center",
+                superAdminDesc: "Global control over 100% platform revenue and all IP assets. Module profit pool master control.",
+                netProfit: "Commander Pool Revenue (70% Permanent)",
+                ipOwnership: "Platform IP & Core Assets",
+                poolStatus: "Module Pool 100% Closed-Loop",
                 
-                platTitle: "Platinum VIP Exclusive Dashboard (Isomorphic Workbench)",
-                platDesc: "Welcome honored Platinum VIP. You share the isomorphic workbench layout, exclusively entitled to a 3% profit margin from the module pool.",
-                
-                stdTitle: "Standard VIP Partner Zone (Isomorphic Workbench)",
-                stdDesc: "Welcome Standard VIP. You share the isomorphic workbench layout with standard module restrictions.",
-                
-                boTitle: "Business Owner Operations Workbench",
-                boDesc: "Business Owners share the identical workbench layout with VIPs, focusing on managing the Operator Team (1 to 5).",
-                
-                opTitle: "Operator Team Execution Unit",
-                opDesc: "Operators strictly execute daily business tasks to ensure smooth operations.",
+                poolTitle: "Module Profit Pool 100% Permanent Distribution Architecture",
+                poolDesc: "Based on 100 Currency AI module sales, executing the permanent gratitude and contribution matrix.",
                 
                 taskPlaceholder: "Assign task to Operator Team...",
                 taskBtn: "Assign Team Task",
                 alertMsg: "Task successfully assigned to Operator Team!",
-                moduleLimit: "Module Restriction: Role-based permission boundaries and allocation applied",
                 shareTitle: "Exclusive Referral Link",
                 shareBtn: "Copy Share Link",
                 shareCopied: "Exclusive referral link copied to clipboard!",
                 roleNames: {
-                    'super-admin': 'Super Admin',
-                    'platinum-vip': 'Platinum VIP (3% Pool)',
-                    'standard-vip': 'Standard VIP',
-                    'business-owner': 'Business Owner',
-                    'operator-team': 'Operator Team'
+                    'super-admin': 'Super Admin (Absolute IP & 70%)',
+                    'business-owner': 'Business Owner (Knowledge Contributor 5%)',
+                    'platinum-vip': 'Platinum VIP (3%)',
+                    'standard-vip': 'Standard VIP (1%)',
+                    'operator-team': 'Operator Team (0%)'
                 }
             },
             bm: {
@@ -263,37 +243,27 @@
                 btnRegisterText: "Hantar Pendaftaran & Buka Akaun",
                 logoutBtn: "Log Keluar",
                 
-                superAdminTitle: "Super Admin Kawalan Tertinggi",
-                superAdminDesc: "Kawalan penuh ke atas keuntungan bersih, margin kolam modul, dan papan kerja isomorfik VIP/Owner",
-                netProfit: "Papan Pemuka Keuntungan Bersih",
-                vipCommission: "Kolam Modul Platinum VIP",
-                teamEffort: "Kecekapan Pengurusan Pasukan",
+                superAdminTitle: "Super Admin Pusat Kawalan Tertinggi",
+                superAdminDesc: "Kawalan penuh ke atas 100% hasil platform dan semua aset IP. Pengurusan kolam keuntungan modul.",
+                netProfit: "Hasil Kolam Komander (70% Kekal)",
+                ipOwnership: "IP Platform & Aset Teras",
+                poolStatus: "Kolam Modul 100% Tertutup",
                 
-                platTitle: "Papan Pemuka Eksklusif Platinum VIP (Workbenched Isomorfik)",
-                platDesc: "Selamat datang Platinum VIP. Anda berkongsi reka bentuk papan kerja isomorfik yang sama, menikmati 3% margin keuntungan daripada kolam modul.",
-                
-                stdTitle: "Zon VIP Standard (Workbenched Isomorfik)",
-                stdDesc: "Selamat datang Standard VIP. Anda berkongsi antara muka papan kerja yang sama dengan had modul standard.",
-                
-                boTitle: "Papan Pemuka Business Owner",
-                boDesc: "Business Owner berkongsi reka bentuk papan kerja yang sama seperti VIP, fokus menguruskan Pasukan Operator (1 hingga 5).",
-                
-                opTitle: "Unit Pelaksanaan Pasukan Operator",
-                opDesc: "Semua Operator melaksanakan tugasan perniagaan harian dengan ketat.",
+                poolTitle: "Seni Bina Agihan Kekal Kolam Keuntungan Modul 100%",
+                poolDesc: "Berdasarkan asas jualan modul AI 100, melaksanakan matriks agihan sumbangan dan penghargaan tetap.",
                 
                 taskPlaceholder: "Masukkan tugasan untuk Pasukan Operator...",
                 taskBtn: "Hantar Tugasan Pasukan",
                 alertMsg: "Tugasan berjaya dihantar kepada Pasukan Operator!",
-                moduleLimit: "Had Modul: Batasan kebenaran dan nisbah peruntukan berasaskan peranan",
                 shareTitle: "Pautan Rujukan Eksklusif (Referral Link)",
                 shareBtn: "Salin Pautan Kongsi",
                 shareCopied: "Pautan perkongsian berjaya disalin ke papan klip!",
                 roleNames: {
-                    'super-admin': 'Super Admin',
-                    'platinum-vip': 'Platinum VIP (Kolam 3%)',
-                    'standard-vip': 'Standard VIP',
-                    'business-owner': 'Business Owner',
-                    'operator-team': 'Pasukan Operator'
+                    'super-admin': 'Super Admin (Hak Milik Mutlak IP)',
+                    'business-owner': 'Business Owner (Penyumbang Ilmu 5%)',
+                    'platinum-vip': 'Platinum VIP (3%)',
+                    'standard-vip': 'Standard VIP (1%)',
+                    'operator-team': 'Pasukan Operator (0%)'
                 }
             }
         };
@@ -333,7 +303,6 @@
             }
         }
 
-        // 切换登入与注册视图
         function toggleAuthView(view) {
             const loginSec = document.getElementById('loginFormSection');
             const regSec = document.getElementById('registerFormSection');
@@ -346,30 +315,19 @@
             }
         }
 
-        // 令牌可见切换功能
         function toggleTokenVisibility() {
             const input = document.getElementById('loginTokenInput');
-            if (input.type === 'password') {
-                input.type = 'text';
-            } else {
-                input.type = 'password';
-            }
+            input.type = input.type === 'password' ? 'text' : 'password';
         }
 
         function handleLogin() {
             const role = document.getElementById('loginRoleSelect').value;
             const token = document.getElementById('loginTokenInput').value;
-
-            if (!token) {
-                alert("Please enter security token!");
-                return;
-            }
-
+            if (!token) { alert("Please enter security token!"); return; }
             loggedInRole = role;
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('appHeader').classList.remove('hidden');
             document.getElementById('dashboardView').classList.remove('hidden');
-
             renderDashboard();
         }
 
@@ -377,18 +335,12 @@
             const name = document.getElementById('regNameInput').value;
             const role = document.getElementById('regRoleSelect').value;
             const token = document.getElementById('regTokenInput').value;
-
-            if (!name || !token) {
-                alert("Please fill in all registration fields!");
-                return;
-            }
-
+            if (!name || !token) { alert("Please fill in all registration fields!"); return; }
             alert(`Registration successful! Welcome ${name}. Logging into your dashboard...`);
             loggedInRole = role;
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('appHeader').classList.remove('hidden');
             document.getElementById('dashboardView').classList.remove('hidden');
-
             renderDashboard();
         }
 
@@ -402,10 +354,8 @@
 
         function copyShareLink() {
             const t = langData[currentLang];
-            const dummyLink = "https://lxj-empire.os/ref?agent=" + loggedInRole + "&ref_id=88899";
-            navigator.clipboard.writeText(dummyLink).then(() => {
-                alert(t.shareCopied);
-            });
+            const dummyLink = "https://lxj-holding.os/ref?agent=" + loggedInRole + "&ref_id=88899";
+            navigator.clipboard.writeText(dummyLink).then(() => { alert(t.shareCopied); });
         }
 
         function setDeviceMode(mode) {
@@ -419,22 +369,13 @@
             });
 
             if (mode === 'phone') {
-                wrapper.style.maxWidth = '390px';
-                wrapper.style.border = '8px solid #334155';
-                wrapper.style.borderRadius = '32px';
-                wrapper.style.padding = '12px';
+                wrapper.style.maxWidth = '390px'; wrapper.style.border = '8px solid #334155'; wrapper.style.borderRadius = '32px'; wrapper.style.padding = '12px';
                 btnPhone.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
             } else if (mode === 'tablet') {
-                wrapper.style.maxWidth = '768px';
-                wrapper.style.border = '8px solid #334155';
-                wrapper.style.borderRadius = '24px';
-                wrapper.style.padding = '16px';
+                wrapper.style.maxWidth = '768px'; wrapper.style.border = '8px solid #334155'; wrapper.style.borderRadius = '24px'; wrapper.style.padding = '16px';
                 btnTablet.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
             } else {
-                wrapper.style.maxWidth = '1280px';
-                wrapper.style.border = 'none';
-                wrapper.style.borderRadius = '0';
-                wrapper.style.padding = '0';
+                wrapper.style.maxWidth = '1280px'; wrapper.style.border = 'none'; wrapper.style.borderRadius = '0'; wrapper.style.padding = '0';
                 btnDesktop.className = "px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow transition";
             }
         }
@@ -446,13 +387,59 @@
             document.getElementById('currentRoleBadge').innerText = t.roleNames[loggedInRole];
             document.getElementById('btnLogout').innerText = t.logoutBtn;
 
-            // 分享链接组件模板
             const shareComponent = `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <h3 class="text-sm font-bold text-slate-200">${t.shareTitle}</h3>
                     <div class="flex gap-2">
-                        <input type="text" readonly value="https://lxj-empire.os/ref?agent=${loggedInRole}&ref_id=88899" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
+                        <input type="text" readonly value="https://lxj-holding.os/ref?agent=${loggedInRole}&ref_id=88899" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400 focus:outline-none">
                         <button onclick="copyShareLink()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap">${t.shareBtn}</button>
+                    </div>
+                </div>
+            `;
+
+            // 100% 模块金池分配可视化组件
+            const poolVisualization = `
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-slate-200">💎 100% 模块金池 (Module Profit Pool) 分配架构</h3>
+                        <span class="text-xs text-emerald-400 font-mono">100% 闭环合规</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-center">
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-blue-500/40">
+                            <span class="text-[10px] text-slate-400 block">Super Admin</span>
+                            <span class="text-lg font-black text-blue-400">70%</span>
+                            <span class="text-[9px] text-slate-500 block">统帅永久 / 绝对IP</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-purple-500/30">
+                            <span class="text-[10px] text-slate-400 block">Business Owner</span>
+                            <span class="text-lg font-black text-purple-400">5%</span>
+                            <span class="text-[9px] text-slate-500 block">知识改进者</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-amber-500/30">
+                            <span class="text-[10px] text-slate-400 block">Platinum VIP</span>
+                            <span class="text-lg font-black text-amber-400">3%</span>
+                            <span class="text-[9px] text-slate-500 block">永久分佣</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <span class="text-[10px] text-slate-400 block">Standard VIP</span>
+                            <span class="text-lg font-black text-slate-300">1%</span>
+                            <span class="text-[9px] text-slate-500 block">标准合伙人</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <span class="text-[10px] text-slate-400 block">荣誉贡献者</span>
+                            <span class="text-lg font-black text-slate-300">1%</span>
+                            <span class="text-[9px] text-slate-500 block">长期改进</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <span class="text-[10px] text-slate-400 block">Operator Team</span>
+                            <span class="text-lg font-black text-emerald-400">0%</span>
+                            <span class="text-[9px] text-slate-500 block">执行职责</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <span class="text-[10px] text-slate-400 block">系统储备金</span>
+                            <span class="text-lg font-black text-teal-400">20%</span>
+                            <span class="text-[9px] text-slate-500 block">风控与迭代</span>
+                        </div>
                     </div>
                 </div>
             `;
@@ -465,62 +452,60 @@
                                 <h2 class="text-xl font-bold text-white">${t.superAdminTitle}</h2>
                                 <p class="text-xs text-slate-400 mt-1">${t.superAdminDesc}</p>
                             </div>
-                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Active</span>
+                            <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-medium">Absolute Control</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
                                 <span class="text-xs text-slate-400 font-medium">${t.netProfit}</span>
-                                <div class="text-3xl font-black text-emerald-400 mt-2">12,450 <span class="text-xs text-slate-400">MYR</span></div>
+                                <div class="text-3xl font-black text-emerald-400 mt-2">87,150 <span class="text-xs text-slate-400">MYR</span></div>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">${t.vipCommission}</span>
-                                <div class="text-3xl font-black text-amber-400 mt-2">3% Pool Margin</div>
+                                <span class="text-xs text-slate-400 font-medium">${t.ipOwnership}</span>
+                                <div class="text-xl font-black text-blue-400 mt-2">100% Secured (统帅)</div>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">${t.teamEffort}</span>
-                                <div class="text-3xl font-black text-purple-400 mt-2">Optimized</div>
+                                <span class="text-xs text-slate-400 font-medium">${t.poolStatus}</span>
+                                <div class="text-xl font-black text-purple-400 mt-2">Active (100%)</div>
                             </div>
                         </div>
+
+                        ${poolVisualization}
                         ${shareComponent}
                     </div>
                 `;
-            } else if (loggedInRole === 'platinum-vip' || loggedInRole === 'standard-vip' || loggedInRole === 'business-owner') {
-                let title = t.boTitle, desc = t.boDesc, badge = "Business Owner", badgeColor = "bg-purple-500/20 text-purple-300", marginInfo = "Standard Protocol";
+            } else if (['business-owner', 'platinum-vip', 'standard-vip'].includes(loggedInRole)) {
+                let title = t.poolTitle, roleDesc = "同源工作台架构与永续分润通道", badge = "Partner", badgeColor = "bg-blue-500/20 text-blue-300", myShare = "1% ~ 5%";
                 
-                if (loggedInRole === 'platinum-vip') {
-                    title = t.platTitle; desc = t.platDesc; badge = "Platinum VIP (3% Pool)"; badgeColor = "bg-amber-500/20 text-amber-300"; marginInfo = "3% Module Pool Margin";
-                } else if (loggedInRole === 'standard-vip') {
-                    title = t.stdTitle; desc = t.stdDesc; badge = "Standard VIP"; badgeColor = "bg-blue-500/20 text-blue-300"; marginInfo = "Standard Pool Share";
+                if (loggedInRole === 'business-owner') {
+                    badge = "Business Owner (模块知识改进者)"; badgeColor = "bg-purple-500/20 text-purple-300"; myShare = "5% 永续收益权";
+                } else if (loggedInRole === 'platinum-vip') {
+                    badge = "Platinum VIP (白金分佣)"; badgeColor = "bg-amber-500/20 text-amber-300"; myShare = "3% 永续分佣";
                 }
 
                 container.innerHTML = `
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                             <div>
-                                <h2 class="text-xl font-bold text-white">${title}</h2>
-                                <p class="text-xs text-slate-400 mt-1">${desc}</p>
+                                <h2 class="text-xl font-bold text-white">LXJ HOLDING PARTNER WORKBENCH</h2>
+                                <p class="text-xs text-slate-400 mt-1">${roleDesc} | 平台所有知识产权归属 Super Admin 统帅</p>
                             </div>
                             <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-medium">${badge}</span>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">Profit Margin / 利润率分配</span>
-                                <div class="text-2xl font-black text-amber-400 mt-2">${marginInfo}</div>
-                                <span class="text-xs text-slate-500 mt-1 block">${t.moduleLimit}</span>
+                                <span class="text-xs text-slate-400 font-medium">当前身份分润回报 / My Allocation</span>
+                                <div class="text-2xl font-black text-amber-400 mt-2">${myShare}</div>
+                                <span class="text-xs text-slate-500 mt-1 block">源自 100% 模块金池的特许感恩分润</span>
                             </div>
                             <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">Workbench Status / 工作台状态</span>
-                                <div class="text-2xl font-black text-emerald-400 mt-2">Isomorphic Sync</div>
-                                <span class="text-xs text-slate-500 mt-1 block">Shared Layout Architecture</span>
-                            </div>
-                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                                <span class="text-xs text-slate-400 font-medium">Operator Team Link / 团队管理</span>
-                                <div class="text-2xl font-black text-purple-400 mt-2">Active (1-5)</div>
-                                <span class="text-xs text-slate-500 mt-1 block">Subordinate Control</span>
+                                <span class="text-xs text-slate-400 font-medium">知识产权与资产归属 / IP Ownership</span>
+                                <div class="text-xl font-black text-blue-400 mt-2">Super Admin (统帅)</div>
+                                <span class="text-xs text-slate-500 mt-1 block">平台资产受绝对法律与顶层契约保护</span>
                             </div>
                         </div>
 
+                        ${poolVisualization}
                         ${shareComponent}
 
                         <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
@@ -535,8 +520,9 @@
                     <div class="bg-cardDark p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
                         <h2 class="text-xl font-bold text-emerald-400">${t.opTitle}</h2>
                         <p class="text-xs text-slate-400">${t.opDesc}</p>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300">
-                            <p>Status: Execution pipeline operating normally.</p>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm text-slate-300 space-y-2">
+                            <p>Status: Execution pipeline operating under Super Admin IP protection.</p>
+                            <p class="text-xs text-slate-500">Note: Operator role executes daily duties (0% module pool direct share, compensated via performance).</p>
                         </div>
                     </div>
                 `;
