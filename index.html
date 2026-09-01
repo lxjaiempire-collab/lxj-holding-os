@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LXJ BUSINESS PARTNER SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入二维码生成库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         tailwind.config = {
@@ -30,7 +29,6 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
-    <!-- 顶栏 -->
     <header id="appHeader" class="bg-gemBlue border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-lg hidden">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3 cursor-pointer">
@@ -67,10 +65,8 @@
         </div>
     </header>
 
-    <!-- 主体容器 -->
     <main class="w-full p-4 md:p-6 flex-grow flex items-center justify-center">
         
-        <!-- 1. 前置登入网关界面 -->
         <div id="loginView" class="w-full max-w-md bg-cardDark border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg border border-blue-400/30">
@@ -80,14 +76,12 @@
                 <p id="loginSubtitle" class="text-xs text-slate-400">请选择身份或输入授权凭证登入系统</p>
             </div>
 
-            <!-- 语言切换按钮 -->
             <div class="flex justify-center space-x-2 pb-2">
                 <button onclick="setLoginLang('zh')" id="l-zh" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">简中</button>
                 <button onclick="setLoginLang('en')" id="l-en" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">EN</button>
                 <button onclick="setLoginLang('bm')" id="l-bm" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 transition">BM</button>
             </div>
 
-            <!-- 登入表单 -->
             <div id="loginFormSection" class="space-y-4">
                 <div>
                     <label id="lblRoleSelect" class="block text-xs font-medium text-slate-300 mb-1.5">选择登入角色身份</label>
@@ -117,7 +111,6 @@
                 </div>
             </div>
 
-            <!-- 新用户注册表单 -->
             <div id="registerFormSection" class="space-y-4 hidden">
                 <div>
                     <label id="lblRegUser" class="block text-xs font-medium text-slate-300 mb-1">新用户全名 / Full Name</label>
@@ -148,22 +141,18 @@
 
         </div>
 
-        <!-- 2. 主指挥工作台界面 -->
         <div id="dashboardView" class="w-full max-w-7xl device-simulator space-y-6 hidden">
             <div id="dynamicMainContent" class="space-y-6">
-                <!-- 动态渲染区域 -->
-            </div>
+                </div>
         </div>
 
     </main>
 
-    <!-- 专属海报生成弹窗 Modal -->
     <div id="posterModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-cardDark border border-slate-700 rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-2xl relative">
             <button onclick="closePosterModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-lg">✕</button>
             <h3 class="text-base font-bold text-white text-center">🎨 专属高转化裂变海报</h3>
             
-            <!-- 海报预览容器 -->
             <div id="posterCanvasContainer" class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-blue-500/30 rounded-xl p-5 text-center space-y-4 shadow-inner">
                 <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl mx-auto flex items-center justify-center font-black text-xl text-white shadow-lg border border-blue-400/30">
                     LXJ
@@ -174,13 +163,12 @@
                 </div>
                 <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700/80 text-left space-y-1">
                     <div id="posterPartnerRole" class="text-xs font-bold text-amber-400">PARTNER ID: #88899</div>
-                    <div class="text-[11px] text-slate-300 font-medium">加入 LXJ 商业帝国生态，共共享商业数字革命增长红利。</div>
+                    <div class="text-[11px] text-slate-300 font-medium">加入 LXJ 商业帝国生态，共享商业数字革命增长红利。</div>
                 </div>
                 
-                <!-- 二维码渲染区 -->
                 <div class="flex flex-col items-center justify-center space-y-2 py-2">
                     <div id="qrcode" class="p-2 bg-white rounded-lg shadow-md"></div>
-                    <span class="text-[10px] text-slate-400">扫码直达当前系统绑定专属席位</span>
+                    <span class="text-[10px] text-slate-400">扫码直达 GitHub Pages 绑定席位</span>
                 </div>
             </div>
 
@@ -198,10 +186,11 @@
         let currentLang = 'zh';
         let loggedInRole = '';
 
-        // 获取当前真实访问网址（自适应 GitHub Pages / Vercel / 本地环境）
+        // 【关键修复】：使用纯绝对路径基础地址，配合 Hash (#) 避免 GitHub Pages 报 404
         function getRealShareUrl() {
-            const baseUrl = window.location.origin + window.location.pathname;
-            return `${baseUrl}?ref_role=${loggedInRole}&ref_id=88899`;
+            // 获取没有任何 query/hash 干扰的干净基准 URL
+            const cleanUrl = window.location.href.split('?')[0].split('#')[0];
+            return `${cleanUrl}#ref_role=${loggedInRole}&ref_id=88899`;
         }
 
         const langData = {
@@ -399,7 +388,7 @@
             navigator.clipboard.writeText(liveLink).then(() => { alert(t.shareCopied); });
         }
 
-        // 裂变海报弹窗逻辑（生成真实网址二维码）
+        // 裂变海报弹窗逻辑（生成纯 Hash 绝对网址二维码）
         function openPosterModal() {
             const modal = document.getElementById('posterModal');
             const roleBadge = document.getElementById('posterPartnerRole');
@@ -410,8 +399,8 @@
             
             new QRCode(qrcodeContainer, {
                 text: liveLink,
-                width: 90,
-                height: 90,
+                width: 100,
+                height: 100,
                 colorDark : "#0f172a",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
@@ -426,7 +415,7 @@
         }
 
         function downloadPoster() {
-            alert("海报已准备就绪！手机端请对准预览图【长按图片】即可保存到手机相册；电脑端请【右键另存为】保存。");
+            alert("海报已准备就绪！手机端请长按二维码保存，电脑端请右键另存为。");
         }
 
         function setDeviceMode(mode) {
@@ -617,7 +606,6 @@
                             </div>
                         </div>
 
-                        <!-- 应用模块工具栏 -->
                         ${appModulesToolbar}
                         ${shareComponent}
 
